@@ -1,3 +1,4 @@
+<?php print_r($products)?>
 <div class="products index">
 	<h2><?php echo __('Products'); ?></h2>
 	<div class="actions dropdown">
@@ -19,7 +20,6 @@
 	<table cellpadding="10" cellspacing="0" class="table table-striped">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('category_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('type_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('manufacturer_id'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -27,9 +27,6 @@
 	<?php foreach ($products as $product): ?>
 	<tr>
 		<td><?php echo h($product['Product']['id']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($product['Category']['url'], array('controller' => 'categories', 'action' => 'view', $product['Category']['id'])); ?>
-		</td>
 		<td>
 			<?php echo $this->Html->link($product['Type']['type_name'], array('controller' => 'types', 'action' => 'view', $product['Type']['id'])); ?>
 		</td>
