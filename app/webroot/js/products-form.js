@@ -36,7 +36,9 @@ function fp_construct_array_for_attribute_values(form_id)
 	for(i = 0; i < attributes.length; i++)
 	{
 		attribute = new Object();
-		attribute.attribute_id = attributes[i].id.split("-")[1];
+		attributes_splited = attributes[i].id.split("-");
+
+		attribute.attribute_id = attributes_splited[attributes_splited.length-1];
 		attribute.value = attributes[i].value;
 		attributes_array.push(attribute);
 	}
