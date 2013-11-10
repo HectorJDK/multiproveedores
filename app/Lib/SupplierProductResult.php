@@ -1,13 +1,13 @@
 <?php
     class SupplierProductResult
     {
-        var $supplier;
-        var $product;
-
-        function SupplierProductResult($supplier, $product)
+        var $supplier_result;
+        var $product_result;
+        var $price;
+        function SupplierProductResult($supplier, $product, $price)
         {
-            $this->supplier = $supplier;
-            $this->product = $product;
+            $this->supplier_result = $supplier;
+            $this->product_result = $product;
         }
 
     }

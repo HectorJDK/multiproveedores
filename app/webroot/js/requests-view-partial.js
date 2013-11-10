@@ -27,35 +27,62 @@ function display_results(params) {
     }
 }
 
+function simulacion_busqueda_equivalencias()
+{
+    var query = new Array();
+    query[0] = [1,0];
+    query[1] = [2,1];
+    query[2] = [3,0];
+
+    alert(JSON.stringify(query));
+    $.ajax({
+            url: 'http://localhost:8080/multiproveedores/Products/search_suppliers_for_products',
+            type: 'POST',
+            contentType: 'application/json',
+            async: false,
+            data: JSON.stringify(query),
+            success : function(data) {
+                alert(data);
+                display_results(JSON.parse(data));
+            },
+            
+            error : function(a,b,data)
+            {
+                    alert("Error =)\n");
+            }                        
+    });
+
+}
+
 function search1()
 {
-        var search = new Array();
-        var category = $('#1-category_id').val();
-        var product_type = $('#1-product_type_id').val();
-        var attributes = fp_construct_array_for_attribute_values('1-atributos');
-        
-        search[0] = category;
-        search[1] = product_type;
-        search[2] = attributes;
 
-        alert(JSON.stringify(search));
-        $.ajax({
-                url: 'http://localhost:8080/multiproveedores/Products/products_search_by_attributes',
-                type: 'POST',
-                contentType: 'application/json',
-                async: false,
-                data: JSON.stringify(search),
-                success : function(data) {
-                    alert(data);
-                    display_results(JSON.parse(data));
-                },
-                
-                error : function(a,b,data)
-                {
-                        alert("Error =)\n");
-                }                        
-        });
+    var search = new Array();
+    var category = $('#1-category_id').val();
+    var product_type = $('#1-product_type_id').val();
+    var attributes = fp_construct_array_for_attribute_values('1-atributos');
+    
+    search[0] = category;
+    search[1] = product_type;
+    search[2] = attributes;
 
+    alert(JSON.stringify(search));
+    $.ajax({
+            url: 'http://localhost:8080/multiproveedores/Products/products_search_by_attributes',
+            type: 'POST',
+            contentType: 'application/json',
+            async: false,
+            data: JSON.stringify(search),
+            success : function(data) {
+                alert(data);
+                display_results(JSON.parse(data));
+            },
+            
+            error : function(a,b,data)
+            {
+                    alert("Error =)\n");
+            }                        
+    });
 }
 
 
