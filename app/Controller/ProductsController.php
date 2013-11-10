@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 App::uses('ProductSearch', 'Lib');
 App::uses('ProductSearchQueries', 'Lib');
+App::uses('AttributesProduct', 'Model');
 /**
  * Products Controller
  *
@@ -47,21 +48,64 @@ public $components = array('Paginator', 'RequestHandler');
  * @return void
  */
         public function add() {
-                if ($this->request->is('post')) {
-                        $this->Product->create();
-                        if ($this->Product->save($this->request->data)) {
-                                $this->Session->setFlash(__('The product has been saved.'));
-                                return $this->redirect(array('action' => 'index'));
-                        } else {
-                                $this->Session->setFlash(__('The product could not be saved. Please, try again.'));
-                        }
-                }
-                
-                $types = $this->Product->Type->find('list');
-                $attributes = $this->Product->Attribute->find('list');
-                $suppliers = $this->Product->Supplier->find('list');
-                $this->set(compact('types', 'attributes', 'suppliers'));
-        }
+             if ($this->request->is('post')) {  
+			$transaction = $this->Product->getDataSource();
+			$transaction->begin();
+			$failure = false;
+
+			//Obtenemos datos
+			$infoProduct = array();                     
+			$infoProduct = $this->request->data; 
+			$infoAttributes = json_decode($infoProduct["Product"]["attributes_values"]);                                        
+			unset($infoProduct["Product"]["attributes_values"]);                    
+			//Primer fase transaccion
+			$this->Product->create(); 
+			if ($this->Product->save($infoProduct))
+			{
+				if(is_null($infoAttributes) || count($infoAttributes) == 0){
+					$this->Session->setFlash(__('No puedes crear tipos sin atributos.'));
+					$failure = true;
+				}
+				else
+				{
+					foreach ($infoAttributes as $attribute) {
+						$formatSave=array("AttributesProduct"=>array('product_id' => $this->Product->id,
+							'attribute_id' => $attribute->attribute_id, 'value' => $attribute->value));
+
+						$AttributesProduct = new AttributesProduct();
+						$AttributesProduct->create();
+						if(!$AttributesProduct->save($formatSave['AttributesProduct']))
+						{
+							$transaction->rollback();
+							$this->Session->setFlash(__('The type could not be saved. Please, try again.'));
+							$failure = true;
+							break;
+						}
+					}
+				}
+			}
+			else
+			{
+				$transaction->rollback();
+				$failure = true;
+				$this->Session->setFlash(__('The product could not be saved. Please, try again.'));                
+			}
+
+			if(!$failure)
+			{
+				$transaction->commit();
+				$this->Session->setFlash(__('The product has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			}
+		}                   
+	                                                           
+
+		//Datos que se pasan a la vista
+		$types = $this->Product->Type->find('list');
+		$attributes = $this->Product->Attribute->find('list');
+		$suppliers = $this->Product->Supplier->find('list');
+		$this->set(compact('types', 'attributes', 'suppliers'));
+	}
 
     /**
      * edit method

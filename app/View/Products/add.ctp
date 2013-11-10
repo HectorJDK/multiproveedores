@@ -10,6 +10,7 @@
 	?>
 	</fieldset>
 
+<?php echo $this->Form->end(__('Submit')); ?>
 
 <fieldset>
 	<div id="atributos">
@@ -19,4 +20,3 @@
 
 
 
-<?php echo $this->Form->end(__('Submit')); ?>
