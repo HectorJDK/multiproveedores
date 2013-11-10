@@ -275,18 +275,46 @@ class Supplier extends AppModel {
 		)
 	);
 
-	public function search_by_products($equivalencies, $products)
+	public function search_by_product_type($category, $type)
 	{
-		{
-			$preparation = $this->search_by_attributes_preparation($equivalencies, $products);
-			$db = $this->getDataSource();
-			// return $preparation['query'];
-			return $db->fetchAll($preparation['query'], $preparation['values']);
-		}
+		$preparation = $this->search_by_product_type_preparation($category, $type);
+		$db = $this->getDataSource();
+		//return $preparation['query'];
+		return $db->fetchAll($preparation['query'], $preparation['values']);
 	}
 
-	public function search_by_products_preparation($equivalencies, $products)
+	public function search_by_product_type_preparation($category, $type)
 	{
+		$query = "select s.id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
+		$query .= "from suppliers as s ";
+		if($category != '')
+		{
+			$query .= ", categories_suppliers as cs ";
+		}
+		$query .= "where ";
+		$query .= "exists ";
+		$query .= "( ";
+		$query .= "select * ";
+		$query .= "From products_suppliers as ps, products as p ";
+		$query .= "Where ";
+		$query .= "ps.supplier_id = s.id AND ";
+		$query .= "ps.product_id = p.id AND ";
+		$query .= "p.type_id = ?";
+		$query .= ") ";
 
+		if($category != '')
+		{
+			$query .= "AND ";
+			$query .= "cs.category_id = ? AND ";
+			$query .= "cs.supplier_id = s.id";
+		}
+
+		$values = array();
+		array_push($values, $type);
+		if($category != '')
+		{
+			array_push($values, $category);
+		}
+		return array('query' => $query, 'values' => $values);
 	}
 }

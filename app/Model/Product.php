@@ -471,7 +471,7 @@ class Product extends AppModel {
 
 	public function ids_place_holders($condition, $how_many)
 	{
-		if($how_many == 0) return 0;
+		if($how_many == 0) return '';
 		$result = $condition . " in ( ?";
 			for($i = 0; $i < $how_many - 1; $i++)
 			{
