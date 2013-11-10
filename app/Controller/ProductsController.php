@@ -22,7 +22,7 @@ public $components = array('Paginator', 'RequestHandler');
  * @return void
  */
         public function index() {
-                $this->Product->recursive = 0;
+                $this->Product->recursive = 2;
                 $this->set('products', $this->Paginator->paginate());
         }
 
