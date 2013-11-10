@@ -262,7 +262,7 @@ class Product extends AppModel {
 	public function attributes_category_preparation($category, $product_type, $not_empty_attributes)
 	{
 		$query = "select p.id, p.manufacturer_id, name, data_type_id, value ";
-		$query .= "from products as p, attributes as a, attributes_products as ap ";
+		$query .= "from products as p, attributes as a, attributes_products as ap, products_suppliers as ps ";
 		$query .= "WHERE p.id in ";
 		$query .= "(select suppliers_filter.p_id ";
 		$query .= "from ";
@@ -291,6 +291,7 @@ class Product extends AppModel {
 		$query .= "cs.category_id = ? ";
 		$query .= ") ";
 		$query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
+		$query .= "AND p.id = ps.product_id "; //at least one supplier
 		$query .= "ORDER BY p.id, attribute_id";
 
 		$values = $this->attributes_search_values($category, $product_type, $not_empty_attributes);
@@ -300,7 +301,7 @@ class Product extends AppModel {
 	public function attributes_no_category_preparation($product_type, $not_empty_attributes)
 	{
 		$query = "select p.id, p.manufacturer_id, name, data_type_id, value ";
-		$query .= "from products as p, attributes as a, attributes_products as ap ";
+		$query .= "from products as p, attributes as a, attributes_products as ap, products_suppliers as ps ";
 		$query .= "WHERE p.id in ";
 
 		$query .= "(select attributes_filter.p_id as p_id ";
@@ -322,6 +323,7 @@ class Product extends AppModel {
 		$query .= ") ";
 
 		$query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
+		$query .= "AND p.id = ps.product_id "; //at least one supplier
 		$query .= "ORDER BY p.id, attribute_id";
 
 		$values = $this->attributes_search_values('', $product_type, $not_empty_attributes);
