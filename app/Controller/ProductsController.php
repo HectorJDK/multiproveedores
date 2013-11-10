@@ -57,7 +57,7 @@ public $components = array('Paginator', 'RequestHandler');
 			$infoProduct = array();                     
 			$infoProduct = $this->request->data; 
 			$infoAttributes = json_decode($infoProduct["Product"]["attributes_values"]);                                        
-			unset($infoProduct["Product"]["attributes_values"]);                    
+			unset($infoProduct["Product"]["attributes_values"]);
 			//Primer fase transaccion
 			$this->Product->create(); 
 			if ($this->Product->save($infoProduct))
