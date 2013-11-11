@@ -30,9 +30,8 @@ function display_results(params) {
 function simulacion_busqueda_equivalencias()
 {
     var query = new Array();
-    query[0] = [1,0];
-    query[1] = [2,1];
-    query[2] = [3,0];
+    query[1] = [7,1];
+    query[0] = [6,0];
 
     alert(JSON.stringify(query));
     $.ajax({
@@ -56,7 +55,6 @@ function simulacion_busqueda_equivalencias()
 
 function search1()
 {
-
     var search = new Array();
     var category = $('#1-category_id').val();
     var product_type = $('#1-product_type_id').val();

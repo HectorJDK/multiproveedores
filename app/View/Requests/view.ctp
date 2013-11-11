@@ -96,9 +96,10 @@
   <div id="search_result"> </div>
 
   <script>
-     $('#search-tabs a').click(function (e) {
-       e.preventDefault();
-       $(this).tab('show');
+     $('#search-tabs a').click(function (e)
+      {
+        e.preventDefault();
+        $(this).tab('show');
      })
    </script>
 

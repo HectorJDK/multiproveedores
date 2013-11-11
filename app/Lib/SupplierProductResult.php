@@ -8,6 +8,7 @@
         {
             $this->supplier_result = $supplier;
             $this->product_result = $product;
+            $this->price = $price;
         }
 
     }

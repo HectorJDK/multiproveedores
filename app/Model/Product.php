@@ -280,7 +280,7 @@ class Product extends AppModel {
 		$query .= "on a.id = ap.attribute_id ";
 		$query .= $this->list_of_values_place_holders($not_empty_attributes) . " ";
 		$query .= "group by p_id ";
-		$query .= "Having Count(ap.product_id) >= ". count($not_empty_attributes);
+		$query .= "Having Count(ap.product_id) >= " . count($not_empty_attributes);
 		$query .= ") as attributes_filter, ";
 		$query .= "products_suppliers as ps ";
 		$query .= "where attributes_filter.p_id = ps.product_id ";
@@ -375,7 +375,7 @@ class Product extends AppModel {
 
 	public function search_suppliers_that_supply_preparation($products_ids)
 	{
-		$query = "select ps.product_id, ps.price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
+		$query = "select ps.product_id, ps.price as price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
 		$query .= "from ";
 		$query .= "products_suppliers as ps, suppliers as s ";
 		$query .= "WHERE ";
@@ -467,11 +467,11 @@ class Product extends AppModel {
 	{
 		if($how_many == 0) return '';
 		$result = $condition . " in ( ?";
-			for($i = 0; $i < $how_many - 1; $i++)
-			{
-				$result .= ", ?";
-			} 
-			$result .= ") ";
+		for($i = 0; $i < $how_many - 1; $i++)
+		{
+			$result .= ", ?";
+		} 
+		$result .= ") ";
 	return $result;
 	}
 
