@@ -74,6 +74,10 @@ function search1()
             async: false,
             data: JSON.stringify(search),
             success : function(data) {
+                results_div = $('#search_result');
+
+                $('#search_result').empty();
+                $('#search_result').append(data);
                 alert(data);
                 display_results(JSON.parse(data));
             },

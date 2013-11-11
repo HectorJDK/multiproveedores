@@ -1,12 +1,12 @@
+<!-- receives $result -->
 
 <?php foreach ($result as $product): ?>
  
-  <div class="row">
-    <div class="col-3 text-right light">
+  <div>
      <?php echo $product->manufacturer_id ?>
-    </div>
-    <div class="col-9">
-    </div>
+	    <?php foreach ($product->attributes as $attribute): ?>
+	    	<div> <?php echo $attribute[2] ?> </div>
+	    <?php endforeach; ?>
   </div>
 
 <?php endforeach; ?>

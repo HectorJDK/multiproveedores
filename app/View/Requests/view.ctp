@@ -93,6 +93,8 @@
  
   </div>
 
+  <div id="search_result"> </div>
+
   <script>
      $('#search-tabs a').click(function (e) {
        e.preventDefault();
