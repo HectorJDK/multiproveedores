@@ -158,12 +158,18 @@ class RequestsController extends AppController {
 			}
 		} else {
 			$options = array('conditions' => array('Request.' . $this->Request->primaryKey => $id));
-			$this->request->data = $this->Request->find('first', $options);
+			$request = $this->Request->find('first', $options);
+			//Datos que se regresaran a la vista
+			$request['Content']['xml'] = json_decode(json_encode((array) simplexml_load_string($request['Content']['xml'])),1);
+			$this->set('request', $request);
+			
+			$this->Request->find('first', $options);
 		}
 		$categories = $this->Request->Category->find('list');
 		$contents = $this->Request->Content->find('list');
 		$users = $this->Request->User->find('list');
 		$this->set(compact('categories', 'contents', 'users'));
+
 	}
 
 	/**
