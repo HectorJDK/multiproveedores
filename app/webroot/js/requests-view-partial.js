@@ -31,7 +31,7 @@ function simulacion_busqueda_equivalencias()
 {
     var query = new Array();
     query[1] = [7,1];
-    query[0] = [6,0];
+    query[0] = [6,2];
 
     alert(JSON.stringify(query));
     $.ajax({
