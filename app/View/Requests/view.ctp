@@ -1,7 +1,5 @@
 <?php echo $this->AssetCompress->script('requests-view'); ?>
 
-<?php print_r($request) ?>
-
 <div class="grey-container" >
   <h2>Solicitud #<?php echo $request['Request']['id']; ?></h2>
   
@@ -12,6 +10,30 @@
     </div>
     <div class="col-9">
       <?php echo $this->Html->link($request['Category']['url'], array('controller' => 'categories', 'action' => 'view', $request['Category']['id'])); ?>
+    </div>
+  </div>
+
+  <!-- Datos Cliente -->
+  <div class="row">
+    <div class="col-3 text-right light">
+      Datos del Cliente
+    </div>
+    <div class="col-9">
+      <?php foreach ($request['Content']['xml']['Customer'] as $client_field): ?>
+        <?php echo $client_field; ?><br />
+      <?php endforeach; ?>
+    </div>
+  </div>
+
+  <!-- Datos Cliente -->
+  <div class="row">
+    <div class="col-3 text-right light">
+      Datos del Producto
+    </div>
+    <div class="col-9">
+      <?php foreach ($request['Content']['xml']['Product'] as $product_field): ?>
+        <?php echo $product_field; ?><br />
+      <?php endforeach; ?>
     </div>
   </div>
 
@@ -55,10 +77,9 @@
   </div>
 
   <div class="text-right light">
-    <?php echo $this->Html->link(__('Edit'), array('controller' => 'requests', 'action' => 'edit', $request['Request']['id']), array('class' => "btn btn-info btn-highlight")); ?>
-    <?php echo $this->Html->link(__('Delete'), array('controller' => 'requests', 'action' => 'delete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight"), __('Are you sure you want to delete # %s?', $request['Request']['id'])); ?>
+    <?php echo $this->Html->link('Editar Notas', array('controller' => 'requests', 'action' => 'edit', $request['Request']['id']), array('class' => "btn btn-info btn-highlight")); ?>
+    <?php echo $this->Html->link('Borrar Solicitud', array('controller' => 'requests', 'action' => 'delete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight"), __('Seguro que quiere borrar la solicitud # %s?', $request['Request']['id'])); ?>
   </div>
-
 </div>
 
 <!-- Búsqueda de proveedores mediante búsqueda de producto -->
