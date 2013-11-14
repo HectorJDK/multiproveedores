@@ -23,7 +23,7 @@ class RequestsController extends AppController {
 	public function index() {
 		$this->Request->recursive = 0;
 		//Solo mostrara las solicitudes que sean
-		$requests = $this->Paginator->paginate(array('user_id' => null, 'deleted' => 0));
+		$requests = $this->Paginator->paginate(array('Request.user_id' => null, 'Request.deleted' => 0));
 		$this->set('requests', $requests);
 	}
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController {
 	{
 		$userId = $this->Auth->user('id');
 		$this->Request->recursive = 0;
-		$requests = $this->Paginator->paginate(array('user_id' => $userId, 'deleted' => 0));
+		$requests = $this->Paginator->paginate(array('Request.user_id' => $userId, 'Request.deleted' => 0));
 		$this->set('requests', $requests);
 	}
 
