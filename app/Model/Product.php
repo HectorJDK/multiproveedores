@@ -197,7 +197,7 @@ class Product extends AppModel {
 
 	public function search_products($products_ids)
 	{
-		$preparation = $this->search_prdoucts_with_id_preparation($products_ids);
+		$preparation = $this->search_products_with_id_preparation($products_ids);
 		$db = $this->getDataSource();
 	            // return $preparation['query'];
 		$result = $db->fetchAll($preparation['query'], $preparation['values']);
@@ -293,7 +293,7 @@ class Product extends AppModel {
 		$query .=         "( ";
 		$query .= "select * ";
 		$query .= "from attributes ";
-		$query .= $this->ids_place_holders('where attributes.id', count($not_empty_attributes));
+		$query .= $this->ids_place_holders_possibly_empty('where attributes.id', count($not_empty_attributes));
 		$query .= ") as a ";
 		$query .= "inner join ";
 		$query .= "attributes_products as ap ";
@@ -332,7 +332,7 @@ class Product extends AppModel {
 		$query .=         "( ";
 		$query .= "select * ";
 		$query .= "from attributes ";
-		$query .= $this->ids_place_holders('where attributes.id', count($not_empty_attributes));
+		$query .= $this->ids_place_holders_possibly_empty('where attributes.id', count($not_empty_attributes));
 		$query .= ") as a ";
 		$query .= "inner join ";
 		$query .= "attributes_products as ap ";
@@ -351,7 +351,7 @@ class Product extends AppModel {
 		return array('query' => $query, 'values' => $values);
 	}
 
-	public function search_prdoucts_with_id_preparation($ids)
+	public function search_products_with_id_preparation($ids)
 	{
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
@@ -445,8 +445,9 @@ class Product extends AppModel {
 		return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
 	}
 
-	
+    //   ::::::::: END OF Busqueda de productos seleccionados
 
+    //providers that provide the given products
 	public function search_suppliers_that_supply_preparation($products_ids)
 	{
 		$query = "select ps.product_id, ps.price as price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
@@ -558,6 +559,18 @@ class Product extends AppModel {
 		$result .= ") ";
 	return $result;
 	}
+
+    public function ids_place_holders_possibly_empty($condition, $how_many)
+    {
+        if($how_many == 0) {return '';}
+        $result = $condition . " in ( ?";
+        for($i = 0; $i < $how_many - 1; $i++)
+        {
+            $result .= ", ?";
+        }
+        $result .= ") ";
+        return $result;
+    }
 
 	public function list_of_values_place_holders($attributes)
 	{

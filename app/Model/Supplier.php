@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('SupplierResult', 'Lib');
 /**
  * Supplier Model
  *
@@ -279,13 +280,26 @@ class Supplier extends AppModel {
 	{
 		$preparation = $this->search_by_product_type_preparation($category, $type);
 		$db = $this->getDataSource();
-		//return $preparation['query'];
-		return $db->fetchAll($preparation['query'], $preparation['values']);
-	}
+		$query_result =  $db->fetchAll($preparation['query'], $preparation['values']);
+        $result = array();
+        foreach ($query_result as $supplier)
+        {
+            /* @var $result SupplierResult */
+            array_push($result, new SupplierResult(
+                $supplier[0]['id'],
+                $supplier[0]['corporate_name'],
+                $supplier[0]['contact_name'],
+                $supplier[0]['contact_email'],
+                $supplier[0]['credit'],
+                $supplier[0]['contact_telephone']
+            ));
+        }
+        return $result;
+    }
 
 	public function search_by_product_type_preparation($category, $type)
 	{
-		$query = "select s.id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
+		$query = "select s.id as id, s.corporate_name as corporate_name, s.contact_name as contact_name, s.contact_email as contact_email, s.credit as credit, s.contact_telephone as contact_telephone ";
 		$query .= "from suppliers as s ";
 		if($category != '')
 		{

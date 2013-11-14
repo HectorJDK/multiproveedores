@@ -1,22 +1,9 @@
 <?php
-class SupplierServicesController extends AppController
-{
-	public $uses = array('Content', 'Supplier');
-
-	public $components = array('RequestHandler');
-
-    public function suppliers_for_category_product_type()
+    class SupplierServicesController extends AppController
     {
-        $this->autoRender = false;
+        public $uses = array('Content', 'Supplier');
 
-        $product_description = $this->request->data;
+        public $components = array('RequestHandler');
 
-        $category = $this->request->data[0];
-        $product_type = $this->request->data[1];
-
-        $result = $this->Supplier->search_by_product_type($category, $product_type);
-        echo json_encode($result);
     }
-
-}
 ?>

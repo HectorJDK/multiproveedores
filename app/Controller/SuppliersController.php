@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('ProductSearch', 'Lib');
+App::uses('SupplierResult', 'Lib');
 
 /**
  * Suppliers Controller
@@ -9,13 +10,14 @@ App::uses('ProductSearch', 'Lib');
  * @property PaginatorComponent $Paginator
  */
 class SuppliersController extends AppController {
+    var $uses = array('Product');
 
 /**
  * Components
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'RequestHandler');
 
 /**
  * index method
@@ -115,5 +117,24 @@ class SuppliersController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
+
+    public function suppliers_for_category_product_type()
+    {
+        $category = $this->request->data['Supplier']['category'];
+        $product_type = $this->request->data['Supplier']['type'];
+
+        /* @var $results SupplierResult[] */
+        $results = $this->Supplier->search_by_product_type($category, $product_type);
+        $this->set('results', $results);
+        $this->set('request_id', $this->request->data['Supplier']['request']);
+    }
+
+    public function search_suppliers_for_products()
+    {
+        $products = $this->request->data;
+        $result = $this->Product->search_suppliers_for_products($products);
+        $this->set('suppliers_products', $result);
+    }
 
 }
