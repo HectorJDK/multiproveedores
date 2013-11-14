@@ -1,15 +1,12 @@
-<div class="pull-left grey-container">
+<div class="grey-container">
 
   <h2>Nueva Solicitud</h2>
 
-<?php 
+  <?php 
   echo $this->Form->create('Request', $options_for_form);
-  echo $this->Form->input('Request.category_id', array('label' => 'Categoría'));
-
-  echo $this->Form->input('Request.note', array('label' => 'Notas', 'class' => 'input-block'));
-
-  echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info')); 
-?>
+  echo $this->Form->input('Request.note', array('label' => 'Notas', 'class' => 'input-block', 'rows' => 5));
+  ?>
+  <div class="text-right">
+  <?php echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));?>
+  </div>
 </div>
-
-<?php echo $this->element('requests_actions'); ?>

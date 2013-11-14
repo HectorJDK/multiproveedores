@@ -230,12 +230,4 @@ public function add()
 		$this->set(compact('result'));
 	}
 
-	public function search_suppliers_for_products()
-	{
-		$this->autoRender = false;
-		$products = $this->request->data;
-		$result = $this->Product->search_suppliers_for_products($products);
-		echo json_encode($result);
-	}
-
 }

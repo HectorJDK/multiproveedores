@@ -179,27 +179,47 @@ class Product extends AppModel {
 	public function search_suppliers_for_products($products)
 	{
 
-		$splited_products = $this->split_only_originals_from_with_equivalencies($products);
+		$splitted_products = $this->split_only_originals_from_with_equivalencies($products);
 
-		$originals = $this->search_products($splited_products[0]);
-		$equivalencies = $this->search_equivalencies($splited_products[1], $splited_products[0]);
-		$merged_products = $this->merge_products($originals, $equivalencies);
-		$ids = $this->ids_from_product_results($merged_products);
-		return $this->search_suppliers_for_ids($ids, $merged_products);
+		$originals = $this->search_equivalencies($splitted_products[0], array(), 0);
+		$originals_ids = $this->ids_from_product_results($originals);
+		
+		$generics = $this->search_equivalencies($splitted_products[1], $originals_ids, 1);
+		$originals_generics = $this->merge_products($originals, $generics);
+		$originals_generics_ids = $this->ids_from_product_results($originals_generics);
+
+		$indistinct = $this->search_equivalencies($splitted_products[2], $originals_generics_ids, 2);
+		$results = $this->merge_products($originals_generics, $indistinct);
+		$results_ids = $this->ids_from_product_results($results);
+
+		return $this->search_suppliers_for_ids($results_ids, $results);
 	}
 
 	public function search_products($products_ids)
 	{
-		$preparation = $this->search_prdoucts_with_id_preparation($products_ids);
+		$preparation = $this->search_products_with_id_preparation($products_ids);
 		$db = $this->getDataSource();
 				// return $preparation['query'];
 		$result = $db->fetchAll($preparation['query'], $preparation['values']);
 		return $this->group_products_result($result);
 	}
 
-	public function search_equivalencies($products_ids, $excluding)
+	public function search_equivalencies($products_ids, $excluding, $kind)
 	{
-		$preparation = $this->search_equivalencies_preparation($products_ids, $excluding);
+		switch ($kind) {
+			case 0:
+				$preparation = $this->search_equivalencies_no_generics_preparation($products_ids, $excluding);
+				break;
+
+			case 1:
+				$preparation = $this->search_equivalencies_with_generics_preparation($products_ids, $excluding);
+				break;
+
+			case 2:
+				$preparation = $this->search_equivalencies_indistinct_preparation($products_ids, $excluding);
+				break;
+		}
+		
 		$db = $this->getDataSource();
 				// return $preparation['query'];
 		$result = $db->fetchAll($preparation['query'], $preparation['values']);
@@ -215,7 +235,7 @@ class Product extends AppModel {
 		//return $result;
 		$supplierProductResults = array();
 
-		$pr_id = -1;
+		$pr_id = 0;
 		$last_product_id = -1;
 		foreach ($result as $key => $value)
 		{
@@ -227,8 +247,8 @@ class Product extends AppModel {
 				$value[0]['credit'],
 				$value[0]['contact_telephone']);
 			$product_id = $value[0]['product_id'];
-			if($last_product_id != $product_id)
-			{
+            while($products_results[$pr_id]->id != $product_id)
+            {
 				$pr_id++;
 			}
 			$supplierProductResult = new SupplierProductResult($supplierResult, $products_results[$pr_id], $value[0]['price']);
@@ -273,7 +293,7 @@ class Product extends AppModel {
 		$query .=         "( ";
 		$query .= "select * ";
 		$query .= "from attributes ";
-		$query .= $this->ids_place_holders('where attributes.id', count($not_empty_attributes));
+		$query .= $this->ids_place_holders_possibly_empty('where attributes.id', count($not_empty_attributes));
 		$query .= ") as a ";
 		$query .= "inner join ";
 		$query .= "attributes_products as ap ";
@@ -290,6 +310,7 @@ class Product extends AppModel {
 		$query .= "cs.supplier_id = suppliers_filter.s_id AND ";
 		$query .= "cs.category_id = ? ";
 		$query .= ") ";
+		$query .= "AND p.generic = 0 ";
 		$query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
 		$query .= "AND p.id = ps.product_id "; //at least one supplier
 		$query .= "ORDER BY p.id, attribute_id";
@@ -311,7 +332,7 @@ class Product extends AppModel {
 		$query .=         "( ";
 		$query .= "select * ";
 		$query .= "from attributes ";
-		$query .= $this->ids_place_holders('where attributes.id', count($not_empty_attributes));
+		$query .= $this->ids_place_holders_possibly_empty('where attributes.id', count($not_empty_attributes));
 		$query .= ") as a ";
 		$query .= "inner join ";
 		$query .= "attributes_products as ap ";
@@ -321,7 +342,7 @@ class Product extends AppModel {
 		$query .= "Having Count(ap.product_id) >= ". count($not_empty_attributes);
 		$query .= ") as attributes_filter ";
 		$query .= ") ";
-
+		$query .= "AND p.generic = 0 ";
 		$query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
 		$query .= "AND p.id = ps.product_id "; //at least one supplier
 		$query .= "ORDER BY p.id, attribute_id";
@@ -330,7 +351,7 @@ class Product extends AppModel {
 		return array('query' => $query, 'values' => $values);
 	}
 
-	public function search_prdoucts_with_id_preparation($ids)
+	public function search_products_with_id_preparation($ids)
 	{
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
@@ -350,7 +371,58 @@ class Product extends AppModel {
 		return array('query' => $query, 'values' => $ids);
 	}
 
-	public function search_equivalencies_preparation($products_ids, $excluding)
+
+	//Busqueda de productos seleccionados::::::
+
+	public function search_equivalencies_no_generics_preparation($products_ids, $excluding)
+	{
+		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
+		$query .= "from ";
+		$query .= "( ";
+		$query .= "select equivalent_id as e_id ";
+		$query .= "from equivalencies ";
+		$query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
+		$query .= ")as equivalencies ";
+		$query .= "inner join ";
+		$query .= "attributes_products ";
+		$query .= "on attributes_products.product_id = equivalencies.e_id, ";
+		$query .= "attributes, ";
+		$query .= "products as p ";
+		$query .= "where ";
+		$query .= "p.generic = 0 AND ";
+		$query .= "attributes.id = attributes_products.attribute_id AND ";
+		$query .= "p.id = equivalencies.e_id ";
+		$query .= $this->exclude($excluding);
+		$query .= "order by product_id, attribute_id ";
+
+		return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
+	}
+
+	public function search_equivalencies_with_generics_preparation($products_ids, $excluding)
+	{
+		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
+		$query .= "from ";
+		$query .= "( ";
+		$query .= "select equivalent_id as e_id ";
+		$query .= "from equivalencies ";
+		$query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
+		$query .= ")as equivalencies ";
+		$query .= "inner join ";
+		$query .= "attributes_products ";
+		$query .= "on attributes_products.product_id = equivalencies.e_id, ";
+		$query .= "attributes, ";
+		$query .= "products as p ";
+		$query .= "where ";
+		$query .= "p.generic = 1 AND ";
+		$query .= "attributes.id = attributes_products.attribute_id AND ";
+		$query .= "p.id = equivalencies.e_id ";
+		$query .= $this->exclude($excluding);
+		$query .= "order by product_id, attribute_id ";
+
+		return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
+	}
+
+	public function search_equivalencies_indistinct_preparation($products_ids, $excluding)
 	{
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
@@ -373,6 +445,9 @@ class Product extends AppModel {
 		return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
 	}
 
+    //   ::::::::: END OF Busqueda de productos seleccionados
+
+    //providers that provide the given products
 	public function search_suppliers_that_supply_preparation($products_ids)
 	{
 		$query = "select ps.product_id, ps.price as price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
@@ -449,23 +524,33 @@ class Product extends AppModel {
 
 	public function split_only_originals_from_with_equivalencies($products_equivalencies)
 	{
-		$only_originals = array();
-		$with_equivalencies = array();
 
-		foreach ($products_equivalencies as $key => $value) {
-			if($value[1])
-			{
-				array_push($with_equivalencies, $value[0]);
-			}else{
-				array_push($only_originals, $value[0]);
+		$originals = array();
+		$generics = array();
+		$indistinct = array();
+
+		foreach ($products_equivalencies as $key => $value)
+		{
+			switch ($value[1]) {
+				case 1:
+					array_push($originals, $value[0]);
+					break;
+
+				case 2:
+					array_push($generics, $value[0]);
+					break;
+
+				case 3:
+					array_push($indistinct, $value[0]);
+					break;
 			}
 		}
-		return array($only_originals, $with_equivalencies);
+		return array($originals, $generics, $indistinct);
 	}
 
 	public function ids_place_holders($condition, $how_many)
 	{
-		if($how_many == 0) return '';
+		if($how_many == 0) {return $condition . ' in (0)';}
 		$result = $condition . " in ( ?";
 		for($i = 0; $i < $how_many - 1; $i++)
 		{
@@ -474,6 +559,18 @@ class Product extends AppModel {
 		$result .= ") ";
 	return $result;
 	}
+
+    public function ids_place_holders_possibly_empty($condition, $how_many)
+    {
+        if($how_many == 0) {return '';}
+        $result = $condition . " in ( ?";
+        for($i = 0; $i < $how_many - 1; $i++)
+        {
+            $result .= ", ?";
+        }
+        $result .= ") ";
+        return $result;
+    }
 
 	public function list_of_values_place_holders($attributes)
 	{
