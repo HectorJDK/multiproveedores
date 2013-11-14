@@ -30,70 +30,70 @@ class Product extends AppModel {
 		'id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
 		'category_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
 		'type_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
 		'manufacturer_id' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
-	                            //'message' => 'Your custom message here',
-	                            //'allowEmpty' => false,
-	                            //'required' => false,
-	                            //'last' => false, // Stop validation after this rule
-	                            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+								//'message' => 'Your custom message here',
+								//'allowEmpty' => false,
+								//'required' => false,
+								//'last' => false, // Stop validation after this rule
+								//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
 		);
 
-	        //The Associations below have been created with all possible keys, those that are not needed can be removed
+			//The Associations below have been created with all possible keys, those that are not needed can be removed
 	/**
 	 *hasMany associations
 	 *
@@ -163,7 +163,7 @@ class Product extends AppModel {
 			'offset' => '',
 			'finderQuery' => '',
 			)
-		);
+	);
 
 	//		------	BUSQUEDAS	------
 
@@ -171,7 +171,7 @@ class Product extends AppModel {
 	{
 		$preparation = $this->search_by_attributes_preparation($search);
 		$db = $this->getDataSource();
-	            //return $preparation['values'];
+				//return $preparation['values'];
 		$result = $db->fetchAll($preparation['query'], $preparation['values']);
 		return $this->group_products_result($result);
 	}
@@ -192,7 +192,7 @@ class Product extends AppModel {
 	{
 		$preparation = $this->search_prdoucts_with_id_preparation($products_ids);
 		$db = $this->getDataSource();
-	            // return $preparation['query'];
+				// return $preparation['query'];
 		$result = $db->fetchAll($preparation['query'], $preparation['values']);
 		return $this->group_products_result($result);
 	}
@@ -201,7 +201,7 @@ class Product extends AppModel {
 	{
 		$preparation = $this->search_equivalencies_preparation($products_ids, $excluding);
 		$db = $this->getDataSource();
-	            // return $preparation['query'];
+				// return $preparation['query'];
 		$result = $db->fetchAll($preparation['query'], $preparation['values']);
 		return $this->group_products_result($result);
 	}
@@ -492,8 +492,8 @@ class Product extends AppModel {
 		$results = array();
 		$current_product_id = 0;
 		$aux = null;
-	            // $line = $result[0][0];
-	            // return array($line['data_type_id'], $line['name'], $line['value']);
+				// $line = $result[0][0];
+				// return array($line['data_type_id'], $line['name'], $line['value']);
 		for($i = 0; $i < count($result); $i++)
 		{
 			$line = $result[$i][0];

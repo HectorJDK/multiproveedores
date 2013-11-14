@@ -4,6 +4,8 @@ App::uses('ProductSearch', 'Lib');
 App::uses('ProductSearchQueries', 'Lib');
 App::uses('AttributesProduct', 'Model');
 App::uses('ProductsSupplier', 'Model');
+App::uses('Equivalency', 'Model');
+
 /**
  * Products Controller
  *
@@ -24,7 +26,7 @@ public $components = array('Paginator', 'RequestHandler');
  * @return void
  */
 public function index() {
-	$this->Product->recursive = 2;
+	$this->Product->recursive = 0;
 	$this->set('products', $this->Paginator->paginate());
 }
 
@@ -48,7 +50,8 @@ public function view($id = null) {
  *
  * @return void
  */
-public function add() {
+public function add() 
+{
 	if ($this->request->is('post'))
 	{
 		$transaction = $this->Product->getDataSource();	
@@ -56,23 +59,23 @@ public function add() {
 		$failure = false;
 
 		//Obtenemos datos del producto
-		$product = $this->request->data;
-		print_r($product);
+		$product = $this->request->data["Product"];
 
 		//Decodificamos los datos de los atributos y los eliminamos
-		$attributes = json_decode($product["Product"]["attributes_values"]);
-		unset($product["Product"]["attributes_values"]);
+		$attributes = json_decode($this->request->data["Attributes"]["attributes_values"]);
 
 		//Obtenemos los datos de los proveedores y lo eliminamos
-		$suppliers = array_pop($product["Supplier"]);
-		unset($product["Supplier"]);
+		$suppliers = $this->request->data["Supplier"];
 
 		//Obtenemos los datos para guardar en las equivalencias
 		//Pendiente
 
 		//Primer fase transaccion
 		$this->Product->create(); 
+
+		//Creacion del producto
 		if ($this->Product->save($product))
+		// if (false)
 		{
 			if(is_null($attributes) || count($attributes) == 0)
 			{
@@ -99,24 +102,37 @@ public function add() {
 					}
 				}
 
-				foreach ($suppliers as $index => $value) 
-				{	
+				if(!$failure) 
+				{
 					//Formato para guardar los datos
-					$data = array();
-					$data['price'] = 0;
-					$data['product_id'] = $this->Product->getInsertID();
-					$data['supplier_id'] = $value;
+					$suppliers['product_id'] = $this->Product->getInsertID();
 
 					//Creacion del modelo para guardar en la tabla correspondiente
 					$ProductsSupplier = new ProductsSupplier();
 					$ProductsSupplier->create();
-					print_r($data);
-					if(!$ProductsSupplier->save($data))
+
+					if(!$ProductsSupplier->save($suppliers))
 					{
 						$transaction->rollback();
 						$this->Session->setFlash(__('The type could not be saved. Please, try again. 1'));
 						$failure = true;
-						break;
+					}
+				}
+
+				if(!$failure) 
+				{	
+					$equivalencies['original_id'] = $this->Product->getInsertID();
+					$equivalencies['equivalent_id'] = $this->Product->getInsertID();
+
+					$Equivalency = new Equivalency();
+					$Equivalency->create();
+
+					//Creamos el prodcuto 
+					if (!$Equivalency->save($equivalencies))
+					{
+						$transaction->rollback();
+						$this->Session->setFlash(__('The type could not be saved. Please, try again. Equivalencias'));
+						$failure = true;
 					}
 				}
 			}
