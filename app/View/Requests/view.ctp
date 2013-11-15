@@ -1,7 +1,5 @@
 <?php echo $this->AssetCompress->script('requests-view'); ?>
 
-<?php print_r($request) ?>
-
 <div class="grey-container" >
   <h2>Solicitud #<?php echo $request['Request']['id']; ?></h2>
   
@@ -12,6 +10,30 @@
     </div>
     <div class="col-9">
       <?php echo $this->Html->link($request['Category']['url'], array('controller' => 'categories', 'action' => 'view', $request['Category']['id'])); ?>
+    </div>
+  </div>
+
+  <!-- Datos Cliente -->
+  <div class="row">
+    <div class="col-3 text-right light">
+      Datos del Cliente
+    </div>
+    <div class="col-9">
+      <?php foreach ($request['Content']['xml']['Customer'] as $client_field): ?>
+        <?php echo $client_field; ?><br />
+      <?php endforeach; ?>
+    </div>
+  </div>
+
+  <!-- Datos Cliente -->
+  <div class="row">
+    <div class="col-3 text-right light">
+      Datos del Producto
+    </div>
+    <div class="col-9">
+      <?php foreach ($request['Content']['xml']['Product'] as $product_field): ?>
+        <?php echo $product_field; ?><br />
+      <?php endforeach; ?>
     </div>
   </div>
 
@@ -55,10 +77,9 @@
   </div>
 
   <div class="text-right light">
-    <?php echo $this->Html->link(__('Edit'), array('controller' => 'requests', 'action' => 'edit', $request['Request']['id']), array('class' => "btn btn-info btn-highlight")); ?>
-    <?php echo $this->Html->link(__('Delete'), array('controller' => 'requests', 'action' => 'delete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight"), __('Are you sure you want to delete # %s?', $request['Request']['id'])); ?>
+    <?php echo $this->Html->link('Editar Notas', array('controller' => 'requests', 'action' => 'edit', $request['Request']['id']), array('class' => "btn btn-info btn-highlight")); ?>
+    <?php echo $this->Html->link('Borrar Solicitud', array('controller' => 'requests', 'action' => 'delete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight"), __('Seguro que quiere borrar la solicitud # %s?', $request['Request']['id'])); ?>
   </div>
-
 </div>
 
 <!-- Búsqueda de proveedores mediante búsqueda de producto -->
@@ -82,16 +103,20 @@
 	<input type="submit" value="Buscar" onClick="search1()" class="btn"/>
 </div>
 
- <!-- 2: Búsqueda por tipo -->
- <div class="tab-pane" id="type">
+<!-- 2: Búsqueda por tipo -->
+<div class="tab-pane" id="type">
+
+    <?php echo $this->Form->create('Supplier', array('method' => 'GET', 'controller' =>'suppliers', 'action' => 'suppliers_for_category_product_type')); ?>
  
-       <label>Categoría:</label>
-         <?php echo $this->Form->select('Categoría', $categories, array('id' => '2-category_id')); ?>
-       <label>Tipo:</label>
-         <?php echo $this->Form->select('Tipo', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
-       <input type="submit" value="Buscar" onClick="search2()" class="btn"/>
- 
-  </div>
+        <label>Categoría:</label>
+         <?php echo $this->Form->select('category', $categories, array('id' => '2-category_id')); ?>
+        <label>Tipo:</label>
+         <?php echo $this->Form->select('type', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
+         <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'])); ?>
+
+    <?php echo $this->Form->end(array('label' => 'Buscar')); ?>
+
+</div>
 
   <div id="search_result"> </div>
 

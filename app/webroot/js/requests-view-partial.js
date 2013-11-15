@@ -30,19 +30,19 @@ function display_results(params) {
 function simulacion_busqueda_equivalencias()
 {
     var query = new Array();
+    query[0] = [6,2];
     query[1] = [7,1];
-    query[0] = [6,0];
 
     alert(JSON.stringify(query));
     $.ajax({
-            url: 'http://localhost:8080/multiproveedores/Products/search_suppliers_for_products',
+            url: 'http://localhost:8080/multiproveedores/Suppliers/search_suppliers_for_products',
             type: 'POST',
             contentType: 'application/json',
             async: false,
             data: JSON.stringify(query),
             success : function(data) {
                 alert(data);
-                display_results(JSON.parse(data));
+                document.write(data);
             },
             
             error : function(a,b,data)
@@ -85,36 +85,4 @@ function search1()
                     alert("Error =)\n");
             }                        
     });
-}
-
-
-
-function search2()
-{
-        var search = new Array();
-        var category = $('#2-category_id').val();
-        var product_type_id = $('#2-product_type_id').val();
-        
-        search[0] = category;
-        search[1] = product_type_id;
-
-        alert(JSON.stringify(search));
-        $.ajax({
-                url: 'http://localhost:8080/multiproveedores/supplierServices/suppliers_for_category_product_type',
-                type: 'POST',
-                contentType: 'application/json',
-                async: false,
-                data: JSON.stringify(search),
-                success : function(data)
-                {        
-                        alert(data);
-                        //fp_change_attributes_form('1-atributos', '1-', JSON.parse(data));
-                },
-                
-                error : function(a,b,data)
-                {
-                        alert("Error =)\n");
-                }                        
-        });
-
 }

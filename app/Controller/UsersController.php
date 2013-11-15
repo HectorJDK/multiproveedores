@@ -16,22 +16,35 @@ class UsersController extends AppController {
 	public $components = array('Paginator');
 
 public function beforeFilter() {
-    parent::beforeFilter();
-    $this->Auth->allow('add'); // Letting users register themselves
+	parent::beforeFilter();
+	$this->Auth->allow('add'); // Letting users register themselves
 }
 
 public function login() {
-    if ($this->request->is('post')) {
-        if ($this->Auth->login()) {
-            return $this->redirect($this->Auth->redirect());
-        }
-        $this->Session->setFlash(__('Invalid username or password, try again'));
-    }
+	if ($this->request->is('post')) {
+		//Entramos con configuracion inicial
+		if ($this->Auth->login()) {
+			print_r($this->Auth->user());
+			if ($this->Auth->user()['deleted'] != 1)
+			{
+				return $this->redirect($this->Auth->redirect());
+			}
+			else
+			{
+				$this->Session->setFlash(__('Usuario eliminado, pongase en contacto con el administrador'));
+				return $this->redirect($this->Auth->logout());
+			}
+				
+		}
+		// print_r($this->Auth->_authenticateObjects['0']->helpers);
+		print_r($this->Auth->user());
+		$this->Session->setFlash(__('Invalid username or password, try again '));
+	}
 }
 
 public function logout() {
 	$this->Session->setFlash(__('Logged out'));
-    return $this->redirect($this->Auth->logout());
+	return $this->redirect($this->Auth->logout());
 }
 
 /**
@@ -41,7 +54,8 @@ public function logout() {
  */
 	public function index() {
 		$this->User->recursive = 0;
-		$this->set('users', $this->Paginator->paginate());
+		$users = $this->Paginator->paginate(array('deleted' => 0));
+		$this->set('users', $$users);
 	}
 
 /**
@@ -121,5 +135,24 @@ public function logout() {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-
+	/**
+	 * Virtual delete method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function virtualDelete($id = null) {
+		$this->User->id = $id;
+		if (!$this->User->exists()) {
+			throw new NotFoundException(__('Invalid request'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->User->saveField('deleted', '1')) {
+			$this->Session->setFlash(__('The request has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('The request could not be deleted. Please, try again.'));
+		}
+		return $this->redirect(array('action' => 'index'));
+	}
 }

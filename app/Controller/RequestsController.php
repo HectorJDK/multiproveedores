@@ -23,7 +23,7 @@ class RequestsController extends AppController {
 	public function index() {
 		$this->Request->recursive = 0;
 		//Solo mostrara las solicitudes que sean
-		$requests = $this->Paginator->paginate(array('user_id' => null, 'deleted' => 0));
+		$requests = $this->Paginator->paginate(array('Request.user_id' => null, 'Request.deleted' => 0));
 		$this->set('requests', $requests);
 	}
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController {
 	{
 		$userId = $this->Auth->user('id');
 		$this->Request->recursive = 0;
-		$requests = $this->Paginator->paginate(array('user_id' => $userId, 'deleted' => 0));
+		$requests = $this->Paginator->paginate(array('Request.user_id' => $userId, 'Request.deleted' => 0));
 		$this->set('requests', $requests);
 	}
 
@@ -158,12 +158,18 @@ class RequestsController extends AppController {
 			}
 		} else {
 			$options = array('conditions' => array('Request.' . $this->Request->primaryKey => $id));
-			$this->request->data = $this->Request->find('first', $options);
+			$request = $this->Request->find('first', $options);
+			//Datos que se regresaran a la vista
+			$request['Content']['xml'] = json_decode(json_encode((array) simplexml_load_string($request['Content']['xml'])),1);
+			$this->set('request', $request);
+			
+			$this->Request->find('first', $options);
 		}
 		$categories = $this->Request->Category->find('list');
 		$contents = $this->Request->Content->find('list');
 		$users = $this->Request->User->find('list');
 		$this->set(compact('categories', 'contents', 'users'));
+
 	}
 
 	/**
