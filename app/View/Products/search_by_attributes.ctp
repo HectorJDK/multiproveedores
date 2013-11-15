@@ -20,7 +20,7 @@
 		</div>
   </div>
   <div class="col-3">
-  	<select class="select_id" id= "<?php echo $product->id ?> ">
+  	<select class="select_id" id= "<?php echo $product->id ?> " onchange="selected()">
       <option value="0"></option>
       <option value="1">Solo Originales</option>
       <option value="2">Solo Genericos</option>
@@ -30,7 +30,7 @@
 
 <script type="text/javascript">
 var s =  document.getElementsByTagName("select");
-s.onchange = selected(s);
+
     function selected(array){
         var products = [];
         for (i = 0; i < s.length; i++){
