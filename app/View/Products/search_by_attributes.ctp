@@ -35,19 +35,19 @@
 <script script type="text/javascript">
 var s =  document.getElementsByTagName("select");
 
-    function selected(array){
-        var products = [];
-        for (i = 0; i < s.length; i++){
-        var p_id = s[i].id;
-        var options = s[i].options;
-        var value  = options[options.selectedIndex].value;
-        products.push([p_id, value]);
-        }
-        console.log(products);
-        return JSON.stringify(products);
+function selected(array){
+    var products = [];
+    for (i = 0; i < s.length; i++){
+    var p_id = s[i].id;
+    var options = s[i].options;
+    var value  = options[options.selectedIndex].value;
+    products.push([p_id, value]);
     }
+    console.log(products);
+    return JSON.stringify(products);
+}
 
-    function send() {
-    	return selected;
-    }
+function send() {
+	return selected;
+}
 </script>

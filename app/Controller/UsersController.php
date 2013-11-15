@@ -24,8 +24,7 @@ public function login() {
 	if ($this->request->is('post')) {
 		//Entramos con configuracion inicial
 		if ($this->Auth->login()) {
-			print_r($this->Auth->user());
-			if ($this->Auth->user()['deleted'] != 1)
+			if ($this->Auth->user['deleted'] != 1)
 			{
 				return $this->redirect($this->Auth->redirect());
 			}
