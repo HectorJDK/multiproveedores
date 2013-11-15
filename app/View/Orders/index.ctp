@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-12">
 	      Orden #<?php echo h($order['Order']['id']); ?>
-	    </div>
+	    	</div>
 		</div>
 	 	<div class="row">
 	    <div class="col-9 text-right light">
