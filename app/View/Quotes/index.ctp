@@ -1,11 +1,6 @@
 <div class="quotes index">
 	<h2><?php echo __('Quotes'); ?></h2>
-	<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Actions'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
-			<li><?php echo $this->Html->link(__('New Quote'), array('action' => 'add')); ?></li>
-		</ul>
-	</div>
+
 <div class="filters">
 	<span>Ordenar por:</span> <ul class="pagination pagination-inverse">
 		<li><?php echo $this->Paginator->sort('category_id'); ?></li>
