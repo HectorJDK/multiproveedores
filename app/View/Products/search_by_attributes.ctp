@@ -20,7 +20,7 @@
 		</div>
   </div>
   <div class="col-3">
-  	<select class="select_id" id= "<?php echo $product->id ?> " onchange="selected()">
+  	<select class="select_id" >
       <option value="0"></option>
       <option value="1">Solo Originales</option>
       <option value="2">Solo Genericos</option>
@@ -28,7 +28,11 @@
 	</select>
  </div>
 
-<script type="text/javascript">
+</div>
+<?php endforeach; ?>
+<div class="btn btn-success" onclick="send()">Buscar Proveedores</div>
+
+<script script type="text/javascript">
 var s =  document.getElementsByTagName("select");
 
     function selected(array){
@@ -41,5 +45,9 @@ var s =  document.getElementsByTagName("select");
         }
         console.log(products);
         return JSON.stringify(products);
+    }
+
+    function send() {
+    	return selected;
     }
 </script>
