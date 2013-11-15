@@ -12,26 +12,42 @@
 	</ul>
 </div>
 	<?php foreach ($quotes as $quote): ?>
-	<div class="row striped">
-		<div>
-			<h4>
-				<?php echo $this->Html->link($quote['Request']['note'], array('controller' => 'requests', 'action' => 'view', $quote['Request']['id'])); ?>
-			</h4>
-			<h4>
-				Proveedor: <?php echo $this->Html->link($quote['Supplier']['corporate_name'], array('controller' => 'suppliers', 'action' => 'view', $quote['Supplier']['id'])); ?>
-			</h4>
-			<h4>
-				Creada por: <?php echo $this->Html->link($quote['User']['name'], array('controller' => 'users', 'action' => 'view', $quote['User']['id'])); ?>
-			</h4>
-			<h4>
-				Estaus: <?php echo $this->Html->link($quote['Result']['value'], array('controller' => 'results', 'action' => 'view', $quote['Result']['id'])); ?>
-			</h4>
-			<h4>
-				Id Producto: <?php echo $this->Html->link($quote['Product']['id'], array('controller' => 'products', 'action' => 'view', $quote['Product']['id'])); ?>
-			</h4>
-			<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['created']))); ?>&nbsp;</h4>
-			<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['modified']))); ?>&nbsp;</h4>
-			<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['deleted']))); ?>&nbsp;</h4>
+	<div class="row striped light">
+		<div class="col-8">
+			<div class="row">
+				<div class="col-3 text-right light">
+					<?php echo $this->Html->link($quote['Request']['note'], array('controller' => 'requests', 'action' => 'view', $quote['Request']['id'])); ?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 text-right light">			
+					Proveedor: <?php echo $this->Html->link($quote['Supplier']['corporate_name'], array('controller' => 'suppliers', 'action' => 'view', $quote['Supplier']['id'])); ?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 text-right light">
+					Creada por: 
+				</div>
+				<div class="col-9">
+					<?php echo $this->Html->link($quote['User']['name'], array('controller' => 'users', 'action' => 'view', $quote['User']['id'])); ?>
+				</div>
+			<div class="row">
+				<div class="col-3 text-right light">
+					Estaus: 
+				</div>
+				<div class="col-9">
+					<?php echo $this->Html->link($quote['Result']['value'], array('controller' => 'results', 'action' => 'view', $quote['Result']['id'])); ?>
+				</div>
+			<div class="row">
+				<div class="col-3 text-right light">
+					Id Producto:
+				</div>
+				<div class="col-9"> 
+					<?php echo $this->Html->link($quote['Product']['id'], array('controller' => 'products', 'action' => 'view', $quote['Product']['id'])); ?>
+				</div>
+				<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['created']))); ?>&nbsp;</h4>
+				<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['modified']))); ?>&nbsp;</h4>
+				<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['deleted']))); ?>&nbsp;</h4>
 		</div>
 			<div class="inner-actions">
 				<?php echo $this->Html->link(__('View'), array('action' => 'view', $quote['Quote']['id']), array('class'=>'btn btn-info')); ?>

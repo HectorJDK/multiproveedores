@@ -6,19 +6,47 @@
 </ul>
 </div>
 <?php foreach ($requests as $request): ?>
-<div class="row striped">
-	<h4>
-		Página Origen: <?php echo $this->Html->link($request['Category']['url'], array('controller' => 'categories', 'action' => 'view', $request['Category']['id'])); ?>
-	</h4>
-	<h4>
-		Comentarios: <?php echo $this->Html->link($request['Content']['comment'], array('controller' => 'contents', 'action' => 'view', $request['Content']['id'])); ?>
-	</h4>
-	<h4>Fecha Creación: <?php echo date('j M Y', strtotime(h($request['Request']['created']))); ?>&nbsp;</h4>
-	<h4>Fecha Modificación: <?php echo date('j M Y', strtotime(h($request['Request']['modified']))); ?>&nbsp;</h4>
-<!-- 		<h4><?php echo h($request['Request']['deleted']); ?>&nbsp;</h3>
-	<h4><?php echo h($request['Request']['note']); ?>&nbsp;</h3> -->
-	<div class="inner-actions">
-		<?php echo $this->Html->link(__('Trabajar Solicitud'), array('action' => 'view', $request['Request']['id']), array('class'=>'btn btn-info view')); ?>
+<div class="row striped slim">
+	<div class="col-8">
+		<div class="row">
+			<div class="col-3 text-right light">
+				Página Origen: 
+			</div>
+			<div class="col-9">
+				<?php echo $this->Html->link($request['Category']['url'], array('controller' => 'categories', 'action' => 'view', $request['Category']['id'])); ?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-3 text-right light">
+				Comentarios:
+			</div>
+			<div class="col-9">
+				<?php echo $this->Html->link($request['Content']['comment'], array('controller' => 'contents', 'action' => 'view', $request['Content']['id'])); ?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-3 text-right light">
+				Fecha Creación: 
+			</div>
+			<div class="col-9">
+				<?php echo date('j M Y', strtotime(h($request['Request']['created']))); ?>&nbsp;
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-3 text-right light">
+				Fecha Modificación: 
+			</div>
+			<div class="col-9">
+				<?php echo date('j M Y', strtotime(h($request['Request']['modified']))); ?>&nbsp;
+			</div>
+		</div>
+
+		<div class="inner-actions">
+			<?php echo $this->Html->link(__('Trabajar Solicitud'), array('action' => 'view', $request['Request']['id']), array('class'=>'btn btn-info view')); ?>
+		</div>
 	</div>
 </div>
 <?php endforeach; ?>
