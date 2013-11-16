@@ -224,7 +224,7 @@ class RequestsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function releaseRequest($id = null) {
+	public function release($id = null) {
 		$this->Request->id = $id;
 
 		if (!$this->Request->exists()) {
