@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 App::uses('TypesController', 'Controller');
 App::uses('OriginsController', 'Controller');
+App::uses('RequestServicesController', 'Controller');
 /**
 * Requests Controller
 *
@@ -105,7 +106,9 @@ class RequestsController extends AppController {
 			$this->Request->Content->create();
 
 			//Obtenemos los datos de Content
+            $dataXML = $this->request->data['XML'];
 			$content['comment'] = $this->request->data['Request']['note'];
+			$content['xml'] = $this->Request->Content->new_xml($dataXML);
 
 			if ($this->Request->Content->save($content)) {
 				
@@ -121,6 +124,7 @@ class RequestsController extends AppController {
 					$transaction->commit();
 					$this->Session->setFlash(__('The request has been saved.'));
 					return $this->redirect(array('action' => 'index'));
+
 				} else{
 					$transaction->rollback();
 					$this->Session->setFlash(__('The request could not be saved. Please, try again.'));	
@@ -220,7 +224,7 @@ class RequestsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function releaseRequest($id = null) {
+	public function release($id = null) {
 		$this->Request->id = $id;
 
 		if (!$this->Request->exists()) {
