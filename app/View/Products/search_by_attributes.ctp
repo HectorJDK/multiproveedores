@@ -1,4 +1,3 @@
-<!-- receives $result -->
 <div id = "search_products">
     <?php foreach ($result as $product): ?>
 
@@ -32,5 +31,9 @@
 
     <?php endforeach; ?>
 
-	<div class="btn btn-success" onclick="selected()">Buscar Proveedores</div>
+    <?php echo $this->Form->create('Suppliers', array( 'id'=>'suppliers_search',
+                                                    'controller' => 'suppliers',
+                                                    'action' => 'search_suppliers_for_products')); ?>
+    <?php echo $this->Form->hidden('products_for_suppliers', array('id'=> 'products_for_suppliers')); ?>
+    <?php echo $this->Form->end(array('label'=>'Buscar Proveedores', 'class'=>'btn btn-success', 'onclick'=>'update_suppliers_search_form_values()')); ?>
 </div>

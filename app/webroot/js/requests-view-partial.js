@@ -59,35 +59,22 @@ function search1()
     });
 }
 
-function selected(){
+
+function update_suppliers_search_form_values()
+{
     var d =  document.getElementById("search_products");
     var s = d.getElementsByTagName("select");
-    var products = [];
-    for (i = 0; i < s.length; i++){
+    var products = new Array();
+    for (i = 0; i < s.length; i++)
+    {
         var p_id = s[i].id;
         var options = s[i].options;
         var value  = options[options.selectedIndex].value;
-        if(value != '0') {
+        if(value != '0')
+        {
             products.push([p_id, value]);
         }
     }
 
-    alert(JSON.stringify(products));
-    $.ajax({
-        url: 'http://localhost:8080/multiproveedores/Suppliers/search_suppliers_for_products',
-        type: 'POST',
-        contentType: 'application/json',
-        async: false,
-        data: JSON.stringify(products),
-        success : function(data)
-        {
-            alert(data);
-            document.write(data);
-        },
-
-        error : function(a,b,data)
-        {
-            alert("Error =)\n");
-        }
-    });
+    $('#products_for_suppliers').val(JSON.stringify(products));
 }

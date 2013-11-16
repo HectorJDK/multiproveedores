@@ -80,14 +80,18 @@ class SuppliersController extends AppController {
 		if (!$this->Supplier->exists($id)) {
 			throw new NotFoundException(__('Invalid supplier'));
 		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Supplier->save($this->request->data)) {
+		if ($this->request->is(array('post', 'put')))
+        {
+			if ($this->Supplier->save($this->request->data))
+            {
 				$this->Session->setFlash(__('The supplier has been saved.'));
 				return $this->redirect(array('action' => 'index'));
-			} else {
+			} else
+            {
 				$this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
 			}
-		} else {
+		} else
+        {
 			$options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
 			$this->request->data = $this->Supplier->find('first', $options);
 		}
@@ -132,7 +136,7 @@ class SuppliersController extends AppController {
 
     public function search_suppliers_for_products()
     {
-        $products = $this->request->data;
+        $products = json_decode($this->request->data['Suppliers']['products_for_suppliers']);
         $result = $this->Product->search_suppliers_for_products($products);
         $this->set('suppliers_products', $result);
     }
