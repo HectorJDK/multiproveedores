@@ -462,11 +462,11 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
 		$query .= "( ";
-			$query .= "select equivalent_id as e_id ";
-			$query .= "from equivalencies ";
-			$query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
-            $query .= "AND equivalencies.deleted_right = false ";
-			$query .= ")as equivalencies ";
+        $query .= "select equivalent_id as e_id ";
+        $query .= "from equivalencies ";
+        $query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
+        $query .= "AND equivalencies.deleted_right = false ";
+        $query .= ")as equivalencies ";
         $query .= "inner join ";
         $query .= "attributes_products ";
         $query .= "on attributes_products.product_id = equivalencies.e_id, ";

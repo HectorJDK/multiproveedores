@@ -10,7 +10,7 @@ App::uses('SupplierResult', 'Lib');
  * @property PaginatorComponent $Paginator
  */
 class SuppliersController extends AppController {
-    var $uses = array('Product');
+    var $uses = array('Supplier', 'Product');
 
 /**
  * Components
