@@ -257,8 +257,7 @@ class RequestsController extends AppController {
 		//Obtener los datos de la solicitud a duplicar
 		$request = $this->Request->find('first', array('conditions' => array('Request.id' => $id)));
 		//Quitar el id para evitar que haga update
-		$request["Request"]["id"]="";	
-		print_r($request);		
+		$request["Request"]["id"]="";		
 		if ($this->Request->save($request)) {
 			$this->Session->setFlash(__('The request has been duplicated.'));
 		} else {
@@ -280,18 +279,39 @@ class RequestsController extends AppController {
 
 		$datos=array();
 		$datos= $this->request->data;		
-		$idRequest = $datos[0];
-		$cantidad = $datos[1];
-		$this->Request->id = $idRequest;
+		//Asignar el id de la solicitud a actualizar
+		$this->Request->id = $datos[0];;
 		if (!$this->Request->exists()) {
 			echo json_encode(0);
-		}	
-		//Crear una solicitud nueva
-		$this->Request->create();
-		//Obtener los datos de la solicitud a duplicar
-		$request = $this->Request->find('first', array('conditions' => array('Request.id' => $idRequest)));
-		$request["Request"]["quantity"] = $cantidad;		
-		if ($this->Request->save($request)) {
+		}			
+		//Actualizar la cantidad		
+		if ($this->Request->saveField('quantity', $datos[1])) {
+			echo json_encode(1);
+		} else {
+			echo json_encode(0);
+		}		
+	}
+
+	/**
+	 * updateNotes method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function updateNotes() {		
+
+		$this->autoRender = false;
+
+		$datos=array();
+		$datos= $this->request->data;		
+		//Asignar el id de la solicitud a actualizar
+		$this->Request->id = $datos[0];;
+		if (!$this->Request->exists()) {
+			echo json_encode(0);
+		}			
+		//Actualizar la nota		
+		if ($this->Request->saveField('note', $datos[1])) {
 			echo json_encode(1);
 		} else {
 			echo json_encode(0);
