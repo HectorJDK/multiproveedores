@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('TypesController', 'Controller');
-App::uses('CategoriesController', 'Controller');
+App::uses('OriginsController', 'Controller');
 /**
 * Requests Controller
 *
@@ -50,7 +50,7 @@ class RequestsController extends AppController {
 	 */
 	public function view($id = null)
 	{
-			//Marcar el nivel de recursion (mostrar datos dependientes de las llaves foraneas)
+		//Marcar el nivel de recursion (mostrar datos dependientes de las llaves foraneas)
 		$this->Request->recursive = 0;
 
 			//Vereficar que exista el id
@@ -78,12 +78,12 @@ class RequestsController extends AppController {
 		$request['Content']['xml'] = json_decode(json_encode((array) simplexml_load_string($request['Content']['xml'])),1);
 		
 		//Types
-		$typesController = new TypesController();
-		$this->set('types', $typesController->types_for_selector());
+		$types = new TypesController();
+		$this->set('types', $types->types_for_selector());
 
 		//Categories
-		$categoriesController = new CategoriesController();
-		$this->set('categories', $categoriesController->categories_for_selector());
+		$origins = new OriginsController();
+		$this->set('categories', $origins->categories_for_selector());
 
 		//Request
 		$this->set('request', $request);
@@ -133,7 +133,7 @@ class RequestsController extends AppController {
 		}
 
 		//Valores que obtiene para mostrar no POST
-		$categories = $this->Request->Category->find('list');
+		$categories = $this->Request->Origin->find('list');
 		$contents = $this->Request->Content->find('list');
 		$this->set(compact('categories', 'contents', 'users'));
 	}
