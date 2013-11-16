@@ -15,7 +15,8 @@
 	?>
 	</fieldset>
 
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->submit(__('Submit',true), array('class'=>'btn btn-info')); 
+    echo $this->Form->end(); ?>
 
 <fieldset>
 	<div id="atributos">
