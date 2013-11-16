@@ -15,6 +15,13 @@ class User extends AppModel {
  *
  * @var string
  */
+	public $displayField = 'name';
+
+/**
+ * Display field
+ *
+ * @var string
+ */
 
 public function beforeSave($options = array()) {
     if (isset($this->data[$this->alias]['password'])) {
@@ -113,32 +120,6 @@ public function beforeSave($options = array()) {
 	public $hasMany = array(
 		'Request' => array(
 			'className' => 'Request',
-			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Quote' => array(
-			'className' => 'Quote',
-			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Order' => array(
-			'className' => 'Order',
 			'foreignKey' => 'user_id',
 			'dependent' => false,
 			'conditions' => '',

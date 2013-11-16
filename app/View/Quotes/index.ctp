@@ -1,4 +1,5 @@
 <h3>Cotizaciones Pendientes</h3>
+
 <div class="filters">
 	<span>Ordenar por:</span>
 	<ul class="pagination pagination-inverse">

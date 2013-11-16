@@ -1,4 +1,5 @@
-<?php echo $this->AssetCompress->script('requests-view'); ?>
+<?php echo $this->AssetCompress->script('requests-view'); 
+echo $this->AssetCompress->script('requests-updates');?>
 
 <div class="grey-container" >
   <h2>Solicitud #<?php echo $request['Request']['id']; ?></h2>
@@ -72,13 +73,19 @@
       Notas
     </div>
     <div class="col-9">
-      <?php echo h($request['Request']['note']); ?>
+      <?php echo $this->Form->textarea('Request.notes', array('id' => 'request_notes', 'label' => '', 'cols'=> 45,
+      'rows'=>5,'default'=>$request['Request']['note'],'onchange' => 'update_notes_request(this,'.$request['Request']['id'].')')); ?>
     </div>
   </div>
-
-  <div class="text-right light">
-    <?php echo $this->Html->link('Editar Notas', array('controller' => 'requests', 'action' => 'edit', $request['Request']['id']), array('class' => "btn btn-info btn-highlight")); ?>
-    <?php echo $this->Html->link('Borrar Solicitud', array('controller' => 'requests', 'action' => 'delete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight"), __('Seguro que quiere borrar la solicitud # %s?', $request['Request']['id'])); ?>
+  <!-- Cantidad-->
+  <div class="row">
+    <div class="col-3 text-right light">
+      Cantidad
+    </div>
+    <div class="col-9">
+      <?php echo $this->Form->input('Request.quantity', array('id' => 'request_quantity', 'label' => '', 
+      'onchange' => 'updateQty(this,'.$request['Request']['id'].')','default'=>h($request['Request']['quantity'])));?>
+    </div>
   </div>
 </div>
 

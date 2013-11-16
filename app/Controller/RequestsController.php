@@ -1,7 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('TypesController', 'Controller');
-App::uses('CategoriesController', 'Controller');
+App::uses('OriginsController', 'Controller');
+App::uses('RequestServicesController', 'Controller');
 /**
 * Requests Controller
 *
@@ -50,7 +51,7 @@ class RequestsController extends AppController {
 	 */
 	public function view($id = null)
 	{
-			//Marcar el nivel de recursion (mostrar datos dependientes de las llaves foraneas)
+		//Marcar el nivel de recursion (mostrar datos dependientes de las llaves foraneas)
 		$this->Request->recursive = 0;
 
 			//Vereficar que exista el id
@@ -78,12 +79,12 @@ class RequestsController extends AppController {
 		$request['Content']['xml'] = json_decode(json_encode((array) simplexml_load_string($request['Content']['xml'])),1);
 		
 		//Types
-		$typesController = new TypesController();
-		$this->set('types', $typesController->types_for_selector());
+		$types = new TypesController();
+		$this->set('types', $types->types_for_selector());
 
 		//Categories
-		$categoriesController = new CategoriesController();
-		$this->set('categories', $categoriesController->categories_for_selector());
+		$origins = new OriginsController();
+		$this->set('categories', $origins->categories_for_selector());
 
 		//Request
 		$this->set('request', $request);
@@ -105,7 +106,9 @@ class RequestsController extends AppController {
 			$this->Request->Content->create();
 
 			//Obtenemos los datos de Content
+            $dataXML = $this->request->data['XML'];
 			$content['comment'] = $this->request->data['Request']['note'];
+			$content['xml'] = $this->Request->Content->new_xml($dataXML);
 
 			if ($this->Request->Content->save($content)) {
 				
@@ -121,6 +124,7 @@ class RequestsController extends AppController {
 					$transaction->commit();
 					$this->Session->setFlash(__('The request has been saved.'));
 					return $this->redirect(array('action' => 'index'));
+
 				} else{
 					$transaction->rollback();
 					$this->Session->setFlash(__('The request could not be saved. Please, try again.'));	
@@ -133,7 +137,7 @@ class RequestsController extends AppController {
 		}
 
 		//Valores que obtiene para mostrar no POST
-		$categories = $this->Request->Category->find('list');
+		$categories = $this->Request->Origin->find('list');
 		$contents = $this->Request->Content->find('list');
 		$this->set(compact('categories', 'contents', 'users'));
 	}
@@ -220,7 +224,7 @@ class RequestsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function releaseRequest($id = null) {
+	public function release($id = null) {
 		$this->Request->id = $id;
 
 		if (!$this->Request->exists()) {
@@ -253,8 +257,7 @@ class RequestsController extends AppController {
 		//Obtener los datos de la solicitud a duplicar
 		$request = $this->Request->find('first', array('conditions' => array('Request.id' => $id)));
 		//Quitar el id para evitar que haga update
-		$request["Request"]["id"]="";	
-		print_r($request);		
+		$request["Request"]["id"]="";		
 		if ($this->Request->save($request)) {
 			$this->Session->setFlash(__('The request has been duplicated.'));
 		} else {
@@ -276,18 +279,39 @@ class RequestsController extends AppController {
 
 		$datos=array();
 		$datos= $this->request->data;		
-		$idRequest = $datos[0];
-		$cantidad = $datos[1];
-		$this->Request->id = $idRequest;
+		//Asignar el id de la solicitud a actualizar
+		$this->Request->id = $datos[0];;
 		if (!$this->Request->exists()) {
 			echo json_encode(0);
-		}	
-		//Crear una solicitud nueva
-		$this->Request->create();
-		//Obtener los datos de la solicitud a duplicar
-		$request = $this->Request->find('first', array('conditions' => array('Request.id' => $idRequest)));
-		$request["Request"]["quantity"] = $cantidad;		
-		if ($this->Request->save($request)) {
+		}			
+		//Actualizar la cantidad		
+		if ($this->Request->saveField('quantity', $datos[1])) {
+			echo json_encode(1);
+		} else {
+			echo json_encode(0);
+		}		
+	}
+
+	/**
+	 * updateNotes method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function updateNotes() {		
+
+		$this->autoRender = false;
+
+		$datos=array();
+		$datos= $this->request->data;		
+		//Asignar el id de la solicitud a actualizar
+		$this->Request->id = $datos[0];;
+		if (!$this->Request->exists()) {
+			echo json_encode(0);
+		}			
+		//Actualizar la nota		
+		if ($this->Request->saveField('note', $datos[1])) {
 			echo json_encode(1);
 		} else {
 			echo json_encode(0);

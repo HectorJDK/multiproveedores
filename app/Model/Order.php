@@ -131,43 +131,14 @@ class Order extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasOne associations
- *
- * @var array
- */
-	public $hasOne = array(
-		'Account' => array(
-			'className' => 'Account',
-			'foreignKey' => 'order_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
  * belongsTo associations
  *
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Quote' => array(
 			'className' => 'Quote',
 			'foreignKey' => 'quote_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'State' => array(
-			'className' => 'State',
-			'foreignKey' => 'state_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

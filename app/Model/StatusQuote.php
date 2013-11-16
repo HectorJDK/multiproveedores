@@ -1,11 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * State Model
+ * StatusQuote Model
  *
- * @property Order $Order
+ * @property Quote $Quote
  */
-class State extends AppModel {
+class StatusQuote extends AppModel {
+
 
 /**
  * Display field
@@ -48,9 +49,9 @@ class State extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Order' => array(
-			'className' => 'Order',
-			'foreignKey' => 'state_id',
+		'Quote' => array(
+			'className' => 'Quote',
+			'foreignKey' => 'status_quote_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

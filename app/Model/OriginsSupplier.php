@@ -1,18 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Result Model
+ * OriginsSupplier Model
  *
- * @property Quote $Quote
+ * @property Origin $Origin
+ * @property Supplier $Supplier
  */
-class Result extends AppModel {
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'value';
+class OriginsSupplier extends AppModel {
 
 /**
  * Validation rules
@@ -20,17 +14,19 @@ class Result extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'value' => array(
-			'maxLength' => array(
-				'rule' => array('maxLength'),
+		'origin_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		),
+		'supplier_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -43,24 +39,24 @@ class Result extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasMany associations
+ * belongsTo associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'Quote' => array(
-			'className' => 'Quote',
-			'foreignKey' => 'result_id',
-			'dependent' => false,
+	public $belongsTo = array(
+		'Origin' => array(
+			'className' => 'Origin',
+			'foreignKey' => 'origin_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'order' => ''
+		),
+		'Supplier' => array(
+			'className' => 'Supplier',
+			'foreignKey' => 'supplier_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
-
 }

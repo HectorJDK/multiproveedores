@@ -394,6 +394,10 @@ form{
   border-color: #ddd #ddd #ddd transparent;
   *border-left-color: #ffffff;
 }
+/* Products buttons */
+.products.view .btn a{
+  color: white;
+}
 /****/
 .flashMessage, .message {
 	padding:8px 35px 8px 14px;

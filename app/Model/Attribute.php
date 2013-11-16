@@ -4,6 +4,7 @@ App::uses('AppModel', 'Model');
  * Attribute Model
  *
  * @property Type $Type
+ * @property DataType $DataType
  * @property Product $Product
  */
 class Attribute extends AppModel {
@@ -119,6 +120,13 @@ class Attribute extends AppModel {
 		'Type' => array(
 			'className' => 'Type',
 			'foreignKey' => 'type_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'DataType' => array(
+			'className' => 'DataType',
+			'foreignKey' => 'data_type_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

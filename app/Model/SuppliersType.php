@@ -13,7 +13,7 @@ class SuppliersType extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'id';
+	public $displayField = 'type_id';
 
 /**
  * Validation rules

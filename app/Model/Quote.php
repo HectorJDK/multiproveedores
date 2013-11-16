@@ -6,9 +6,8 @@ App::uses('AppModel', 'Model');
  * @property Order $Order
  * @property Request $Request
  * @property Supplier $Supplier
- * @property User $User
- * @property Result $Result
  * @property Product $Product
+ * @property StatusQuote $StatusQuote
  */
 class Quote extends AppModel {
 
@@ -17,7 +16,7 @@ class Quote extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'created';
+	public $displayField = 'request_id';
 
 /**
  * Validation rules
@@ -104,23 +103,16 @@ class Quote extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Result' => array(
-			'className' => 'Result',
-			'foreignKey' => 'result_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Product' => array(
 			'className' => 'Product',
 			'foreignKey' => 'product_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'StatusQuote' => array(
+			'className' => 'StatusQuote',
+			'foreignKey' => 'status_quote_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
