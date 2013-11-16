@@ -53,8 +53,8 @@ public function logout() {
  */
 	public function index() {
 		$this->User->recursive = 0;
-		$users = $this->Paginator->paginate(array('deleted' => 0));
-		$this->set('users', $$users);
+		$users = $this->Paginator->paginate(array('deleted' => false));
+		$this->set('users', $users);
 	}
 
 /**
