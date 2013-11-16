@@ -27,32 +27,6 @@ function display_results(params) {
     }
 }
 
-function simulacion_busqueda_equivalencias()
-{
-    var query = new Array();
-    query[0] = [6,2];
-    query[1] = [7,1];
-
-    alert(JSON.stringify(query));
-    $.ajax({
-            url: 'http://localhost:8080/multiproveedores/Suppliers/search_suppliers_for_products',
-            type: 'POST',
-            contentType: 'application/json',
-            async: false,
-            data: JSON.stringify(query),
-            success : function(data) {
-                alert(data);
-                document.write(data);
-            },
-            
-            error : function(a,b,data)
-            {
-                    alert("Error =)\n");
-            }                        
-    });
-
-}
-
 function search1()
 {
     var search = new Array();
@@ -64,7 +38,6 @@ function search1()
     search[1] = product_type;
     search[2] = attributes;
 
-    alert(JSON.stringify(search));
     $.ajax({
             url: 'http://localhost:8080/multiproveedores/Products/search_by_attributes',
             type: 'POST',
@@ -76,7 +49,6 @@ function search1()
 
                 $('#search_result').empty();
                 $('#search_result').append(data);
-                alert(data);
                 display_results(JSON.parse(data));
             },
             
@@ -99,6 +71,23 @@ function selected(){
             products.push([p_id, value]);
         }
     }
-    console.log(products);
-    return JSON.stringify(products);
+
+    alert(JSON.stringify(products));
+    $.ajax({
+        url: 'http://localhost:8080/multiproveedores/Suppliers/search_suppliers_for_products',
+        type: 'POST',
+        contentType: 'application/json',
+        async: false,
+        data: JSON.stringify(products),
+        success : function(data)
+        {
+            alert(data);
+            document.write(data);
+        },
+
+        error : function(a,b,data)
+        {
+            alert("Error =)\n");
+        }
+    });
 }
