@@ -86,3 +86,19 @@ function search1()
             }                        
     });
 }
+
+function selected(){
+    var d =  document.getElementById("search_products");
+    var s = d.getElementsByTagName("select");
+    var products = [];
+    for (i = 0; i < s.length; i++){
+        var p_id = s[i].id;
+        var options = s[i].options;
+        var value  = options[options.selectedIndex].value;
+        if(value != '0') {
+            products.push([p_id, value]);
+        }
+    }
+    console.log(products);
+    return JSON.stringify(products);
+}
