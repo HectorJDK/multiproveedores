@@ -42,7 +42,7 @@
 
 		<div class="inner-actions">
 			<?php echo $this->Html->link(__('Ver Solicitud'), array('action' => 'view', $request['Request']['id']), array('class'=>'btn btn-info view')); ?>
-			<?php echo $this->Form->postLink(__('Liberar Solicitud'), array('action' => 'release', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight")); ?>
+			<?php echo $this->Form->postLink(__('Borrar Solicitud'), array('action' => 'virtualDelete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight")); ?>
 		</div>
 	</div>
 </div>
