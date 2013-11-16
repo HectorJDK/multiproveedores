@@ -1,5 +1,6 @@
 <div class="products view">
-
+<br>
+<br>
 <h1><?php echo __('Producto'); ?></h1>
 	<div class="row striped slim">
 		<div class="col-8">
@@ -39,6 +40,26 @@
 			
 				</div>
 			</div>
+			<br>
+			<div class-"row">
+				<div class="col-3">
+					Atributos
+				</div>
+				<div class="col-3">
+					&nbsp;
+				</div>
+			</div>
+			<?php foreach ($product['Attribute'] as $attribute) {?>
+
+			<div class-"row">
+				<div class="col-3 text-right light">
+					<?php echo h($attribute["name"]);?>
+				</div>
+				<div class="col-3">
+					<?php echo h($attribute['AttributesProduct']['value']); ?>			
+				</div>
+			</div>
+			<?php }?>		
 		</div>
 
 		<div class="col-3 text-center inner-actions">
@@ -74,6 +95,27 @@
 	<?php endforeach; ?>
 	</div>
 <?php endif; ?>
-
+<div class="related">
+	<h3><?php echo __('Productos equivalentes'); ?></h3>
+	<?php if (!empty($product['Original'])): ?>
+		<?php foreach ($product['Original'] as $equivalente): ?>
+			<div class="row striped slim">
+				<div class="col-8">
+					<div class="row">
+						<div class="col-3 text-right light">
+							Id
+						</div>
+						<div class="col-3">
+							<div class="col-3">
+							<?php echo $this->Html->link($equivalente['equivalent_id'], array(
+							'controller' => 'products', 'action' => 'view', $equivalente['equivalent_id'])); ?>
+							</div>							
+						</div>
+					</div>				
+				</div>
+			</div>
+	<?php endforeach; ?>
+	</div>
+<?php endif; ?>
 
 </div>

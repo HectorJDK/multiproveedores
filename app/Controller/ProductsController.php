@@ -42,7 +42,7 @@ public function view($id = null) {
 		throw new NotFoundException(__('Invalid product'));
 	}
 	$options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
-	$this->set('product', $this->Product->find('first', $options));
+	$this->set('product', $this->Product->find('first', $options));	
 }
 
 /**
