@@ -42,7 +42,7 @@ public function index() {
 			)
 		);
 
-	$this->set('quotes', $this->Paginator->paginate($this->Quote->Request));
+	$this->set('requests', $this->Paginator->paginate($this->Quote->Request));
 }
 
 /**

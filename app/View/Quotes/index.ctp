@@ -1,70 +1,84 @@
-<div class="quotes index">
-	<h2><?php echo __('Quotes'); ?></h2>
-	<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Actions'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
-			<li><?php echo $this->Html->link(__('New Quote'), array('action' => 'add')); ?></li>
-		</ul>
-	</div>
+<h3>Cotizaciones Pendientes</h3>
 <div class="filters">
-	<span>Ordenar por:</span> <ul class="pagination pagination-inverse">
-		<li><?php echo $this->Paginator->sort('category_id'); ?></li>
+	<span>Ordenar por:</span>
+	<ul class="pagination pagination-inverse">
+		<li><?php echo $this->Paginator->sort('created', 'Fecha'); ?></li>
 	</ul>
 </div>
-	<?php foreach ($quotes as $quote): ?>
-	<div class="row striped light">
-		<div class="col-8">
-			<div class="row">
-				<div class="col-3 text-right light">
-					<?php echo $this->Html->link($quote['Request']['note'], array('controller' => 'requests', 'action' => 'view', $quote['Request']['id'])); ?>
-				</div>
+
+<?php foreach ($requests as $request): ?>
+<form id="<?php echo $request['Request']['id'] ?>">
+	<div class="row slim">
+		<!-- Request -->
+		<div class="row striped shaded">
+			<div class="col-6">
+				<?php echo $this->Html->link("Solicitud #".$request['Request']['id'], array('controller' => 'requests', 'action' => 'view', $request['Request']['id'])); ?>
 			</div>
-			<div class="row">
-				<div class="col-3 text-right light">			
-					Proveedor: <?php echo $this->Html->link($quote['Supplier']['corporate_name'], array('controller' => 'suppliers', 'action' => 'view', $quote['Supplier']['id'])); ?>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-3 text-right light">
-					Creada por: 
-				</div>
-				<div class="col-9">
-					<?php echo $this->Html->link($quote['User']['name'], array('controller' => 'users', 'action' => 'view', $quote['User']['id'])); ?>
-				</div>
-			<div class="row">
-				<div class="col-3 text-right light">
-					Estaus: 
-				</div>
-				<div class="col-9">
-					<?php echo $this->Html->link($quote['Result']['value'], array('controller' => 'results', 'action' => 'view', $quote['Result']['id'])); ?>
-				</div>
-			<div class="row">
-				<div class="col-3 text-right light">
-					Id Producto:
-				</div>
-				<div class="col-9"> 
-					<?php echo $this->Html->link($quote['Product']['id'], array('controller' => 'products', 'action' => 'view', $quote['Product']['id'])); ?>
-				</div>
-				<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['created']))); ?>&nbsp;</h4>
-				<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['modified']))); ?>&nbsp;</h4>
-				<h4><?php echo date('j M Y', strtotime(h($quote['Quote']['deleted']))); ?>&nbsp;</h4>
+		  <div class="col-3">
+		  	Fecha de creación: <?php echo $this->Time->format($request['Request']['created'], '%d/%m/%y', 'invalid'); ?>
+		  </div>
+
+		  <div class="col-3">
+		  	<button class="btn btn-small btn-info">Procesar Orden de Compra</button>
+		  </div>
 		</div>
-			<div class="inner-actions">
-				<?php echo $this->Html->link(__('View'), array('action' => 'view', $quote['Quote']['id']), array('class'=>'btn btn-info')); ?>
-				<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $quote['Quote']['id']), array('class'=>'btn btn-info')); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $quote['Quote']['id']), array('class'=>'btn btn-danger'), null, __('Are you sure you want to delete # %s?', $quote['Quote']['id'])); ?>
+
+		<?php foreach ($request['Quote'] as $quote): ?>
+		<div class="row striped">
+			<div class="col-8">
+			 	<div class="row">
+			 		<div class="col-5">
+			      Cotizacion #<?php echo h($quote['id']); ?>
+					</div>
+			    <div class="col-5 text-right light">
+			      Fecha de creación
+			    </div>
+			    <div class="col-2 bold">
+			      <?php echo $this->Time->format($quote['created'], '%d/%m/%y', 'invalid'); ?>
+			    </div>
+			  </div>
+
+			  <!-- Detalle -->
+			  <div class="row">
+			  	<div class="col-3 text-right light">
+		      	Proveedor
+		    	</div>
+		    	<div class="col-3">
+		      	<?php echo $this->Html->link($quote['supplier_id'], array('controller' => 'suppliers', 'action' => 'view', $quote['supplier_id'])); ?>
+		    	</div>
+		    	<div class="col-3 text-right light">
+		      	Producto
+		    	</div>
+		    	<div class="col-3">
+		      	<?php echo $this->Html->link($quote['product_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
+		    	</div>
+			  </div>
 			</div>
+			<div class="col-4">
+				<input type="radio" name="<?php echo $quote['id'];?>" value="1">Aceptar</input>
+				<hr />
+				<p>Rechazar por:</p>
+				<ul class="unstyled">
+					<li><input type="radio" name="<?php echo $quote['id'];?>" value="2">Precio</input></li>
+					<li><input type="radio" name="<?php echo $quote['id'];?>" value="3">Sin Existencias</input></li>
+					<li><input type="radio" name="<?php echo $quote['id'];?>" value="4">Sin Respuesta</input></li>
+					<li><input type="radio" name="<?php echo $quote['id'];?>" value="5">Tiempo entrega</input></li>
+				</ul>
+				
+			</div>
+		</div>
+		<?php endforeach;?>
 	</div>
+</form>
 <?php endforeach; ?>
-<p>
+<ul class="pagination pagination-center">
+	<p class="light">
 	<?php 
 	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}'))); ?>
-</p>
-<ul class="pagination pagination-center">
+	'format' => __('Página {:page} de {:pages}. Mostrando {:current} records de {:count} en total'))); ?>
+	</p>
 	<?php
 	echo $this->Paginator->prev('' . __('< '), array(), null, array('class' => 'previous'));
 	echo $this->Paginator->numbers(array('separator' => ' '));
 	echo $this->Paginator->next(__('') . ' >', array(), null, array('class' => 'next disabled')); ?>
 </ul>
-</div>

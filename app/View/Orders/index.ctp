@@ -11,13 +11,11 @@
 <div class="row striped slim">
 	<!-- INFO -->
 	<div class="col-8">
-		<div class="row">
-			<div class="col-12">
+	 	<div class="row">
+	 		<div class="col-6">
 	      Orden #<?php echo h($order['Order']['id']); ?>
 	    </div>
-		</div>
-	 	<div class="row">
-	    <div class="col-9 text-right light">
+	    <div class="col-3	 text-right light">
 	      Fecha de creación
 	    </div>
 	    <div class="col-3 bold">
@@ -70,7 +68,7 @@
 	  <hr />
 
 	  <!-- Rating -->
-	  <form id=<?php echo "order-".$order['Order']['id'] ?>  >
+	  <form id=<?php echo "order-".$order['Order']['id']?>  >
 	  <div class="row">
 	  	<div class="col-2 text-right light">
 	  		<label for="rating">Rating</label>
@@ -91,16 +89,17 @@
 	  		<input type="text" id="pay_date" class="input-block" data-datepicker/>
 	  	</div>
 	  	<div class="col-1"></div>
-	  </div>
-	  </form>		
+	  </div>	
 	</div>
 
-	<!-- Acctions -->
+	<!-- Actions -->
 	<div class="col-4 text-center inner-actions">
-		<button class="btn btn-info btn-block"><i class="icon-ok"></i>Generar Cuenta por Pagar</button>
+		<button type="submit" class="btn btn-info btn-block"><i class="icon-ok"></i>Generar Cuenta por Pagar</button>
 		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
 	</div>
+	</form>	
 </div>
+
 <?php endforeach; ?>
 
 </div>
