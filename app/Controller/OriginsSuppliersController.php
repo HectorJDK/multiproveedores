@@ -1,12 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
 /**
- * CategoriesSuppliers Controller
+ * OriginsSuppliers Controller
  *
- * @property CategoriesSupplier $CategoriesSupplier
+ * @property OriginsSupplier $OriginsSupplier
  * @property PaginatorComponent $Paginator
  */
-class CategoriesSuppliersController extends AppController {
+class OriginsSuppliersController extends AppController {
 
 /**
  * Components
@@ -21,7 +21,7 @@ class CategoriesSuppliersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->CategoriesSupplier->recursive = 0;
+		$this->OriginsSupplier->recursive = 0;
 		$this->set('categoriesSuppliers', $this->Paginator->paginate());
 	}
 
@@ -33,11 +33,11 @@ class CategoriesSuppliersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->CategoriesSupplier->exists($id)) {
+		if (!$this->OriginsSupplier->exists($id)) {
 			throw new NotFoundException(__('Invalid categories supplier'));
 		}
-		$options = array('conditions' => array('CategoriesSupplier.' . $this->CategoriesSupplier->primaryKey => $id));
-		$this->set('categoriesSupplier', $this->CategoriesSupplier->find('first', $options));
+		$options = array('conditions' => array('OriginsSupplier.' . $this->OriginsSupplier->primaryKey => $id));
+		$this->set('categoriesSupplier', $this->OriginsSupplier->find('first', $options));
 	}
 
 /**
@@ -47,16 +47,16 @@ class CategoriesSuppliersController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->CategoriesSupplier->create();
-			if ($this->CategoriesSupplier->save($this->request->data)) {
+			$this->OriginsSupplier->create();
+			if ($this->OriginsSupplier->save($this->request->data)) {
 				$this->Session->setFlash(__('The categories supplier has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The categories supplier could not be saved. Please, try again.'));
 			}
 		}
-		$categories = $this->CategoriesSupplier->Category->find('list');
-		$suppliers = $this->CategoriesSupplier->Supplier->find('list');
+		$categories = $this->OriginsSupplier->Category->find('list');
+		$suppliers = $this->OriginsSupplier->Supplier->find('list');
 		$this->set(compact('categories', 'suppliers'));
 	}
 
@@ -68,22 +68,22 @@ class CategoriesSuppliersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->CategoriesSupplier->exists($id)) {
+		if (!$this->OriginsSupplier->exists($id)) {
 			throw new NotFoundException(__('Invalid categories supplier'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->CategoriesSupplier->save($this->request->data)) {
+			if ($this->OriginsSupplier->save($this->request->data)) {
 				$this->Session->setFlash(__('The categories supplier has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The categories supplier could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('CategoriesSupplier.' . $this->CategoriesSupplier->primaryKey => $id));
-			$this->request->data = $this->CategoriesSupplier->find('first', $options);
+			$options = array('conditions' => array('OriginsSupplier.' . $this->OriginsSupplier->primaryKey => $id));
+			$this->request->data = $this->OriginsSupplier->find('first', $options);
 		}
-		$categories = $this->CategoriesSupplier->Category->find('list');
-		$suppliers = $this->CategoriesSupplier->Supplier->find('list');
+		$categories = $this->OriginsSupplier->Category->find('list');
+		$suppliers = $this->OriginsSupplier->Supplier->find('list');
 		$this->set(compact('categories', 'suppliers'));
 	}
 
@@ -95,12 +95,12 @@ class CategoriesSuppliersController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->CategoriesSupplier->id = $id;
-		if (!$this->CategoriesSupplier->exists()) {
+		$this->OriginsSupplier->id = $id;
+		if (!$this->OriginsSupplier->exists()) {
 			throw new NotFoundException(__('Invalid categories supplier'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->CategoriesSupplier->delete()) {
+		if ($this->OriginsSupplier->delete()) {
 			$this->Session->setFlash(__('The categories supplier has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The categories supplier could not be deleted. Please, try again.'));

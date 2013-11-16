@@ -207,6 +207,7 @@ class Supplier extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+
 /**
  * hasMany associations
  *
@@ -235,11 +236,11 @@ class Supplier extends AppModel {
  * @var array
  */
 	public $hasAndBelongsToMany = array(
-		'Category' => array(
-			'className' => 'Category',
-			'joinTable' => 'categories_suppliers',
+		'Origin' => array(
+			'className' => 'Origin',
+			'joinTable' => 'origins_suppliers',
 			'foreignKey' => 'supplier_id',
-			'associationForeignKey' => 'category_id',
+			'associationForeignKey' => 'origin_id',
 			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
@@ -276,59 +277,4 @@ class Supplier extends AppModel {
 		)
 	);
 
-	public function search_by_product_type($category, $type)
-	{
-		$preparation = $this->search_by_product_type_preparation($category, $type);
-		$db = $this->getDataSource();
-		$query_result =  $db->fetchAll($preparation['query'], $preparation['values']);
-        $result = array();
-        foreach ($query_result as $supplier)
-        {
-            /* @var $result SupplierResult */
-            array_push($result, new SupplierResult(
-                $supplier[0]['id'],
-                $supplier[0]['corporate_name'],
-                $supplier[0]['contact_name'],
-                $supplier[0]['contact_email'],
-                $supplier[0]['credit'],
-                $supplier[0]['contact_telephone']
-            ));
-        }
-        return $result;
-    }
-
-	public function search_by_product_type_preparation($category, $type)
-	{
-		$query = "select s.id as id, s.corporate_name as corporate_name, s.contact_name as contact_name, s.contact_email as contact_email, s.credit as credit, s.contact_telephone as contact_telephone ";
-		$query .= "from suppliers as s ";
-		if($category != '')
-		{
-			$query .= ", categories_suppliers as cs ";
-		}
-		$query .= "where ";
-		$query .= "exists ";
-		$query .= "( ";
-		$query .= "select * ";
-		$query .= "From products_suppliers as ps, products as p ";
-		$query .= "Where ";
-		$query .= "ps.supplier_id = s.id AND ";
-		$query .= "ps.product_id = p.id AND ";
-		$query .= "p.type_id = ?";
-		$query .= ") ";
-
-		if($category != '')
-		{
-			$query .= "AND ";
-			$query .= "cs.category_id = ? AND ";
-			$query .= "cs.supplier_id = s.id";
-		}
-
-		$values = array();
-		array_push($values, $type);
-		if($category != '')
-		{
-			array_push($values, $category);
-		}
-		return array('query' => $query, 'values' => $values);
-	}
 }

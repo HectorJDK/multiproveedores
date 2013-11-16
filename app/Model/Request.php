@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Request Model
  *
- * @property Category $Category
+ * @property Origin $Origin
  * @property Content $Content
  * @property User $User
  * @property Quote $Quote
@@ -15,7 +15,7 @@ class Request extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'id';
+	public $displayField = 'content_id';
 
 /**
  * Validation rules
@@ -53,9 +53,9 @@ class Request extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Category' => array(
-			'className' => 'Category',
-			'foreignKey' => 'category_id',
+		'Origin' => array(
+			'className' => 'Origin',
+			'foreignKey' => 'origin_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

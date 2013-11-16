@@ -3,8 +3,8 @@ App::uses('AppModel', 'Model');
 /**
  * Type Model
  *
- * @property Attribute $Attribute
  * @property Product $Product
+ * @property Attribute $Attribute
  * @property Supplier $Supplier
  */
 class Type extends AppModel {
@@ -69,7 +69,6 @@ class Type extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		
 		'Product' => array(
 			'className' => 'Product',
 			'foreignKey' => 'type_id',
@@ -83,7 +82,6 @@ class Type extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-
 		'Attribute' => array(
 			'className' => 'Attribute',
 			'foreignKey' => 'type_id',
@@ -96,7 +94,7 @@ class Type extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-			)
+		)
 	);
 
 

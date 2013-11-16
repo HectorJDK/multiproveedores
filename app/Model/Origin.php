@@ -1,13 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Category Model
+ * Origin Model
  *
  * @property Request $Request
- * @property Product $Product
  * @property Supplier $Supplier
  */
-class Category extends AppModel {
+class Origin extends AppModel {
 
 /**
  * Display field
@@ -78,7 +77,7 @@ class Category extends AppModel {
 	public $hasMany = array(
 		'Request' => array(
 			'className' => 'Request',
-			'foreignKey' => 'category_id',
+			'foreignKey' => 'origin_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -100,8 +99,8 @@ class Category extends AppModel {
 	public $hasAndBelongsToMany = array(
 		'Supplier' => array(
 			'className' => 'Supplier',
-			'joinTable' => 'categories_suppliers',
-			'foreignKey' => 'category_id',
+			'joinTable' => 'origins_suppliers',
+			'foreignKey' => 'origin_id',
 			'associationForeignKey' => 'supplier_id',
 			'unique' => 'keepExisting',
 			'conditions' => '',
