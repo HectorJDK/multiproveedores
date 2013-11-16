@@ -355,7 +355,7 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, name, data_type_id, value ";
 		$query .= "from products as p, attributes as a, attributes_products as ap, products_suppliers as ps ";
 		$query .= "WHERE ";
-        $query .= "ps.deleted_supplier = false "; //checar que el supplier no esté borrado
+        $query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
         $query .= "p.id in ";
 		$query .= "(select attributes_filter.p_id as p_id ";
 			$query .= "from (";
