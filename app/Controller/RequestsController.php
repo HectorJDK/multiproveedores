@@ -323,15 +323,15 @@ class RequestsController extends AppController {
      * @return void
      */
     public function quoteForType() {
-        $this->Request->id = $id;
-        if (!$this->Request->exists()) {
-            throw new NotFoundException(__('Invalid request'));
-        }
-		$datos=array();
-		$datos= $this->request->data;	
+        $datos= $this->request->data;
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];
         $quote['supplier_id']= $datos[1];
+
+        $this->Request->id = $quote['request_id'];
+        if (!$this->Request->exists()) {
+            throw new NotFoundException(__('Invalid request'));
+        }
 
         //Pendiente estado inicial checar
         $quote['status_quote_id'] = 1;

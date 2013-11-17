@@ -80,9 +80,3 @@ function update_suppliers_search_form_values()
 
     $('#products_for_suppliers').val(JSON.stringify(products));
 }
-
-$('#search-tabs a').click(function (e)
-{
-    e.preventDefault();
-    $(this).tab('show');
-})
