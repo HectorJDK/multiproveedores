@@ -52,9 +52,10 @@ class RequestsController extends AppController {
 	public function view($id = null)
 	{
 		//Marcar el nivel de recursion (mostrar datos dependientes de las llaves foraneas)
+        $this->Request->id = $id;
 		$this->Request->recursive = 0;
 
-			//Vereficar que exista el id
+		//Vereficar que exista el id
 		if (!$this->Request->exists($id)) {
 			throw new NotFoundException(__('Invalid request'));
 		}
@@ -66,9 +67,8 @@ class RequestsController extends AppController {
 			//Verificamos que el "request" no este tomado, si esta tomado por otro regresamos un error
 		if(!isset($request['Request']['user_id']))
 		{
-				//El "request" esta vacio por lo tanto le asignamos el id del usuario logeado
-			$request['Request']['user_id'] = $this->Auth->user('id');
-			$this->Request->save($request['Request']);
+			//El "request" esta vacio por lo tanto le asignamos el id del usuario logeado
+			$this->Request->saveField('user_id', $this->Auth->user('id'));
 		} elseif ($request['Request']['user_id'] != $this->Auth->user('id')) {
 				//Verificamos que el "request" no le pertenezca de ser asi regresamos un error
 			$this->Session->setFlash(__('La solicitud ha sido ya tomada. Favor de tomar otra'));
