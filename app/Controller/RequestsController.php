@@ -317,4 +317,30 @@ class RequestsController extends AppController {
 			echo json_encode(0);
 		}		
 	}
+    /**
+     * procesar method
+     *
+     * @return void
+     */
+    public function quoteForType($id, $idsupplier) {
+        $this->Request->id = $id;
+        if (!$this->Request->exists()) {
+            throw new NotFoundException(__('Invalid request'));
+        }
+
+        //Crear una cotizacion nueva
+        $quote['request_id'] = $this->Request->id;
+        $quote['supplier_id']= $idsupplier;
+
+        //Pendiente estado inicial checar
+        $quote['status_quote_id'] = 1;
+
+        if ($this->Request->Quote->save($quote)) {
+            $this->Session->setFlash(__('The quote has been saved.'));
+            return $this->redirect(array('action' => 'index'));
+        } else {
+            $this->Session->setFlash(__('The quote could not be saved. Please, try again.'));
+        }
+        $this->Session->setFlash(__('The Request has been processed.'));
+    }
 }
