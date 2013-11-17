@@ -1,4 +1,6 @@
-<!-- uses $results  -->
+<?php echo $this->Html->script('suppliers-suppliers_for_category_product_type'); ?>
+
+<!-- uses $results, $request_id  -->
 request id: <?php echo  $request_id ?>
 
 <?php foreach ($results as $result): ?>
@@ -11,6 +13,8 @@ request id: <?php echo  $request_id ?>
     echo $result->credit;
     echo $result->id;
     ?>
+
+    <button class="btn " onclick='enviar_cotizacion(<?php echo ($request_id . ', '. $result->id) ?>)'>Enviar Cotización</button>
 </div>
 
  <?php endforeach; ?>

@@ -322,7 +322,11 @@ class RequestsController extends AppController {
      *
      * @return void
      */
-    public function quoteForType() {
+    public function quoteForType()
+    {
+        $this->autoLayout = false;
+        $this->autoRender = false;
+
         $datos= $this->request->data;
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];
@@ -336,13 +340,11 @@ class RequestsController extends AppController {
         //Pendiente estado inicial checar
         $quote['status_quote_id'] = 1;
 
-        if ($this->Request->Quote->save($quote)) {
-            $this->Session->setFlash(__('The quote has been saved.'));
-            return $this->redirect(array('action' => 'index'));
-        } else {
-            $this->Session->setFlash(__('The quote could not be saved. Please, try again.'));
+        if (!$this->Request->Quote->save($quote))
+        {
+            throw new InternalErrorException('No se pudo crear la cotización.');
+            $this->response->statusCode(501);
         }
-        $this->Session->setFlash(__('The Request has been processed.'));
     }
     /**
      * quoteForProduct method
@@ -367,7 +369,7 @@ class RequestsController extends AppController {
         $quote['status_quote_id'] = 1;
 
         if (!$this->Request->Quote->save($quote)) {
-            throw new InternalErrorException('No se pudo crear el quote');
+            throw new InternalErrorException('No se pudo crear la cotización.');
             $this->response->statusCode(501);
         }
     }

@@ -119,7 +119,7 @@ echo $this->AssetCompress->script('requests-updates');?>
          <?php echo $this->Form->select('category', $categories, array('id' => '2-category_id')); ?>
         <label>Tipo:</label>
          <?php echo $this->Form->select('type', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
-         <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'])); ?>
+         <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'], 'name'=>'request_id')); ?>
 
     <?php echo $this->Form->end(array('label' => 'Buscar')); ?>
 
