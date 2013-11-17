@@ -139,7 +139,7 @@ class SuppliersController extends AppController {
         $this->set('request_id', $request_id);
     }
 
-    public function search_suppliers_for_products()
+    public function suppliers_for_products()
     {
         $products = json_decode($this->request->data['Suppliers']['products_for_suppliers']);
         $request_id = $this->request->data['Suppliers']['request_id'];

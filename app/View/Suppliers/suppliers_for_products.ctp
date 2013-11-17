@@ -1,4 +1,4 @@
-<?php echo $this->Html->script('suppliers-search_suppliers_for_products'); ?>
+<?php echo $this->Html->script('suppliers-suppliers_for_products'); ?>
 <?php foreach($suppliers_products as $sp): ?>
 	<div class="row striped slim">
 		<div class="col-8">
@@ -45,6 +45,6 @@
                 </div>
             </div>
 		</div>
-		<button class="btn " onclick='enviar_cotizacion(<?php echo ($request_id . ', ' . $sp->product_result->id . ', '. $sp->supplier_result->id) ?>)'>Enviar Cotización</button>
+		<button class="btn " onclick='enviar_cotizacion(<?php echo ($request_id . ', ' . $sp->supplier_result->id . ', '. $sp->product_result->id) ?>)'>Enviar Cotización</button>
 	</div>
 <?php endforeach; ?>

@@ -33,7 +33,7 @@
 
     <?php echo $this->Form->create('Suppliers', array( 'id'=>'suppliers_search',
                                                     'controller' => 'suppliers',
-                                                    'action' => 'search_suppliers_for_products')); ?>
+                                                    'action' => 'suppliers_for_products')); ?>
     <?php echo $this->Form->hidden('products_for_suppliers', array('id'=> 'products_for_suppliers')); ?>
     <?php echo $this->Form->hidden('request_id', array('id'=> 'suppliers_request_id')); ?>
     <?php echo $this->Form->end(array('label'=>'Buscar Proveedores', 'class'=>'btn btn-success', 'onclick'=>'update_suppliers_search_form_values()')); ?>
