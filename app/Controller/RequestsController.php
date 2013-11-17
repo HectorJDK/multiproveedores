@@ -318,20 +318,48 @@ class RequestsController extends AppController {
 		}		
 	}
     /**
-     * procesar method
+     * quoteForType method
      *
      * @return void
      */
-    public function quoteForType($id, $idsupplier) {
+    public function quoteForType() {
         $this->Request->id = $id;
         if (!$this->Request->exists()) {
             throw new NotFoundException(__('Invalid request'));
         }
-
+		$datos=array();
+		$datos= $this->request->data;	
         //Crear una cotizacion nueva
-        $quote['request_id'] = $this->Request->id;
-        $quote['supplier_id']= $idsupplier;
+        $quote['request_id'] = $datos[0];
+        $quote['supplier_id']= $datos[1];
 
+        //Pendiente estado inicial checar
+        $quote['status_quote_id'] = 1;
+
+        if ($this->Request->Quote->save($quote)) {
+            $this->Session->setFlash(__('The quote has been saved.'));
+            return $this->redirect(array('action' => 'index'));
+        } else {
+            $this->Session->setFlash(__('The quote could not be saved. Please, try again.'));
+        }
+        $this->Session->setFlash(__('The Request has been processed.'));
+    }
+    /**
+     * quoteForProduct method
+     *
+     * @return void
+     */
+    public function quoteForProduct() {
+        $this->Request->id = $id;
+        if (!$this->Request->exists()) {
+            throw new NotFoundException(__('Invalid request'));
+        }
+		$datos=array();
+		$datos= $this->request->data;	
+        //Crear una cotizacion nueva
+        $quote['request_id'] =  $datos[0];
+        $quote['supplier_id']=  $datos[1];
+		$quote['product_id']=  $datos[2];
         //Pendiente estado inicial checar
         $quote['status_quote_id'] = 1;
 
