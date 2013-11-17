@@ -27,6 +27,7 @@ public function index() {
 	$userId = $this->Auth->user('id');
 
 	$this->Paginator->settings = array(
+        'fields' => array('DISTINCT Request.id'),
 		'conditions' => array('Request.user_id' => $userId),
 		'joins' => array(
 			array(
