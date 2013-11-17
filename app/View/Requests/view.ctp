@@ -1,6 +1,6 @@
 <?php echo $this->AssetCompress->script('requests-view'); 
 echo $this->AssetCompress->script('requests-updates');?>
-
+<input id="request_id" type="hidden" value='<?php echo $request['Request']['id'] ?>'/>
 <div class="grey-container" >
   <h2>Solicitud #<?php echo $request['Request']['id']; ?></h2>
   
@@ -126,12 +126,3 @@ echo $this->AssetCompress->script('requests-updates');?>
 </div>
 
   <div id="search_result"> </div>
-
-  <script>
-     $('#search-tabs a').click(function (e)
-      {
-        e.preventDefault();
-        $(this).tab('show');
-     })
-   </script>
-

@@ -349,13 +349,16 @@ class RequestsController extends AppController {
      *
      * @return void
      */
-    public function quoteForProduct() {
-        $this->Request->id = $id;
+    public function quoteForProduct()
+    {
+        $this->autoLayout = false;
+        $this->autoRender = false;
+
+        $datos= $this->request->data;
+        $this->Request->id = $datos[0];
         if (!$this->Request->exists()) {
             throw new NotFoundException(__('Invalid request'));
         }
-		$datos=array();
-		$datos= $this->request->data;	
         //Crear una cotizacion nueva
         $quote['request_id'] =  $datos[0];
         $quote['supplier_id']=  $datos[1];
@@ -363,12 +366,9 @@ class RequestsController extends AppController {
         //Pendiente estado inicial checar
         $quote['status_quote_id'] = 1;
 
-        if ($this->Request->Quote->save($quote)) {
-            $this->Session->setFlash(__('The quote has been saved.'));
-            return $this->redirect(array('action' => 'index'));
-        } else {
-            $this->Session->setFlash(__('The quote could not be saved. Please, try again.'));
+        if (!$this->Request->Quote->save($quote)) {
+            throw new InternalErrorException('No se pudo crear el quote');
+            $this->response->statusCode(501);
         }
-        $this->Session->setFlash(__('The Request has been processed.'));
     }
 }

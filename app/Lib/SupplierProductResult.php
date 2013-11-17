@@ -10,6 +10,5 @@
             $this->product_result = $product;
             $this->price = $price;
         }
-
     }
 ?>

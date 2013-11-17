@@ -292,7 +292,9 @@ class Supplier extends AppModel {
                 $supplier[0]['contact_name'],
                 $supplier[0]['contact_email'],
                 $supplier[0]['credit'],
-                $supplier[0]['contact_telephone']
+                $supplier[0]['contact_telephone'],
+                $supplier[0]['payed'],
+                $supplier[0]['debt']
             ));
         }
         return $result;

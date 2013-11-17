@@ -32,12 +32,15 @@ class ResultsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->Result->exists($id)) {
+	public function view($id = null)
+    {
+		if (!$this->Result->exists($id))
+        {
 			throw new NotFoundException(__('Invalid result'));
 		}
 		$options = array('conditions' => array('Result.' . $this->Result->primaryKey => $id));
 		$this->set('result', $this->Result->find('first', $options));
+        $this->set('request_id', $id);
 	}
 
 /**

@@ -273,7 +273,9 @@ class Product extends AppModel {
 				$value[0]['contact_name'],
 				$value[0]['contact_email'],
 				$value[0]['credit'],
-				$value[0]['contact_telephone']);
+				$value[0]['contact_telephone'],
+                $value[0]['payed'],
+                $value[0]['debt']);
 			$product_id = $value[0]['product_id'];
 			while($products_results[$pr_id]->id != $product_id)
 			{
@@ -486,7 +488,7 @@ class Product extends AppModel {
 	//providers that provide the given products
 	public function search_suppliers_that_supply_preparation($products_ids)
 	{
-		$query = "select ps.product_id, ps.price as price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone ";
+		$query = "select ps.product_id, ps.price as price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone, s.payed as payed, s.debt as debt ";
 		$query .= "from ";
 		$query .= "products_suppliers as ps, suppliers as s ";
 		$query .= "WHERE ";

@@ -49,11 +49,15 @@ class SuppliersController extends AppController {
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
+	public function add()
+    {
+		if ($this->request->is('post'))
+        {
 			$this->Supplier->create();
-			if($this->request->data["Type"]["Type"]!=""){
-				if ($this->Supplier->save($this->request->data)) {
+			if($this->request->data["Type"]["Type"]!="")
+            {
+				if ($this->Supplier->save($this->request->data))
+                {
 					$this->Session->setFlash(__('The supplier has been saved.'));
 					return $this->redirect(array('action' => 'index'));
 				} else {
@@ -137,8 +141,10 @@ class SuppliersController extends AppController {
     public function search_suppliers_for_products()
     {
         $products = json_decode($this->request->data['Suppliers']['products_for_suppliers']);
+        $request_id = $this->request->data['Suppliers']['request_id'];
         $result = $this->Product->search_suppliers_for_products($products);
         $this->set('suppliers_products', $result);
+        $this->set('request_id', $request_id);
     }
 
 }

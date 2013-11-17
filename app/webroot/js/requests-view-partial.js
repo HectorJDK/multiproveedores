@@ -62,6 +62,8 @@ function search1()
 
 function update_suppliers_search_form_values()
 {
+    $('#suppliers_request_id').val($('#request_id').val());
+
     var d =  document.getElementById("search_products");
     var s = d.getElementsByTagName("select");
     var products = new Array();
@@ -78,3 +80,9 @@ function update_suppliers_search_form_values()
 
     $('#products_for_suppliers').val(JSON.stringify(products));
 }
+
+$('#search-tabs a').click(function (e)
+{
+    e.preventDefault();
+    $(this).tab('show');
+})
