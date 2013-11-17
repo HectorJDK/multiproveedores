@@ -27,7 +27,7 @@ public function index() {
 	$userId = $this->Auth->user('id');
 
 	$this->Paginator->settings = array(
-        'fields' => array('DISTINCT Request.id'),
+        'fields' => array('DISTINCT Request.id', '*'),
 		'conditions' => array('Request.user_id' => $userId),
 		'joins' => array(
 			array(
@@ -42,8 +42,8 @@ public function index() {
 			'Request.id' => 'desc'
 			)
 		);
-
-	$this->set('requests', $this->Paginator->paginate($this->Quote->Request));
+    $requests = $this->Paginator->paginate($this->Quote->Request);
+	$this->set('requests', $requests);
 }
 
 /**
