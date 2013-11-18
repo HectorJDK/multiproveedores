@@ -107,7 +107,7 @@ class RequestsController extends AppController {
 
 			//Obtenemos los datos de Content
             $dataXML = $this->request->data['XML'];
-			$content['comment'] = $this->request->data['Request']['note'];
+			$content['comment'] = $this->request->data['Request']['comment'];
 			$content['xml'] = $this->Request->Content->new_xml($dataXML);
 
 			if ($this->Request->Content->save($content)) {
