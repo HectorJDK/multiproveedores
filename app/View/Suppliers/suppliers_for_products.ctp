@@ -39,6 +39,7 @@
             <div class="row">
                 <div class="col-3 text right light">
                     Por pagar
+
                 </div>
                 <div class="col-3">
                     <?php echo $sp->supplier_result->debt; ?>
