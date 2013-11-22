@@ -13,7 +13,7 @@
 			<?php echo $this->Paginator->sort('url'); ?>
 	</div>
 
-	<?php foreach ($categories as $category): ?>
+	<?php foreach ($origins as $origin): ?>
 	<div class="row striped slim">
 		<div class="col-8">
 			<div class="row">
@@ -21,7 +21,7 @@
 					Id
 				</div>
 				<div class="col-3">
-					<?php echo h($category['Category']['id']); ?>&nbsp;
+					<?php echo h($origin['Origin']['id']); ?>&nbsp;
 				</div>
 			</div>
 
@@ -30,15 +30,15 @@
 					Cateogria
 				</div>
 				<div class="col-3">
-					<?php echo h($category['Category']['url']); ?>&nbsp;
+					<?php echo h($origin['Origin']['url']); ?>&nbsp;
 				</div>
 			</div>
 
 		</div>
 		<div class="col-4">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $category['Category']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $category['Category']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $category['Category']['id']), null, __('Are you sure you want to delete # %s?', $category['Category']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $origin['Origin']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $origin['Origin']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $origin['Origin']['id']), null, __('Are you sure you want to delete # %s?', $origin['Origin']['id'])); ?>
 		</div>
 	</div>
 <?php endforeach; ?>
