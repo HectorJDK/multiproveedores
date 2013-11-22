@@ -55,8 +55,6 @@ class OriginsController extends AppController {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.'));
 			}
 		}
-		$suppliers = $this->Origin->Supplier->find('list');
-		$this->set(compact('suppliers'));
 	}
 
 /**
