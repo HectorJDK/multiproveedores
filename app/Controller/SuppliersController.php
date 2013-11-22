@@ -131,7 +131,7 @@ class SuppliersController extends AppController {
     {
         $category = $this->request->data['Supplier']['category'];
         $product_type = $this->request->data['Supplier']['type'];
-        $request_id = $this->request->data['Supplier']['request'];
+        $request_id = $this->request->data['request_id'];
 
         /* @var $results SupplierResult[] */
         $results = $this->Supplier->search_by_product_type($category, $product_type);
