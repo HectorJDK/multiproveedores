@@ -37,7 +37,7 @@ class OriginsController extends AppController {
 			throw new NotFoundException(__('Invalid category'));
 		}
 		$options = array('conditions' => array('Origin.' . $this->Origin->primaryKey => $id));
-		$this->set('category', $this->Origin->find('first', $options));
+		$this->set('origin', $this->Origin->find('first', $options));
 	}
 
 /**
