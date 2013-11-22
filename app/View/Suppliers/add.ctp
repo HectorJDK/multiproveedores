@@ -24,9 +24,6 @@
 		echo $this->Form->input('contact_email');
 		echo $this->Form->input('credit');
 		echo $this->Form->input('contact_telephone');
-		echo $this->Form->input('rating');
-		echo $this->Form->input('accepted_quotes');
-		echo $this->Form->input('rejected_quotes');
 		echo $this->Form->input('Category');
 		echo $this->Form->input('Type');
 	?>

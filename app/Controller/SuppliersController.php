@@ -66,8 +66,8 @@ class SuppliersController extends AppController {
 			}else {
 			$this->Session->setFlash(__('No se especificó el tipo.'));
 			}
-		}		
-		$categories = $this->Supplier->Category->find('list');		
+		}
+		$categories = $this->Supplier->Origin->find('list');
 		$types = $this->Supplier->Type->find('list');
 		$this->set(compact('categories',  'types'));
 	}
