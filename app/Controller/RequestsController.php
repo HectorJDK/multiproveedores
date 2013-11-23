@@ -318,7 +318,7 @@ class RequestsController extends AppController {
 			echo json_encode(0);
 		}		
 	}
-    /**
+   /**
      * quoteForType method
      *
      * @return void
@@ -329,6 +329,38 @@ class RequestsController extends AppController {
         $this->autoRender = false;
 
         $datos= $this->request->data;
+        
+        //Envio de correo 	    
+	    $configEmail = new EmailConfig();
+		//Cargar configuracion de mail
+	    $Email = new CakeEmail($configEmail->cargarConfiguracion());
+	    
+	    //Reemplazar correo molde con los datos y enviar
+	    $correoMolde = new Email();
+	    $mensaje = $correoMolde->find('first'); 	    
+	    $mensaje = $mensaje['Email']['email_body'];
+       	//Obtener info de provedor  
+       	$supplier = new Supplier();
+       	$proveedor = $supplier->find('first', array(
+        'conditions' => array('Supplier.id' => $datos[1])))['Supplier'];	                       
+        
+        //Reemplazar valores en correo molde
+        //Claves del correo molde
+        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
+        	"{telefonoContacto}");
+        //Valores a reemplaazar de proveedor y tipo
+        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
+        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"]        	
+        	);
+        //Mensaje modificado
+        $mensaje = str_replace($claves, $valores, $mensaje);
+        
+        //Enviar el correo
+        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
+    		->to($proveedor["contact_email"])
+   			->subject('Solicitud de cotización de tipo')
+    		->send($mensaje);
+
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];
         $quote['supplier_id']= $datos[1];
@@ -356,8 +388,45 @@ class RequestsController extends AppController {
     {
         $this->autoLayout = false;
         $this->autoRender = false;
+ 		$datos= $this->request->data;
 
-        $datos= $this->request->data;
+ 		//Envio de correo 	    
+	    $configEmail = new EmailConfig();
+		//Cargar configuracion de mail
+	    $Email = new CakeEmail($configEmail->cargarConfiguracion());
+	    
+	    //Reemplazar correo molde con los datos y enviar
+	    $correoMolde = new Email();
+	    $mensaje = $correoMolde->find('first'); 	    
+	    $mensaje = $mensaje['Email']['email_body'];
+       	//Obtener info de provedor  
+       	$supplier = new Supplier();
+       	$proveedor = $supplier->find('first', array(
+        'conditions' => array('Supplier.id' =>  $datos[1])))['Supplier'];	       
+        
+        //Obtener info de producto
+       	$product = new Product();
+       	$producto = $product->find('first', array(
+        'conditions' => array('Product.id' => $datos[2])))['Product'];	     
+        
+        //Reemplazar valores en correo molde
+        //Claves del correo molde
+        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
+        	"{telefonoContacto}","{claveProducto}");
+        //Valores a reemplaazar de proveedor y producto
+        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
+        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"],
+        	$producto["manufacturer_id"]
+        	);
+        //Mensaje modificado
+        $mensaje = str_replace($claves, $valores, $mensaje);
+        
+        //Enviar el correo
+        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
+    		->to($proveedor["contact_email"])
+   			->subject('Solicitud de cotización de producto')
+    		->send($mensaje);
+
         $this->Request->id = $datos[0];
         if (!$this->Request->exists()) {
             throw new NotFoundException(__('Invalid request'));
