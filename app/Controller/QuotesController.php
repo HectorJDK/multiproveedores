@@ -28,11 +28,9 @@ public function index()
 	$userId = $this->Auth->user('id');
 
     $this->Paginator->settings = array(
-        'Request' => array(
             'limit' => 1,
             'recursive'=>2,
             'conditions' => array('Request.deleted' => 0)
-        )
     );
     $requests = $this->Paginator->paginate($this->Quote->Request);
 
@@ -62,16 +60,31 @@ public function delete($id = null) {
 }
 
 
-public function procesar_quotes()
+public function process_quote()
 {
     $quotes = $this->request->data;
+    foreach ($quotes as $id => $value)
+    {
+        if($value == 1)
+        {
+            aceptar($id);
+        }
+    }
+
 }
+
+    public function reject($id)
+    {
+
+    }
+
 	/**
  * procesar method
  *
  * @return void
  */
-	public function procesar($id, $quantity) {
+	public function accept($id)
+    {
 		$this->Quote->id = $id;		
 		if (!$this->Quote->exists()) {
 			throw new NotFoundException(__('Invalid request'));
