@@ -54,7 +54,6 @@ class SuppliersController extends AppController {
 		if ($this->request->is('post'))
         {
 			$this->Supplier->create();
-			if($this->request->data["Type"]["Type"]!="")
             {
 				if ($this->Supplier->save($this->request->data))
                 {
@@ -63,13 +62,11 @@ class SuppliersController extends AppController {
 				} else {
 					$this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
 				}
-			}else {
-			$this->Session->setFlash(__('No se especificó el tipo.'));
 			}
 		}		
-		$categories = $this->Supplier->Category->find('list');		
+		$origins = $this->Supplier->Origin->find('list');
 		$types = $this->Supplier->Type->find('list');
-		$this->set(compact('categories',  'types'));
+		$this->set(compact('origins',  'types'));
 	}
 
 /**
