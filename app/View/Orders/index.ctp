@@ -1,4 +1,4 @@
-<h1>Ordenes por Cerrar</h3>
+<h1>Ordenes por Cerrar</h1>
 
 <div class="filters">
 	<span>Ordenar por:</span>

@@ -169,7 +169,7 @@ class RequestsController extends AppController {
 			
 			$this->Request->find('first', $options);
 		}
-		$categories = $this->Request->Category->find('list');
+		$categories = $this->Request->Origin->find('list');
 		$contents = $this->Request->Content->find('list');
 		$users = $this->Request->User->find('list');
 		$this->set(compact('categories', 'contents', 'users'));

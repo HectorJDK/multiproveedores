@@ -67,6 +67,9 @@
             $this->BootstrapNavbar->link ('Cuentas por Pagar', array('controller'=>'accounts', 'action'=>'index')) ;
             $this->BootstrapNavbar->link ('Historial de Pagos', array('controller' => 'accounts', 'action'=>'index')) ;
         $this->BootstrapNavbar->endMenu () ;
+        $this->BootstrapNavbar->beginMenu ('Proveedores') ;
+            $this->BootstrapNavbar->link ('Ver Todos', array('controller'=>'suppliers', 'action'=>'index')) ;
+        $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Usuario') ;
             $this->BootstrapNavbar->link ('Cambiar Contraseña', array('controller'=>'users', 'action'=>'index')) ;
             $this->BootstrapNavbar->divider() ;
