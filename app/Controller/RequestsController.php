@@ -25,6 +25,7 @@ class RequestsController extends AppController {
 		$this->Request->recursive = 0;
 		//Solo mostrara las solicitudes que sean
 		$requests = $this->Paginator->paginate(array('Request.user_id' => null, 'Request.deleted' => 0));
+
 		$this->set('requests', $requests);
 	}
 

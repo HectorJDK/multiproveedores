@@ -23,28 +23,20 @@ public $components = array('Paginator');
  *
  * @return void
  */
-public function index() {
+public function index()
+{
 	$userId = $this->Auth->user('id');
 
-	$this->Paginator->settings = array(
-        'fields' => array('DISTINCT Request.id', '*'),
-		'conditions' => array('Request.user_id' => $userId),
-		'joins' => array(
-			array(
-				'alias' => 'Quote',
-				'table' => 'quotes',
-				'type' => 'INNER',
-				'conditions' => '"Quote"."request_id" = "Request"."id"'
-				)
-			),
-		'limit' => 5,
-		'order' => array(
-			'Request.id' => 'desc'
-			)
-		);
+    $this->Paginator->settings = array(
+            'limit' => 1,
+            'recursive'=>2,
+            'conditions' => array('Request.deleted' => 0)
+    );
     $requests = $this->Paginator->paginate($this->Quote->Request);
+
 	$this->set('requests', $requests);
 }
+
 
 /**
  * delete method
@@ -68,12 +60,31 @@ public function delete($id = null) {
 }
 
 
+public function process_quote()
+{
+    $quotes = $this->request->data;
+    foreach ($quotes as $id => $value)
+    {
+        if($value == 1)
+        {
+            aceptar($id);
+        }
+    }
+
+}
+
+    public function reject($id)
+    {
+
+    }
+
 	/**
  * procesar method
  *
  * @return void
  */
-	public function procesar($id, $quantity) {
+	public function accept($id)
+    {
 		$this->Quote->id = $id;		
 		if (!$this->Quote->exists()) {
 			throw new NotFoundException(__('Invalid request'));

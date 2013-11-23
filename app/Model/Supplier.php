@@ -169,7 +169,7 @@ class Supplier extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 			'naturalNumber' => array(
-				'rule' => array('naturalNumber'),
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -187,7 +187,7 @@ class Supplier extends AppModel {
 		),
 		'rejected_quotes' => array(
 			'naturalNumber' => array(
-				'rule' => array('naturalNumber'),
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

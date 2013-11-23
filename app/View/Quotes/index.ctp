@@ -8,7 +8,7 @@
 </div>
 
 <?php foreach ($requests as $request): ?>
-<form id="<?php echo $request['Request']['id'] ?>">
+<form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/process_quotes">
 	<div class="row slim">
 		<!-- Request -->
 		<div class="row striped shaded">
@@ -20,7 +20,7 @@
 		  </div>
 
 		  <div class="col-3">
-		  	<button class="btn btn-small btn-info">Procesar Orden de Compra</button>
+		  	<input type='submit' class="btn btn-small btn-info" value='Procesar Orden de Compra'/input>
 		  </div>
 		</div>
 
@@ -60,7 +60,7 @@
 				<hr />
 				<p>Rechazar por:</p>
 				<ul class="unstyled">
-					<li><input type="radio" name="<?php echo $quote['id'];?>" value="2">Precio</input></li>
+					<li><input type="radio" name="<?php echo $quote['id'];?>" value="2" checked='checked'>Precio</input></li>
 					<li><input type="radio" name="<?php echo $quote['id'];?>" value="3">Sin Existencias</input></li>
 					<li><input type="radio" name="<?php echo $quote['id'];?>" value="4">Sin Respuesta</input></li>
 					<li><input type="radio" name="<?php echo $quote['id'];?>" value="5">Tiempo entrega</input></li>

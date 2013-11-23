@@ -17,7 +17,7 @@
 					Identificador
 				</div>
 				<div class="col-3">
-					<?php echo h($category['Category']['id']); ?>
+					<?php echo h($origin['Origin']['id']); ?>
 			
 				</div>
 			</div>
@@ -26,7 +26,7 @@
 					<?php echo __('Url'); ?></dt>
 				</div>
 				<div class="col-3">
-					<?php echo h($category['Category']['url']); ?>
+					<?php echo h($origin['Origin']['url']); ?>
 				</div>
 			</div>
 		</div>
