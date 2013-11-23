@@ -118,4 +118,13 @@ class Quote extends AppModel {
 			'order' => ''
 		)
 	);
+
+    function paginateCount($conditions = null, $recursive = 0, $extra = array())
+    {
+        $count = $this->find('count', array(
+            'fields' => 'DISTINCT Request.id',
+            'conditions' => $conditions
+        ));
+        return $count;
+    }
 }

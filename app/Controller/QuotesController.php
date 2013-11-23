@@ -23,28 +23,22 @@ public $components = array('Paginator');
  *
  * @return void
  */
-public function index() {
+public function index()
+{
 	$userId = $this->Auth->user('id');
 
-	$this->Paginator->settings = array(
-        'fields' => array('DISTINCT Request.id', '*'),
-		'conditions' => array('Request.user_id' => $userId),
-		'joins' => array(
-			array(
-				'alias' => 'Quote',
-				'table' => 'quotes',
-				'type' => 'INNER',
-				'conditions' => '"Quote"."request_id" = "Request"."id"'
-				)
-			),
-		'limit' => 5,
-		'order' => array(
-			'Request.id' => 'desc'
-			)
-		);
+    $this->Paginator->settings = array(
+        'Request' => array(
+            'limit' => 1,
+            'recursive'=>2,
+            'conditions' => array('Request.deleted' => 0)
+        )
+    );
     $requests = $this->Paginator->paginate($this->Quote->Request);
+
 	$this->set('requests', $requests);
 }
+
 
 /**
  * delete method
@@ -68,6 +62,10 @@ public function delete($id = null) {
 }
 
 
+public function procesar_quotes()
+{
+    $quotes = $this->request->data;
+}
 	/**
  * procesar method
  *

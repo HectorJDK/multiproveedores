@@ -8,7 +8,7 @@
 </div>
 
 <?php foreach ($requests as $request): ?>
-<form id="<?php echo $request['Request']['id'] ?>">
+<form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/procesar_quotes">
 	<div class="row slim">
 		<!-- Request -->
 		<div class="row striped shaded">
@@ -20,7 +20,7 @@
 		  </div>
 
 		  <div class="col-3">
-		  	<button class="btn btn-small btn-info">Procesar Orden de Compra</button>
+		  	<input type='submit' class="btn btn-small btn-info" value='Procesar Orden de Compra'/input>
 		  </div>
 		</div>
 
