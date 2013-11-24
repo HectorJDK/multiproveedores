@@ -50,12 +50,17 @@
 </head>
 <body>
 	<?php if ($this->Session->read('Auth.User')){ 
+
+    // NAVIGATION BAR ----------------------------------------
 		$this->BootstrapNavbar->create (array('fixed'=>'top', 'responsive'=>'false')) ;
         $this->BootstrapNavbar->brand('Multiproveedores', array('controller'=>'requests', 'action'=>'index')) ;
         $this->BootstrapNavbar->beginMenu ('Solicitudes') ;
             $this->BootstrapNavbar->link ('Mis Solicitudes', array('controller'=>'requests', 'action'=>'myRequests')) ;
             $this->BootstrapNavbar->link ('Solicitudes Activas', array('controller' => 'requests', 'action'=>'index')) ;
             $this->BootstrapNavbar->link ('Crear Solicitud', array('controller' => 'requests', 'action'=>'add')) ;
+            $this->BootstrapNavbar->divider() ;
+            $this->BootstrapNavbar->link ('Origenes', array('controller' => 'origins', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Agregar Origen', array('controller' => 'origins', 'action'=>'add')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Cotizaciones') ;
             $this->BootstrapNavbar->link ('Cotizaciones Pendientes', array('controller'=>'quotes', 'action'=>'index')) ;
@@ -68,7 +73,15 @@
             $this->BootstrapNavbar->link ('Historial de Pagos', array('controller' => 'accounts', 'action'=>'index')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Proveedores') ;
-            $this->BootstrapNavbar->link ('Ver Todos', array('controller'=>'suppliers', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Proveedores', array('controller'=>'suppliers', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Agregar Proveedor', array('controller'=>'suppliers', 'action'=>'add')) ;
+        $this->BootstrapNavbar->endMenu () ;
+        $this->BootstrapNavbar->beginMenu ('Productos') ;
+            $this->BootstrapNavbar->link ('Productos', array('controller'=>'products', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Agregar Producto', array('controller'=>'products', 'action'=>'add')) ;
+            $this->BootstrapNavbar->divider() ;
+            $this->BootstrapNavbar->link ('Tipos de Producto', array('controller'=>'types', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Agregar Tipo', array('controller'=>'types', 'action'=>'add')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Usuario') ;
             $this->BootstrapNavbar->link ('Cambiar Contraseña', array('controller'=>'users', 'action'=>'index')) ;
