@@ -1,33 +1,18 @@
-<div class="suppliers form">
-<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Actions'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
-
-		<li><?php echo $this->Html->link(__('List Suppliers'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Quotes'), array('controller' => 'quotes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Quote'), array('controller' => 'quotes', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Categories'), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Category'), array('controller' => 'categories', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Products'), array('controller' => 'products', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Product'), array('controller' => 'products', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Types'), array('controller' => 'types', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Type'), array('controller' => 'types', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
-<?php echo $this->Form->create('Supplier'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Supplier'); ?></legend>
-	<?php
-		echo $this->Form->input('corporate_name');
-		echo $this->Form->input('moral_rfc');
-		echo $this->Form->input('contact_name');
-		echo $this->Form->input('contact_email');
-		echo $this->Form->input('credit');
-		echo $this->Form->input('contact_telephone');
-		echo $this->Form->input('rating');
-		echo $this->Form->input('accepted_quotes');
-		echo $this->Form->input('rejected_quotes');
+<div class="grey-container">
+	<h2>Nuevo Proveedor</h2>
+	<?php echo $this->Form->create('Supplier', $options_for_form); 
+		echo $this->Form->input('corporate_name', array('label' => 'Nombre de Empresa'));
+		echo $this->Form->input('moral_rfc', array('label' => 'RFC'));
+		echo $this->Form->input('contact_name', array('label' => 'Contacto'));
+		echo $this->Form->input('contact_email', array('label' => 'Email'));
+		echo $this->Form->input('contact_telephone', array('label' => 'Teléfono'));
+		echo $this->Form->input('credit', array('label' => 'Crédito', 'class' => ''));
 	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+	<div class="text-right">
+  <?php 
+  	echo $this->Html->link("Cancelar", array('action' => 'index'), array('class' => 'btn btn-danger'));
+  	echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));?>
+  </div>	
 </div>
+
+<?php echo $this->element('suppliers_actions'); ?>

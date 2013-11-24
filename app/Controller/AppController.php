@@ -44,7 +44,8 @@ class AppController extends Controller {
     var $options_for_form = array(
     'inputDefaults' => array(
         'label' => false,
-        'div' => "form-fields"
+        'div' => 'form-fields',
+        'class' => 'input-medium'
     ));
     
     public function beforeFilter() {

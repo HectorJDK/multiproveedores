@@ -78,6 +78,8 @@ class SuppliersController extends AppController {
  */
 	public function edit($id = null)
 	{
+    $this->Supplier->id = $id;
+    
 		if (!$this->Supplier->exists($id)) {
 			throw new NotFoundException(__('Invalid supplier'));
 		}
@@ -94,9 +96,11 @@ class SuppliersController extends AppController {
 		} else
         {
 			$options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
-			$this->request->data = $this->Supplier->find('first', $options);
+      $supplier = $this->Supplier->find('first', $options);
+      $this->set('supplier', $supplier);
+			$this->request->data = $supplier;
 		}
-		$categories = $this->Supplier->Category->find('list');
+		$categories = $this->Supplier->Origin->find('list');
 		$products = $this->Supplier->Product->find('list');
 		$types = $this->Supplier->Type->find('list');
 		$this->set(compact('categories', 'products', 'types'));
