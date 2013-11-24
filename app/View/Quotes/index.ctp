@@ -8,7 +8,8 @@
 </div>
 
 <?php foreach ($requests as $request): ?>
-<form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/process_quotes">
+<form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/processQuotes">
+    <input type="hidden" name="data[request_id]" value="<?php echo $request['Request']['id'] ?>"/>
 	<div class="row slim">
 		<!-- Request -->
 		<div class="row striped shaded">
@@ -56,14 +57,16 @@
 			  </div>
 			</div>
 			<div class="col-4">
-				<input type="radio" name="<?php echo $quote['id'];?>" value="1">Aceptar</input>
+
+
+            <input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="1">Aceptar</input>
 				<hr />
 				<p>Rechazar por:</p>
 				<ul class="unstyled">
-					<li><input type="radio" name="<?php echo $quote['id'];?>" value="2" checked='checked'>Precio</input></li>
-					<li><input type="radio" name="<?php echo $quote['id'];?>" value="3">Sin Existencias</input></li>
-					<li><input type="radio" name="<?php echo $quote['id'];?>" value="4">Sin Respuesta</input></li>
-					<li><input type="radio" name="<?php echo $quote['id'];?>" value="5">Tiempo entrega</input></li>
+					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="2" checked='checked'>Precio</input></li>
+					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="3">Sin Existencias</input></li>
+					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="4">Sin Respuesta</input></li>
+					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="5">Tiempo entrega</input></li>
 				</ul>
 				
 			</div>

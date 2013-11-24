@@ -48,26 +48,16 @@ class OrdersController extends AppController {
 		// $this->set('product', $this->Order->Quote->Product->findById($quote['Quote']['product_id']));
 	}
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Order->create();
-			if ($this->Order->save($this->request->data)) {
-				$this->Session->setFlash(__('The order has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The order could not be saved. Please, try again.'));
-			}
-		}
-		$users = $this->Order->User->find('list');
-		$quotes = $this->Order->Quote->find('list');
-		$states = $this->Order->State->find('list');
-		$this->set(compact('users', 'quotes', 'states'));
-	}
+    public function create_order_for_quote($quote, $supplier, $request)
+    {
+        $this->Order->create();
+        $order = array('quote_id'=>$quote['id']);
+
+        $this->Order->save($order);
+
+        $supplier['debt'] += $request['quantity'] * $quote['unitary_price'];
+        $this->Order->Quote->Supplier->save($supplier);
+    }
 
 /**
  * edit method
