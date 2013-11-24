@@ -229,5 +229,54 @@ public function add()
 
 		$this->set(compact('result'));
 	}
+/**
+	 * asignarEquivalencias method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function asignarEquivalencias($id = null, $idequiv = null) {
+		if (!$this->Product->exists($id)) {
+			throw new NotFoundException(__('Invalid product'));
+		}
+		if ($idequiv != null) {			
+			//Asignar equivalencias
+			$equivalencies['original_id'] = $id;
+			$equivalencies['equivalent_id'] = $idequiv;
 
+			$Equivalency = new Equivalency();
+			$Equivalency->create();
+
+			//Creamos el prodcuto 
+			if ($Equivalency->save($equivalencies)){		
+				$this->Session->setFlash(__('Se guardaron las equivalencias.'));
+				return $this->redirect(array('action' => 'asignarEquivalencias/'.$id));
+			} else {
+				$this->Session->setFlash(__('Hubo un problema al guardar las equivalencias'));
+			}
+		} else {
+			//Generar lista de productos
+			//Producto original
+			$options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
+			$this->request->data = $this->Product->find('first', $options);
+			//Productos equivalentes (para no reasignar)
+			$Equivalency = new Equivalency();
+			$equivalencias = $Equivalency->find('all',array(
+        		'conditions' => array('Equivalency.original_id' => $id)));
+			//ids
+			$idequivalencias = array();
+			foreach($equivalencias as $equivalencia){
+				array_push($idequivalencias,$equivalencia['Equivalency']['equivalent_id']); 
+			}
+			$this->set('equivalencias', $idequivalencias);
+			$this->Product->recursive = 0;			
+			$this->set('products', $this->Paginator->paginate());		
+		}
+		
+		$types = $this->Product->Type->find('list');
+		$attributes = $this->Product->Attribute->find('list');
+		$suppliers = $this->Product->Supplier->find('list');
+		$this->set(compact('categories', 'types', 'attributes', 'suppliers'));
+	}
 }

@@ -63,6 +63,7 @@
 		</div>
 
 		<div class="col-3 text-center inner-actions">
+			<button class="btn btn-success btn-block"><?php echo $this->Html->link(__('Asignar equivalencias'), array('action' => 'asignarEquivalencias', $product['Product']['id'])); ?></button>
 			<button class="btn btn-info btn-block"><?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $product['Product']['id'])); ?></button>
 			<button class="btn btn-danger btn-block"><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $product['Product']['id']), null, __('Are you sure you want to delete # %s?', $product['Product']['id'])); ?></button>
 		</div>
