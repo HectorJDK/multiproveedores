@@ -271,7 +271,7 @@ public function add()
 			}
 			$this->set('equivalencias', $idequivalencias);
 			$this->Product->recursive = 0;			
-			$this->set('products', $this->Paginator->paginate());		
+			$this->set('products', $this->Paginator->paginate(array('Product.deleted' => 0)));		
 		}
 		
 		$types = $this->Product->Type->find('list');

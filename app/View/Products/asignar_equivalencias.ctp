@@ -1,6 +1,7 @@
 
 <div class="products index">
-	<h1><?php echo __('Asignar equivalentes del producto ').$this->request->data['Product']['id']; ?></h1>
+	<h2><?php echo __('Asignar equivalencias del producto ').$this->request->data['Product']['id']; ?></h2>
+	<h4><?php echo __('Lista de productos registrados')?></h4>
 	<div class="filters">
 		<span>Ordenar por:</span>
 			<ul class="pagination pagination-inverse">
@@ -37,9 +38,9 @@
 					<div class="row">
 						<?php
 						if(!in_array($product['Product']['id'], $equivalencias)){
-						 echo $this->Html->link(__('Asignar'), array('action' => 'asignarEquivalencias', $this->request->data['Product']['id'],$product['Product']['id']));
+						 echo $this->Html->link(__('<i class="icon-plus-sign"></i>Asignar equivalencia'), array('action' => 'asignarEquivalencias', $this->request->data['Product']['id'],$product['Product']['id']),array('class'=>'btn btn-info','escape'=>false));
 						 } else {
-						 	echo $this->Html->link(__('Asignado'), array('action' => 'asignarEquivalencias', $this->request->data['Product']['id'],$product['Product']['id']));
+						 	echo $this->Html->link(__('<i class="icon-check-sign"></i>Equivalente'), array('action' => 'asignarEquivalencias', $this->request->data['Product']['id'],$product['Product']['id']),array('class'=>'btn btn-success','escape'=>false));
 						 } ?>					
 					</div>
 				</div>	
@@ -61,3 +62,7 @@
 		echo $this->Paginator->next(__('') . ' >', array(), null, array('class' => 'next disabled')); ?>
 	</ul>
 </div>
+<?php 
+
+echo $this->Html->link(__('<i class="icon-mail-reply"></i>Regresar'), array('action' => 'view', $this->request->data['Product']['id']),array('class'=>'btn btn','escape'=>false ));
+?>
