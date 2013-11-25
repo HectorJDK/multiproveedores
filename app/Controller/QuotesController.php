@@ -78,6 +78,7 @@ public function index()
 
         //Asignar status y procesar quotes
         $accepted_quotes = 0;
+        $accepted_quote = null;
         foreach ($quotes as $id => $value)
         {
             $quote_query = $this->Quote->findById($id);
@@ -87,7 +88,7 @@ public function index()
             if($value == 1)
             {
                 $accepted_quotes ++;
-                $this->accept($quote_query);
+                $accepted_quote = $quote_query;
             }
             else
             {
@@ -102,6 +103,7 @@ public function index()
             return $this->redirect(array('controller'=>'quotes', 'action' => 'index'));
         }else
         {
+            $this->accept($accepted_quote);
             $transaction->commit();
         }
     }
