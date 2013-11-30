@@ -1,4 +1,14 @@
 <div class="emails index">
+	<div class="actions dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Acciones'); ?><b class="caret bottom-up"></b></a>
+		<ul class="dropdown-menu bottom-up pull-right">
+			<li><?php echo $this->Html->link(__('Nuevo Correo'), array('action' => 'add')); ?></li>
+			<li><?php echo $this->Html->link(__('Configuracion'), array('controller'=>'emailconfig', 'action' => 'index')); ?></li>
+			<li><?php echo $this->Html->link(__('Correo Cotizacion Conocido'), array('action' => 'add')); ?></li>
+			<li><?php echo $this->Html->link(__('Correo Cotizacion Desconocido'), array('action' => 'add')); ?></li>
+			<li><?php echo $this->Html->link(__('Correo Orden Compra'), array('action' => 'add')); ?></li>
+		</ul>
+	</div>
 	<h2><?php echo __('Emails'); ?></h2>
 	<div class="filters">
 		<span>Ordenar por:</span>
@@ -70,9 +80,3 @@
 	?>
 	</div>
 </div>
-<!-- <div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Email'), array('action' => 'add')); ?></li>
-	</ul>
-</div> -->

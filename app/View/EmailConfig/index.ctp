@@ -1,19 +1,19 @@
-<div class="emailconfig form">
-<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Actions'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
-</ul>
-</div>
-<?php echo $this->Form->create('EmailConfig'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Email configuration'); ?></legend>
-	<?php
-		echo $this->Form->input('host');
-		echo $this->Form->input('port');
-		echo $this->Form->input('username');
-		echo $this->Form->input('password');		
-		echo $this->Form->input('transport');	
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="grey-container">
+	<div class="emailconfig form">
+		<h2>Configuracion de Correo</h2>
+	<?php echo $this->Form->create('EmailConfig'); ?>
+		<?php
+			echo $this->Form->input('host');
+			echo $this->Form->input('port');
+			echo $this->Form->input('username');
+			echo $this->Form->input('password');
+			echo $this->Form->input('transport');
+		?>
+		</fieldset>
+	 <div class="text-right">
+	  <?php
+	    echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));
+	  ?>
+	  </div>
+	</div>
 </div>
