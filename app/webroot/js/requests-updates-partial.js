@@ -11,10 +11,12 @@ function updateQty(input, id)
 		async: false,
 		success : function(data)
 		{
+			alert("Cantidad Actualizada");
 		},
 		
 		error : function(a,b,data)
 		{			
+			alert("Error en el guardado. Intente nuevamente");
 		}			
 	});
 }
@@ -31,12 +33,13 @@ function update_notes_request(input, id)
 		contentType: 'application/json',
 		async: false,
 		success : function(data)
-		{		
+		{
+			alert("Nota Guardada");
 		},
 		
 		error : function(a,b,data)
-		{		
-		}			
+		{
+			alert("Error en el guardado. Intente nuevamente");
+		}
 	});
-
 }

@@ -124,7 +124,7 @@ class RequestsController extends AppController {
 					//Se ha guardado exitosamente el registro por lo tanto hacemos 
 					$transaction->commit();
 					$this->Session->setFlash(__('The request has been saved.'));
-					return $this->redirect(array('action' => 'index'));
+					return $this->redirect(array('action' => 'myRequests'));
 
 				} else{
 					$transaction->rollback();
