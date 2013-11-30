@@ -6,7 +6,7 @@
 <div class="grey-container" >
 	<!-- Here is the button to duplicate a request -->
 	<div class="pull-right">
-		<div class="btn btn-success">Duplicar Solicitud</div>
+		<button class="btn btn-info btn-large" data-furatto="modal" data-target="#modal-1" data-transition="8" data-theme="info">Duplicar Solicitud</button>
 	</div>
 	<h2 class="">Solicitud #<?php echo $request['Request']['id']; ?></h2>
 
@@ -135,3 +135,19 @@
 		  $(this).tab('show');
 	   })
 	 </script>
+
+<!-- Div de modal -->
+ <div class="modal" id="modal-1">
+    <div class="modal-content">
+      <h3>Nueva solicitud</h3>
+      <div>
+      	<form action="/multiproveedores/requests/duplicate" method="POST">      		
+      		Nueva Nota
+      		<input type="hidden" name="id_request" value="<?php echo $request['Request']['id']; ?>"/>
+      		<textarea name="note" rows="4" cols="50"> </textarea>      		
+    	    <button class="btn-info" type="submit">Guardar</button>
+        	<button class="modal-close btn btn-danger">Cancelar</button>
+	    </form>
+      </div>
+    </div>
+  </div>
