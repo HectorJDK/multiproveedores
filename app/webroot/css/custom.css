@@ -10,7 +10,7 @@
   border-radius:4px;
   margin-bottom: 20px;
   position: relative;
-  float: left;
+  /*float: left;*/
 }
 
 .shaded{
@@ -117,7 +117,7 @@ form{
 }
 /** Bootstrap styles for nav tabs **/
 #search-tabs .tab-content .btn, #search-tabs .tab-content select {
-	display: block !important; 
+	display: block !important;
 }
 #search-tabs#search-tabs.nav-tabs,
 #search-tabs.nav-pills {
@@ -411,5 +411,13 @@ form{
 	-o-border-radius:2px;
 	border-radius:2px;
 	color:#e67e22;
-	font-size:16px}
+	font-size:16px
+}
+
+.green {
+  color: #7ECB6A;
+}
+
+.red {
+  color: #C54F39;
 }

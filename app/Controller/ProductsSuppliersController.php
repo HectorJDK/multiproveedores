@@ -40,6 +40,31 @@ class ProductsSuppliersController extends AppController {
 		$this->set('productsSupplier', $this->ProductsSupplier->find('first', $options));
 	}
 
+    public function update_price_by_quote($quote, $supplier)
+    {
+        $product_supplier = $this->ProductsSupplier->find(
+            'first',
+            array('conditions'=>array(
+                'supplier_id'=>$supplier['id'],
+                'product_id'=>$quote['product_id']
+            )));
+        if(count($product_supplier) == 0)
+        {
+            $this->ProductsSupplier->create();
+            $product_supplier = array(
+                'supplier_id'=>$supplier['id'],
+                'product_id'=>$quote['product_id'],
+                'price'=>$quote['unitary_price']
+            );
+            $this->ProductsSupplier->save($product_supplier);
+        }else
+        {
+            $product_supplier = $product_supplier['ProductsSupplier'];
+            $product_supplier['price'] = $quote['unitary_price'];
+            $this->ProductsSupplier->save($product_supplier);
+        }
+    }
+
 /**
  * add method
  *

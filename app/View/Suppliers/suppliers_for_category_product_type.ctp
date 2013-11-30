@@ -7,6 +7,7 @@ request id: <?php echo  $request_id ?>
 <div class="row striped slim">
 	<div class="col-8">
 		<div class="row">
+			<?php print_r($result); ?>
 			<h2><?php echo $result->corporate_name; ?></h2>
 		</div>
 		<div class="row">
@@ -23,9 +24,20 @@ request id: <?php echo  $request_id ?>
 		</div>
 		<div class="row">
 			<div class="col-3 light">Credito</div>
-			<div class="col-3"> <?php echo $result->credit;?>
+			<div class="col-3"> <?php echo $result->credit;?></div>
 		</div>
-	</div>
+		<div class="row">
+			<div class="col-3 light">Rating</div>
+			<div class="col-3"> <?php echo $result->rating; ?></div>
+		</div>
+		<div class="row">
+			<div class="col-3 light">Comprado</div>
+			<div class="col-3 green"><?php echo $result->payed; ?></div>
+		</div>
+		<div class="row">
+			<div class="col-3 light">Adeudos</div>
+			<div class="col-3 red"><?php echo $result->debt; ?></div>
+		</div>
 	<div class="col-4 text-center inner-actions">
 		<button class="btn " onclick='enviar_cotizacion(<?php echo ($request_id . ', '. $result->id) ?>)'>Enviar Cotización</button>
 	</div>
