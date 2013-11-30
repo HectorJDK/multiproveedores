@@ -49,6 +49,8 @@
 	?>
 </head>
 <body>
+	<?php if ($this->Session->read('Auth.User')){ 
+
     // NAVIGATION BAR ----------------------------------------
 		$this->BootstrapNavbar->create (array('fixed'=>'top', 'responsive'=>'false')) ;
         $this->BootstrapNavbar->brand('Multiproveedores', array('controller'=>'requests', 'action'=>'index')) ;
