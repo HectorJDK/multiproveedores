@@ -1,29 +1,39 @@
-<?php echo $this->Html->script('add-type'); ?>
+<?php echo $this->Html->script('types-add'); ?>
 
-<div class="types form">
-	<?php echo $this->Form->create('Type'); ?>
-		<fieldset>
-			<legend><?php echo __('Añadir tipo'); ?></legend>
-		<?php
-			echo $this->Form->input('type_name');
-		?>
-		<?php echo $this->Form->hidden('attributes', array("id" => 'attributes')); ?>
-		<legend>Atributos:</legend>
-		<table id="attributes_table" name="attributes_table">
-			<?php echo $this->Html->tableHeaders(array('Atributo', 'Tipo', 'Borrar')); ?>
-		</table>
-		<?php echo $this->Form->end(__('Crear')); ?>
+<div class="grey-container">
+  <div class="row">
+    <h3>Nuevo Tipo de Producto</h3>
+    <div class="col-6">
+      <?php echo $this->Form->create('Type');
+        echo $this->Form->input('type_name', array('label' => 'Nombre'));
+        echo $this->Form->hidden('attributes', array("id" => 'attributes')); 
+      ?>
+    </div>
+  </div>
 
-		</fieldset>
-</div>
+  <div class="row">
+    <div class="col-6">
+      <p>Atributos</p>
+      <table id="attributes_table" name="attributes_table" class="table table-condensed table-stripped">
+        <tr>
+          <th>nombre</th>
+          <th>tipo</th>
+          <th></th>
+        </tr>
+        
+      </table>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-5">
+      <p>Añadir atributo</p>
+      Nombre <input type="text" id="attribute_name" required="required"/>
+      Tipo de Dato
+      <?php echo $this->Form->select('Tipo', $data_types, array('id' => 'attribute_type', 'empty' => "Seleccionar")); ?>
 
-<div class="form">
-		<fieldset>
-			<legend> <?php echo __('Añadir atributo') ?> </legend>
-			<label>Nombre:</label> <input type="text" id="attribute_name" required="required"/>
-			<label>Tipo:</label>
-			<?php echo $this->Form->select('Tipo', $data_types, array('id' => 'attribute_type')); ?>
-
-			<input type="submit" value="Añadir atributo" onClick="add_attribute()"/>
-		</fieldset>
+      <input type="button" value="Añadir atributo" onClick="add_attribute()" class="btn btn-mini btn-warning" />
+    </div>   
+  </div>
+  <div class="row">
+    <?php echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info')); ?>
+  </div>         
 </div>

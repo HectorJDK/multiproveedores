@@ -13,6 +13,11 @@
   /*float: left;*/
 }
 
+.small-content{
+  width: 500px;
+  margin-left: 50px;
+}
+
 .shaded{
   background-color: #eee;
 }

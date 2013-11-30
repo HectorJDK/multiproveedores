@@ -51,4 +51,3 @@
 </div>
 <?php endforeach; ?>
 <?php echo $this->element('paginator'); ?>
-</div>
