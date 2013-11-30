@@ -1,8 +1,9 @@
 <!-- app/View/Users/add.ctp -->
 <div class="users form">
+	<h2>Editar Usuario</h2>
 <?php echo $this->Form->create('User'); ?>
     <fieldset>
-        <legend><?php echo __('Edit User'); ?></legend>
+
         <?php
         	echo $this->Form->input('id');
 	        echo $this->Form->input('name', array('autocomplete' => 'off'));
@@ -11,12 +12,9 @@
 	        echo $this->Form->input('password', array('autocomplete' => 'off'));
     	?>
     </fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
-	</ul>
+<div class="text-right">
+	  <?php
+	    echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));
+	  ?>
+	</div>
 </div>

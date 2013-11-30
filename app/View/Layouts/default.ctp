@@ -40,7 +40,7 @@
 		echo $this->Html->script('jquery-ui');
 		echo $this->Html->script('furatto');
 		echo $this->Html->script('bootstrap-tab');
-		
+
 
 
 		echo $this->fetch('meta');
@@ -49,7 +49,7 @@
 	?>
 </head>
 <body>
-	<?php if ($this->Session->read('Auth.User')){ 
+	<?php if ($this->Session->read('Auth.User')){
 		$this->BootstrapNavbar->create (array('fixed'=>'top', 'responsive'=>'false')) ;
         $this->BootstrapNavbar->brand('Multiproveedores', array('controller'=>'requests', 'action'=>'index')) ;
         $this->BootstrapNavbar->beginMenu ('Solicitudes') ;
@@ -76,7 +76,7 @@
             $this->BootstrapNavbar->link ('Cerrar Sesión', array('controller' => 'users', 'action'=>'logout')) ;
         $this->BootstrapNavbar->endMenu () ;
     $this->BootstrapNavbar->end () ;
-    
+
     echo $this->BootstrapNavbar->compile () ;
 
 	} ?>
@@ -88,7 +88,7 @@
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-      
+
 		</div>
 	</div>
 </body>
