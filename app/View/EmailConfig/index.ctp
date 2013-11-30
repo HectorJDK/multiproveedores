@@ -10,10 +10,10 @@
 			echo $this->Form->input('transport');
 		?>
 		</fieldset>
-	 <div class="text-right">
+	<div class="text-right">
 	  <?php
 	    echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));
 	  ?>
-	  </div>
+	</div>
 	</div>
 </div>

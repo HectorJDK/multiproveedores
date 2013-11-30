@@ -71,7 +71,7 @@
             $this->BootstrapNavbar->link ('Ver Todos', array('controller'=>'suppliers', 'action'=>'index')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Usuario') ;
-            $this->BootstrapNavbar->link ('Cambiar Contraseña', array('controller'=>'users', 'action'=>'edit')) ;
+            $this->BootstrapNavbar->link ('Cambiar Contraseña', array('controller'=>'users', 'action'=>'index')) ;
             $this->BootstrapNavbar->divider() ;
             $this->BootstrapNavbar->link ('Cerrar Sesión', array('controller' => 'users', 'action'=>'logout')) ;
         $this->BootstrapNavbar->endMenu () ;
