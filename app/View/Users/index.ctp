@@ -1,4 +1,4 @@
-<h1>Usuarios</h1>
+<h2>Usuarios</h2>
 <!-- <div class="add-user"><?php echo $this->Html->link("Add User", array('action' => 'add')); ?><a><i class="icon-user"></i></a></div> -->
 
 <!-- Here's where we loop through our $usuarios array, printing out usuario info -->

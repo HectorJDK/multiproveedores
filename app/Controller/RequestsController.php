@@ -115,7 +115,7 @@ class RequestsController extends AppController {
 				
 				//Obteniendo los datos para crear la solicitud
 				$request = $this->request->data['Request'];
-				$request['deleted'] = 0;
+				$request['deleted'] = false;
 				$request['user_id'] = $this->Auth->user('id');
 				$request['content_id'] = $this->Request->Content->getInsertID();
 
@@ -249,22 +249,36 @@ class RequestsController extends AppController {
 	 * @return void
 	 */
 	public function duplicate($id = null) {
-		$this->Request->id = $id;
-		if (!$this->Request->exists()) {
+
+        $id = $this->request->data["id_request"];
+
+		if (!$this->Request->exists($id)) {
 			throw new NotFoundException(__('Invalid request'));
-		}	
-		//Crear una solicitud nueva
-		$this->Request->create();
+		}
+
+        //Limitar la busqueda
+        $this->Request->recursive = -1;
 		//Obtener los datos de la solicitud a duplicar
-		$request = $this->Request->find('first', array('conditions' => array('Request.id' => $id)));
+		$data = $this->Request->find('first', array('conditions' => array('Request.id' => $id)));
+
 		//Quitar el id para evitar que haga update
-		$request["Request"]["id"]="";		
-		if ($this->Request->save($request)) {
+		unset($data['Request']['id']);
+        unset($data['Request']['created']);
+        unset($data['Request']['modified']);
+        unset($data['Request']['note']);
+        unset($data['Request']['quantity']);
+
+        //Inicializacion de los datos a gaurdar
+        $data['Request']['deleted'] = 0;
+        $data['Request']['note'] = $this->request->data['note'];
+
+        $this->Request->create();
+		if ($this->Request->save($data['Request'])) {
 			$this->Session->setFlash(__('The request has been duplicated.'));
+            $this->redirect(array('action' => 'view/'.$id));
 		} else {
 			$this->Session->setFlash(__('The request could not be duplicated. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'view/'.$id));
 	}
 
 	/**
