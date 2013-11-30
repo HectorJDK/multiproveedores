@@ -8,23 +8,58 @@
 </div>
 
 <?php foreach ($requests as $request): ?>
+	<?php print_r($request)?>
 <form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/processQuotes">
     <input type="hidden" name="data[request_id]" value="<?php echo $request['Request']['id'] ?>"/>
-	<div class="row slim">
 		<!-- Request -->
-		<div class="row striped shaded">
-			<div class="col-6">
-				<?php echo $this->Html->link("Solicitud #".$request['Request']['id'], array('controller' => 'requests', 'action' => 'view', $request['Request']['id'])); ?>
+		<div class="row striped shaded slim">
+			<div class="col-8">
+				<div class="row">
+					<div class="col-6">
+						<?php echo $this->Html->link("Solicitud #".$request['Request']['id'], array('controller' => 'requests', 'action' => 'view', $request['Request']['id'])); ?>
+					</div>
+				</div>
+
+					<div class="row">
+					  	<div class="col-3 text-right light">
+					  		Fecha de creación:
+					  	</div>
+					  	<div class="col-3">
+					  		<?php echo $this->Time->format($request['Request']['created'], '%d/%m/%y', 'invalid'); ?>
+					  	</div>
+				  		<div class="col-3 text-right light">Tipo de Producto:</div>
+					</div>
+
+					<div class="row">
+						<div class="col-3 text-right light">Nombre de Proveedor:</div>
+						<div class="col-3">llala</div>
+
+				  		<div class="col-3 text-right light">Numero de Pieza: </div>
+				  	</div>
+
+					<div class="row">
+				  		<div class="col-3 text-right light">RFC:</div>
+				  		<div class="col-3 text-right light">Precio: </div>
+				  	</div>
+
+				  	<div class="row">
+				  		<div class="col-3 text-right light">Rating:</div>
+				  	</div>
+
+				  	<div class="row">
+				  		<div class="col-3 text-right light">Deuda:</div>
+				  	</div>
+
+				  	<div class="row">
+				  		<div class="col-3 text-right light">Razones de perdida: </div>
+				  	</div>
+				</div>
+
+
+			<div class="col-3 inner-actions">
+			  	<input type='submit' class="btn btn-small btn-info" value='Procesar Orden de Compra'/input>
 			</div>
-		  <div class="col-3">
-		  	Fecha de creación: <?php echo $this->Time->format($request['Request']['created'], '%d/%m/%y', 'invalid'); ?>
-		  </div>
-
-		  <div class="col-3">
-		  	<input type='submit' class="btn btn-small btn-info" value='Procesar Orden de Compra'/input>
-		  </div>
 		</div>
-
 		<?php foreach ($request['Quote'] as $quote): ?>
 		<div class="row striped">
 			<div class="col-8">
@@ -68,7 +103,7 @@
 					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="4">Sin Respuesta</input></li>
 					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="5">Tiempo entrega</input></li>
 				</ul>
-				
+
 			</div>
 		</div>
 		<?php endforeach;?>
@@ -77,7 +112,7 @@
 <?php endforeach; ?>
 <ul class="pagination pagination-center">
 	<p class="light">
-	<?php 
+	<?php
 	echo $this->Paginator->counter(array(
 	'format' => __('Página {:page} de {:pages}. Mostrando {:current} records de {:count} en total'))); ?>
 	</p>

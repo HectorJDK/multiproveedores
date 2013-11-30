@@ -2,7 +2,11 @@
 echo $this->AssetCompress->script('requests-updates');?>
 <input id="request_id" type="hidden" value='<?php echo $request['Request']['id'] ?>'/>
 <div class="grey-container" >
-  <h2>Solicitud #<?php echo $request['Request']['id']; ?></h2>
+	<!-- Here is the button to duplicate a request -->
+	<div class="pull-right">
+		<div class="btn btn-success">Duplicar Solicitud</div>
+	</div>
+	<h2 class="">Solicitud #<?php echo $request['Request']['id']; ?></h2>
 
 <!-- Origen -->
 <?php if (is_null(!$request['Origin']['url'])): ?>
