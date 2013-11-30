@@ -1,29 +1,62 @@
 <div class="emails index">
 	<h2><?php echo __('Emails'); ?></h2>
-	<table cellpadding="10" cellspacing="0" class="table table-striped">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('email_body'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('with_copy'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
+	<div class="filters">
+		<span>Ordenar por:</span>
+		<ul class="pagination pagination-inverse">
+			<li><?php echo $this->Paginator->sort('id'); ?></li>
+			<li><?php echo $this->Paginator->sort('modified'); ?></li>
+			<li><?php echo $this->Paginator->sort('created'); ?></li>
+			<li><?php echo $this->Paginator->sort('with_copy'); ?></li>
+		</ul>
+	</div>
 	<?php foreach ($emails as $email): ?>
-	<tr>
-		<td><?php echo h($email['Email']['id']); ?>&nbsp;</td>
-		<td><?php echo h($email['Email']['email_body']); ?>&nbsp;</td>
-		<td><?php echo h($email['Email']['modified']); ?>&nbsp;</td>
-		<td><?php echo h($email['Email']['created']); ?>&nbsp;</td>
-		<td><?php echo h($email['Email']['with_copy']); ?>&nbsp;</td>
-		<td class="actions">
+	<div class="row striped slim">
+		<div class="col-8">
+			<div class="row">
+				<div class="col-6">
+					Email #<?php echo h($email['Email']['id']); ?>&nbsp;
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 text-right light">
+					Cuerpo:
+				</div>
+				<div class="col-3">
+					<?php echo h($email['Email']['email_body']); ?>&nbsp;
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 text-right light">
+					Modificado :
+				</div>
+				<div class="col-3">
+					<?php echo h($email['Email']['modified']); ?>&nbsp;
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 text-right light">
+					Creado :
+				</div>
+				<div class='col-3'>
+					<?php echo h($email['Email']['created']); ?>&nbsp;
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 text-right light"> Con copia :
+				</div>
+				<div class="col-3">
+					<?php echo h($email['Email']['with_copy']); ?>&nbsp;
+				</div>
+			</div>
+		</div>
+
+		<div class="col-3 inner-actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $email['Email']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $email['Email']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $email['Email']['id']), null, __('Are you sure you want to delete # %s?', $email['Email']['id'])); ?>
-		</td>
-	</tr>
+		</div>
+	</div>
 <?php endforeach; ?>
-	</table>
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
