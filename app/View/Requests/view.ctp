@@ -1,11 +1,11 @@
-<?php echo $this->AssetCompress->script('requests-view'); 
+<?php echo $this->AssetCompress->script('requests-view');
 echo $this->AssetCompress->script('requests-updates');?>
 <input id="request_id" type="hidden" value='<?php echo $request['Request']['id'] ?>'/>
 <div class="grey-container" >
   <h2>Solicitud #<?php echo $request['Request']['id']; ?></h2>
-  
+
 <!-- Origen -->
-<?php if (is_null(!$request['Origin']['url'])): ?>		
+<?php if (is_null(!$request['Origin']['url'])): ?>
 	<div class="row">
 		<div class="col-3 text-right light">
 			Pagina Origen
@@ -61,14 +61,6 @@ echo $this->AssetCompress->script('requests-updates');?>
 	</div>
   </div>
 
-  <div class="row">
-	<div class="col-3 text-right light">
-	  Fecha de modificación
-	</div>
-	<div class="col-9">
-	  <?php echo $this->Time->format($request['Request']['modified'], '%d/%m/%y', 'invalid'); ?>
-	</div>
-  </div>
 
   <!-- Notas -->
   <div class="row">
@@ -86,7 +78,7 @@ echo $this->AssetCompress->script('requests-updates');?>
 	  Cantidad
 	</div>
 	<div class="col-9">
-	  <?php echo $this->Form->input('Request.quantity', array('id' => 'request_quantity', 'label' => '', 
+	  <?php echo $this->Form->input('Request.quantity', array('id' => 'request_quantity', 'label' => '',
 	  'onchange' => 'updateQty(this,'.$request['Request']['id'].')','default'=>h($request['Request']['quantity'])));?>
 	</div>
   </div>
@@ -97,7 +89,7 @@ echo $this->AssetCompress->script('requests-updates');?>
 	<li class="active"><a href="#attributes">Busqueda por Atributos</a></li>
 	<li><a href="#type">Busqueda por Tipo</a></li>
 </ul>
- 
+
  <!-- Tabs for advanced search -->
 <div class="tab-content">
 	<div class="tab-pane active" id="attributes">
@@ -117,7 +109,7 @@ echo $this->AssetCompress->script('requests-updates');?>
 <div class="tab-pane" id="type">
 
 	<?php echo $this->Form->create('Supplier', array('method' => 'GET', 'controller' =>'suppliers', 'action' => 'suppliers_for_category_product_type')); ?>
- 
+
 		<label>Categoría:</label>
 		 <?php echo $this->Form->select('category', $categories, array('id' => '2-category_id')); ?>
 		<label>Tipo:</label>
