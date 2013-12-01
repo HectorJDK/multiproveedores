@@ -238,18 +238,40 @@ class RequestsController extends AppController {
 	 * @return void
 	 */
 	public function release($id = null) {
-		$this->Request->id = $id;
+        //Damos el valor del id al objeto Request
+        $this->Request->id = $id;
 
-		if (!$this->Request->exists()) {
+        //Solo se podra acceder a este metodo con las siguientes acciones HTTP
+        $this->request->onlyAllow('post', 'delete');
+
+        //Verificamos que exista el request a liberar
+		if (!$this->Request->exists($id)) {
 			throw new NotFoundException(__('Invalid request'));
 		}
-		$this->request->onlyAllow('post', 'delete');
 
-		if ($this->Request->saveField('user_id', null)) {
-			$this->Session->setFlash(__('The request has been released.'));
-		} else {
-			$this->Session->setFlash(__('The request could not be released. Please, try again.'));
-		}
+        //Buscamos si tiene cotizaciones activas pendientes
+        $this->Request->Quote->recursive = -1;
+        $options = array('conditions' => array('Quote.request_id' => $id, 'Quote.deleted' => false));
+        $quote = $this->Request->Quote->find('first', $options);
+
+        //Verificamos que para poder liberar una cotizacion esta no tenga ninguna cotizacion activa
+         if(count($quote) == 0)
+         {
+             if ($this->Request->saveField('user_id', null))
+             {
+                 $this->Session->setFlash(__('The request has been released.'));
+             }
+             else
+             {
+                 $this->Session->setFlash(__('The request could not be released. Please, try again.'));
+             }
+         }
+         else
+         {
+             $this->Session->setFlash(__('No se puede liberar una solicitud que tenga cotizaciones activas'));
+         }
+
+        //Regresamos a la pagina mis request con el mensaje correspondiente
 		return $this->redirect(array('action' => 'myRequests'));
 	}
 
