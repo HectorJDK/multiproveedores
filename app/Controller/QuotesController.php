@@ -28,24 +28,28 @@ public $components = array('Paginator');
 public function index()
 {
 	$userId = $this->Auth->user('id');
-
-    $this->Paginator->settings = array(
-        'conditions' => array(
-            'Request.deleted' => 0,
-            'Request.user_id' => $userId,
-            'Request.quote_count >' => 0
-        ),
-        'limit' => 1,
-        'recursive'=>2
-    );
+    if(isset($this->request->data["request_id"])){
+        $this->Paginator->settings = array(
+                'limit' => 1,
+                'recursive'=>2,
+                'conditions' => array(
+                    'Request.quote_count >' => 0,
+                    'Request.deleted' => 0,
+                    'Request.id' => $this->request->data["request_id"],
+                    'Request.user_id'=>$userId
+                )
+        );
+    }else{
+        $this->Paginator->settings = array(
+                'limit' => 1,
+                'recursive'=>2,
+                'conditions' => array('Request.deleted' => 0, 'Request.user_id'=>$userId)
+        );
+    }
     $requests = $this->Paginator->paginate($this->Quote->Request);
-
-
-
 
 	$this->set('requests', $requests);
 }
-
 
     /**
      * delete method
