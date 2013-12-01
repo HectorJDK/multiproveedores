@@ -141,12 +141,13 @@
     <div class="modal-content">
       <h3>Nueva solicitud</h3>
       <div>
-      	<form action="/multiproveedores/requests/duplicate" method="POST">      		
+      	<form action="/multiproveedores/requests/duplicate" method="POST">
       		Nueva Nota
       		<input type="hidden" name="id_request" value="<?php echo $request['Request']['id']; ?>"/>
-      		<textarea name="note" rows="4" cols="50"> </textarea>      		
-    	    <button class="btn-info" type="submit">Guardar</button>
-        	<button class="modal-close btn btn-danger">Cancelar</button>
+      		<textarea name="note" rows="4" cols="50"> </textarea>
+    	    <button class="btn btn-info" type="submit">Guardar</button>
+    	</form>
+        	<button class="modal-close">Cancelar</button>
 	    </form>
       </div>
     </div>
