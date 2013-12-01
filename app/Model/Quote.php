@@ -88,13 +88,16 @@ class Quote extends AppModel {
  *
  * @var array
  */
-	public $belongsTo = array(
+	var $belongsTo =
+        array(
 		'Request' => array(
 			'className' => 'Request',
 			'foreignKey' => 'request_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+            'counterCache' => true,
+            'counterScope' => array('Request.deleted' => 0)
 		),
 		'Supplier' => array(
 			'className' => 'Supplier',

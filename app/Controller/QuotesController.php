@@ -30,11 +30,18 @@ public function index()
 	$userId = $this->Auth->user('id');
 
     $this->Paginator->settings = array(
-            'limit' => 1,
-            'recursive'=>2,
-            'conditions' => array('Request.deleted' => 0, 'Request.user_id'=>$userId)
+        'conditions' => array(
+            'Request.deleted' => 0,
+            'Request.user_id' => $userId,
+            'Request.quote_count >' => 0
+        ),
+        'limit' => 1,
+        'recursive'=>2
     );
     $requests = $this->Paginator->paginate($this->Quote->Request);
+
+
+
 
 	$this->set('requests', $requests);
 }
@@ -96,14 +103,17 @@ public function index()
             }
         }
 
-        if($accepted_quotes != 1)
+        if($accepted_quotes > 1)
         {
-            $this->Session->setFlash(__('Se debe de aceptar 1 y sólo 1 cotización.'));
+            $this->Session->setFlash(__('Se debe de aceptar máximo 1 cotización.'));
             $transaction->rollback();
             return $this->redirect(array('controller'=>'quotes', 'action' => 'index'));
         }else
         {
-            $this->accept($accepted_quote);
+            if($accepted_quotes == 1)
+            {
+                $this->accept($accepted_quote);
+            }
             $transaction->commit();
         }
     }
