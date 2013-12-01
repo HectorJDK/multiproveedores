@@ -125,7 +125,7 @@ class RequestsController extends AppController {
 				
 				//Obteniendo los datos para crear la solicitud
 				$request = $this->request->data['Request'];
-				$request['deleted'] = false;
+				$request['deleted'] = 0;
 				$request['user_id'] = $this->Auth->user('id');
 				$request['content_id'] = $this->Request->Content->getInsertID();
 
