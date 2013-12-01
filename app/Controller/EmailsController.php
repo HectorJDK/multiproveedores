@@ -71,13 +71,15 @@ class EmailsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Email->save($this->request->data)) {
 				$this->Session->setFlash(__('The email has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'edit', $id));
 			} else {
 				$this->Session->setFlash(__('The email could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Email.' . $this->Email->primaryKey => $id));
-			$this->request->data = $this->Email->find('first', $options);
+			$email = $this->Email->find('first', $options);
+			$this->set('email', $email);
+			$this->request->data = $email;
 		}
 	}
 

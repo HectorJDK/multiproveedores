@@ -1,20 +1,60 @@
-<div class="emails form">
-<?php echo $this->Form->create('Email'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Email'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('email_body');
-		echo $this->Form->input('with_copy');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+<div class="grey-container">
+<h2>Molde para Correo #<?php echo $email['Email']['id'];?></h2>
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Email.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Email.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Emails'), array('action' => 'index')); ?></li>
-	</ul>
+	<div class="cheat-sheet">
+		<h4>Códigos</h4>
+		<p>Utiliza los siguientes código para blah blah</p>
+		<p>Si no se ponen los codigos estos elementos no apareceran en el correo blah blah</p>
+		<div class="row">
+			<div class="col-3 text-right light">
+				Proveedor
+			</div>
+
+			<div class="col-3">
+				{*p*}
+			</div>
+
+			<div class="col-3 text-right light">
+				Id Producto
+			</div>
+
+			<div class="col-3">
+				{*p_id*}
+			</div>		
+		</div>
+		<!-- otro renglon -->
+		<div class="row">
+			<div class="col-3 text-right light">
+				Cantidad
+			</div>
+
+			<div class="col-3">
+				{*qty*}
+			</div>
+
+			<div class="col-3 text-right light">
+				Remitente
+			</div>
+
+			<div class="col-3">
+				{*user_name*}
+			</div>		
+		</div>
+	<!-- otro renglon -->
+	</div>
+
+	<hr />
+
+	<?php 
+		echo $this->Form->create('Email', $options_for_form);
+		echo $this->Form->input('with_copy', array('label' => 'Con copia:'));
+		echo $this->Form->input('email_body', array('label' => 'Comentarios', 'class' => 'input-block', 'rows' => 20));
+	?>
+
+	<div class="text-right">
+  <?php
+    echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));
+  ?>
+  </div>
+
 </div>

@@ -83,6 +83,13 @@
             $this->BootstrapNavbar->link ('Tipos de Producto', array('controller'=>'types', 'action'=>'index')) ;
             $this->BootstrapNavbar->link ('Agregar Tipo', array('controller'=>'types', 'action'=>'add')) ;
         $this->BootstrapNavbar->endMenu () ;
+        $this->BootstrapNavbar->beginMenu ('Emails') ;
+            $this->BootstrapNavbar->link ('Configurar Correo', array('controller'=>'emailConfig', 'action'=>'index')) ;
+            $this->BootstrapNavbar->divider() ;
+            $this->BootstrapNavbar->link ('Correo 1', array('controller' => 'emails', 'action'=>'edit',1)) ;
+            $this->BootstrapNavbar->link ('Correo 2', array('controller' => 'emails', 'action'=>'edit',2)) ;
+            $this->BootstrapNavbar->link ('Correo 3', array('controller' => 'emails', 'action'=>'edit',3)) ;
+        $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Usuario') ;
             $this->BootstrapNavbar->link ('Cambiar Contraseña', array('controller'=>'users', 'action'=>'index')) ;
             $this->BootstrapNavbar->divider() ;
