@@ -3,6 +3,10 @@ App::uses('AppController', 'Controller');
 App::uses('TypesController', 'Controller');
 App::uses('OriginsController', 'Controller');
 App::uses('RequestServicesController', 'Controller');
+App::uses('EmailConfig', 'Model');
+App::uses('Email', 'Model');
+App::uses('Supplier', 'Model');
+App::uses('CakeEmail', 'Network/Email');
 /**
 * Requests Controller
 *
@@ -361,10 +365,10 @@ class RequestsController extends AppController {
         //Reemplazar valores en correo molde
         //Claves del correo molde
         $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
-        	"{telefonoContacto}");
+        	"{telefonoContacto}","{datosProducto}");
         //Valores a reemplaazar de proveedor y tipo
         $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
-        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"]        	
+        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"],$datos[2]        	
         	);
         //Mensaje modificado
         $mensaje = str_replace($claves, $valores, $mensaje);
@@ -378,14 +382,11 @@ class RequestsController extends AppController {
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];
         $quote['supplier_id']= $datos[1];
-
+		
         $this->Request->id = $quote['request_id'];
         if (!$this->Request->exists()) {
             throw new NotFoundException(__('Invalid request'));
-        }
-
-        //Pendiente estado inicial checar
-        $quote['status_quote_id'] = 1;
+        }    
 
         if (!$this->Request->Quote->save($quote))
         {

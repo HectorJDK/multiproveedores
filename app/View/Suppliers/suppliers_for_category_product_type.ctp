@@ -39,8 +39,19 @@ request id: <?php echo  $request_id ?>
 			<div class="col-3 red"><?php echo $result->debt; ?></div>
 		</div>
 	<div class="col-4 text-center inner-actions">
-		<button class="btn " onclick='enviar_cotizacion(<?php echo ($request_id . ', '. $result->id) ?>)'>Enviar Cotización</button>
+		<button class="btn btn-info btn-large" data-furatto="modal" data-target="#modal-<?php echo $result->id?>" data-transition="8" data-theme="info">Enviar Cotización</button>		
 	</div>
 </div>
-
+ <!-- Div de modal -->
+ <div class="modal" id="modal-<?php echo $result->id;?>">
+    <div class="modal-content">
+      <h3>Enviar cotizaci&oacute;n</h3>
+      <div>      	     	
+  		Agregar descripci&oacute;n del producto      		
+  		<textarea name="description-<?php echo $result->id;?>" id="description-<?php echo $result->id;?>" rows="4" cols="50"></textarea>
+	    <button class="btn-info" onclick='enviar_cotizacion(<?php echo ($request_id . ', '. $result->id) ?>)'>Enviar</button>
+    	<button class="modal-close btn btn-danger">Cancelar</button>	
+      </div>
+    </div>
+  </div>
  <?php endforeach; ?>
