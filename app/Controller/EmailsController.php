@@ -1,5 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('EmailConfig', 'Model');
+App::uses('Email', 'Model');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Emails Controller
  *
@@ -102,4 +105,53 @@ class EmailsController extends AppController {
 			$this->Session->setFlash(__('The email could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+	/**
+ * sendEmailForQuote method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function sendEmailForQuote($proveedor, $producto=null, $datosProducto = null) {
+ 		//Envio de correo 	    
+	    $configEmail = new EmailConfig();
+		//Cargar configuracion de mail
+	    $Email = new CakeEmail($configEmail->cargarConfiguracion());
+	    
+	    //Reemplazar correo molde con los datos y enviar
+	    $correoMolde = new Email();
+	    $mensaje = $correoMolde->find('first'); 	    
+	    $mensaje = $mensaje['Email']['email_body'];                            
+        
+        //Reemplazar valores en correo molde
+        if($datosProducto != null){
+	        //Claves del correo molde
+	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
+	        	"{telefonoContacto}","{datosProducto}");
+	        //Valores a reemplaazar de proveedor y tipo
+	        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
+	        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"],$datosProducto        	
+	        	);
+    	} else {    	 
+	        //Claves del correo molde
+	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
+	        	"{telefonoContacto}","{claveProducto}");
+	        //Valores a reemplaazar de proveedor y producto
+	        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
+	        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"],
+	        	$producto["manufacturer_id"]
+	        	);
+    	}
+        //Mensaje modificado
+        $mensaje = str_replace($claves, $valores, $mensaje);
+        
+        //Enviar el correo
+        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
+    		->to($proveedor["contact_email"])
+   			->subject('Solicitud de cotización')
+    		->send($mensaje);
+    	}
+
+}
