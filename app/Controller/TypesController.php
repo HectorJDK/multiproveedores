@@ -34,11 +34,13 @@ class TypesController extends AppController {
 	 * @return void
 	 */
 	public function view($id = null) {
+
 		if (!$this->Type->exists($id)) {
 			throw new NotFoundException(__('Invalid type'));
 		}
 		$options = array('conditions' => array('Type.' . $this->Type->primaryKey => $id));
 		$this->set('type', $this->Type->find('first', $options));
+		$this->set_attribute_types();
 	}
 
 	/**
@@ -134,7 +136,11 @@ class TypesController extends AppController {
 			}
 		} else {
 			$options = array('conditions' => array('Type.' . $this->Type->primaryKey => $id));
-			$this->request->data = $this->Type->find('first', $options);
+
+			$type = $this->Type->find('first', $options);
+			$this->request->data = $type;
+			$this->set('type', $type);
+			$this->set_attribute_types();
 		}		
 	}
 

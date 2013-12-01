@@ -52,7 +52,22 @@ function add_attribute()
 	row = $('<tr id=\'' + attribute_name + '\' >');
 
 	row.append($('<td>').html(attribute_name));
-	row.append($('<td>').html(attribute_type));
+
+	switch(attribute_type){
+		case '1':
+			row.append($('<td>').html("Entero"));
+			break;
+		case '2':
+			row.append($('<td>').html("Decimal"));
+			break;
+		case '3':
+			row.append($('<td>').html("Texto"));
+			break;
+		default:
+			row.append($('<td>').html("Fecha"));
+			break;
+	}
+	
 	row.append(crear_button_row(attribute_name));
 	
 	$('#attributes_table').append(row);
@@ -67,7 +82,7 @@ function add_attribute()
 
 function crear_button_row(attribute_name)
 {
-	remove_button = $('<button type=\"button\">Borrar</button>');
+	remove_button = $('<a style="color:#e74c3c;"><i class=\"icon-remove\">borrar</i></a>');
 	remove_button.click(function(){
 		handle_delete(attribute_name);
 	});

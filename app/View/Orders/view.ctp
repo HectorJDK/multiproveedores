@@ -1,5 +1,5 @@
 <div class="grey-container" >
-  <h2>Orden de Compra #<?php echo h($order['Order']['id']); ?></h2>
+  <h2>Orden de Compra #<?php echo $order['Order']['id']; ?></h2>
 
   <!-- Fecha -->
   <div class="row">
