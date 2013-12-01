@@ -27,9 +27,17 @@ class RequestsController extends AppController {
 	 */
 	public function index() {
 		$this->Request->recursive = 0;
-		//Solo mostrara las solicitudes que sean
-		$requests = $this->Paginator->paginate(array('Request.user_id' => null, 'Request.deleted' => 0));
-
+		//Busqueda rápida
+		if(isset($this->request->data["busqueda"])){
+			//Solo mostrara las solicitudes que cumplan con el filtro
+			$requests = $this->Paginator->paginate(array('Request.user_id' => null,'Request.id' => $this->request->data["busqueda"], 'Request.deleted' => 0));
+			$this->set('busqueda', $this->request->data["busqueda"]);
+		} else {
+			//Mostrar todas las solicitudes
+			$this->Paginator->settings = array(
+            'limit' => 5);
+			$requests = $this->Paginator->paginate(array('Request.user_id' => null, 'Request.deleted' => 0));
+		}
 		$this->set('requests', $requests);
 	}
 

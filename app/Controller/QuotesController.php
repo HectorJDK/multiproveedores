@@ -28,18 +28,42 @@ public $components = array('Paginator');
 public function index()
 {
 	$userId = $this->Auth->user('id');
-
-    $this->Paginator->settings = array(
-            'limit' => 1,
-            'recursive'=>2,
-            'conditions' => array('Request.deleted' => 0, 'Request.user_id'=>$userId)
-    );
+    if(isset($this->request->data["request_id"])){
+        $this->Paginator->settings = array(
+                'limit' => 1,
+                'recursive'=>2,
+                'conditions' => array('Request.deleted' => 0,'Request.id' => $this->request->data["request_id"], 'Request.user_id'=>$userId)
+        );
+    }else{
+        $this->Paginator->settings = array(
+                'limit' => 1,
+                'recursive'=>2,
+                'conditions' => array('Request.deleted' => 0, 'Request.user_id'=>$userId)
+        );
+    }
     $requests = $this->Paginator->paginate($this->Quote->Request);
 
 	$this->set('requests', $requests);
 }
 
+/**
+ * view method
+ *
+ * @return void
+ */
+public function viewQuotes()
+{
+    $userId = $this->Auth->user('id');
 
+    $this->Paginator->settings = array(
+            'limit' => 1,
+            'recursive'=>2,
+            'conditions' => array('Request.deleted' => 0,'Request.id' => 80, 'Request.user_id'=>$userId)
+    );
+    $requests = $this->Paginator->paginate($this->Quote->Request);
+
+    $this->set('requests', $requests);
+}
     /**
      * delete method
      *
