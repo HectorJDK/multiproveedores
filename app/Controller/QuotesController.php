@@ -25,17 +25,18 @@ public $components = array('Paginator');
  *
  * @return void
  */
-public function index()
+public function index($request_id = null)
 {
 	$userId = $this->Auth->user('id');
-    if(isset($this->request->data["request_id"])){
+
+    if(isset($request_id)){
         $this->Paginator->settings = array(
                 'limit' => 1,
                 'recursive'=>2,
                 'conditions' => array(
                     'Request.quote_count >' => 0,
                     'Request.deleted' => 0,
-                    'Request.id' => $this->request->data["request_id"],
+                    'Request.id' => $request_id,
                     'Request.user_id'=>$userId
                 )
         );
@@ -43,7 +44,7 @@ public function index()
         $this->Paginator->settings = array(
                 'limit' => 1,
                 'recursive'=>2,
-                'conditions' => array('Request.deleted' => 0, 'Request.user_id'=>$userId)
+                'conditions' => array('Request.deleted' => 0, 'Request.user_id' => $userId, 'Request.quote_count > '=> 0)
         );
     }
     $requests = $this->Paginator->paginate($this->Quote->Request);

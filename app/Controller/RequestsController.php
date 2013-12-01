@@ -253,6 +253,7 @@ class RequestsController extends AppController {
         $quote = $this->Request->Quote->find('first', $options);
 
         //Verificamos que para poder liberar una cotizacion esta no tenga ninguna cotizacion activa
+        //Esto ahora se puede cambiar con los cambios hechos
          if(count($quote) == 0)
          {
              if ($this->Request->saveField('user_id', null))
