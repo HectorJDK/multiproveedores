@@ -139,7 +139,7 @@
 <!-- Div de modal -->
  <div class="modal" id="modal-1">
     <div class="modal-content">
-      <h3>Nueva solicitud</h3>
+      <h3 class="modal-header">Nueva solicitud</h3>
       <div>
       	<form action="/multiproveedores/requests/duplicate" method="POST">
       		Nueva Nota
