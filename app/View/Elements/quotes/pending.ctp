@@ -49,6 +49,74 @@
             }
         ?>
       </div>
+
+      <div class="row">
+          <div class="col-3 text-right light">
+            RFC
+        </div>
+        <div class="col-3">
+            <?php echo $quote['Supplier']['moral_rfc']; ?>
+        </div>
+
+        <div class="col-3 text-right light">
+            Tipo de Producto
+        </div>
+        <div class="col-3">
+            <?php echo $quote['Product']['type_id']?>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-3 text-right light">
+              Credito
+          </div>
+          <div class="col-3">
+              <?php
+                if($quote['Supplier']['credit'] != 0){
+                    echo 'Si';
+                }
+                    else {
+                        echo "No";
+                    }?>
+          </div>
+
+          <div class="col-3 text-right light">
+              Numero de Pieza
+          </div>
+          <div class="col-3">
+              <?php echo $quote['Product']['manufacturer_id']; ?>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-3 text-right light">
+              Rating
+          </div>
+          <div class="col-3">
+            <?php for($i = 1; $i <= $quote['Supplier']['rating']; $i++){
+            echo "<i class=\"icon-star\"></i>";
+          }
+          ?>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-3 text-right light">
+              Adeudo
+          </div>
+          <div class="col-3 red">
+              <?php echo $quote['Supplier']['debt']?>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-3 text-right light">
+              Razon de Perdida
+          </div>
+          <div class="col-3">
+            <?php echo ($quote['Supplier']['accepted_quotes'] / $quote['Supplier']['rejected_quotes'])?>
+          </div>
+      </div>
     </div>
     <div class="col-4">
 

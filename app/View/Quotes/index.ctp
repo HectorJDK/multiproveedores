@@ -9,6 +9,7 @@
 </div>
 
 <?php foreach ($requests as $request): ?>
+	<?php print_r($request)?>
 <form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/processQuotes">
     <input type="hidden" name="data[request_id]" value="<?php echo $request['Request']['id'] ?>"/>
 	<div class="row slim">
