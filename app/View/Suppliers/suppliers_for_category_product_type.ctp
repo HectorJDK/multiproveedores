@@ -5,7 +5,6 @@ request id: <?php echo  $request_id ?>
 <div class="row striped slim">
 	<div class="col-8">
 		<div class="row">
-			<?php print_r($result); ?>
 			<h2><?php echo $result->corporate_name; ?></h2>
 		</div>
 		<div class="row">
