@@ -27,7 +27,7 @@ function setProductToQuote(quote_id)
         price: getPriceFromQuote(quote_id)
     };
     $.ajax({
-        url: 'http://localhost:8080/multiproveedores/quotes/setProductToQuote?XDEBUG_SESSION_START=14521',
+        url: 'http://localhost:8080/multiproveedores/quotes/setProductToQuote',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
