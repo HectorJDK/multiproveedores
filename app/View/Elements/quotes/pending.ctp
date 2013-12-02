@@ -19,35 +19,10 @@
         Proveedor
         </div>
         <div class="col-3">
-        <?php echo $this->Html->link($quote['supplier_id'], array('controller' => 'suppliers', 'action' => 'view', $quote['supplier_id'])); ?>
+        <?php echo $this->Html->link($quote['Supplier']['corporate_name'], array('controller' => 'suppliers', 'action' => 'view', $quote['supplier_id'])); ?>
         </div>
 
-        <div class="col-3 text-right light">
-            Producto
-        </div>
-        <?php
-            if (is_null($quote['product_id']))
-            {
-                ?>
-                    <div class="col-3">
-                        <input name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
-                    </div>
-                    <div>
-                        Precio
-                        <input name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
-                    </div>
-                    <input value="Agregar producto" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .')'; ?>"/>
-                <?php
-            }
-            else
-            {
-                ?>
-                    <div class="col-3">
-                        <?php echo $this->Html->link($quote['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
-                    </div>
-                <?php
-            }
-        ?>
+       
       </div>
 
       <div class="row">
@@ -57,13 +32,15 @@
         <div class="col-3">
             <?php echo $quote['Supplier']['moral_rfc']; ?>
         </div>
-
+        <?php if(isset($quote['Product']['type_id'])){?>
         <div class="col-3 text-right light">
             Tipo de Producto
         </div>
         <div class="col-3">
             <?php echo $quote['Product']['type_id']?>
         </div>
+        <?php }?>
+ 
       </div>
 
       <div class="row">
@@ -79,13 +56,32 @@
                         echo "No";
                     }?>
           </div>
-
+          <?php if(isset($quote['Product']['manufacturer_id'])){?>
           <div class="col-3 text-right light">
               Numero de Pieza
           </div>
           <div class="col-3">
               <?php echo $quote['Product']['manufacturer_id']; ?>
           </div>
+          <?php } else { ?>
+          <div class="col-3 text-right light">
+            Producto
+        </div>
+        <?php
+            if (is_null($quote['product_id']))
+            {
+                ?>
+                    <div class="col-3">
+                        <input name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
+                    </div>
+                   
+          <?php } else { ?>
+                    <div class="col-3">
+                        <?php echo $this->Html->link($quote['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
+                    </div>
+          <?php } ?>
+        <?php }?>
+          
       </div>
 
       <div class="row">
@@ -98,6 +94,20 @@
           }
           ?>
           </div>
+            <?php if (is_null($quote['product_id'])){?>
+           <div class="col-3 text-right light">
+                        Precio
+                      </div>
+                        <div class="col-3">
+                        <input name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
+                      </div>
+                      <div class="col-3 text-right light">
+                       
+                      </div>
+                    <div class="col-3 text-right light">
+                    <input value="Agregar producto" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .')'; ?>"/>
+                  </div>
+                    <?php }?>
       </div>
 
       <div class="row">
