@@ -1,5 +1,3 @@
-<?php echo $this->Html->script('suppliers-suppliers_for_category_product_type'); ?>
-
 <!-- uses $results, $request_id  -->
 request id: <?php echo  $request_id ?>
 
