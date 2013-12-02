@@ -1,6 +1,5 @@
 <?php
 	echo $this->AssetCompress->script('requests-view');
-	echo $this->AssetCompress->script('requests-updates');
 ?>
 <input id="request_id" type="hidden" value='<?php echo $request['Request']['id'] ?>'/>
 <div class="grey-container" >

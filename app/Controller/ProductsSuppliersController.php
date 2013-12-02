@@ -131,4 +131,35 @@ class ProductsSuppliersController extends AppController {
 			$this->Session->setFlash(__('The products supplier could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+    public function ensure_that_supplier_supplies_product($supplier_id, $product_id, $price)
+    {
+        $this->autoLayout = false;
+        $this->autoRender = false;
+
+        if(is_null($price))
+        {
+            throw new InternalErrorException("No se especificó un precio!");
+        }
+
+        $relation = array(
+            'supplier_id' => $supplier_id,
+            'product_id' => $product_id
+        );
+        $result = $this->ProductsSupplier->find(
+            'all',
+            array('conditions' => $relation)
+        );
+        $relation['price'] = $price;
+        if (count($result) == 0)
+        {
+            $this->ProductsSupplier->save($relation);
+        }
+        else
+        {
+            $result[0]['ProductsSupplier']['price'] = $price;
+            $this->ProductsSupplier->save($result[0]);
+        }
+    }
+}

@@ -8,8 +8,9 @@
         var $contact_telephone;
         var $payed;
         var $debt;
+        var $rating;
 
-        function SupplierResult($id, $corporate_name, $contact_name, $contact_email, $credit, $contact_telephone, $payed, $debt)
+        function SupplierResult($id, $corporate_name, $contact_name, $contact_email, $credit, $contact_telephone, $payed, $debt, $rating)
         {
             $this->id = $id;
             $this->corporate_name = $corporate_name;
@@ -19,6 +20,7 @@
             $this->contact_telephone = $contact_telephone;
             $this->payed = $payed;
             $this->debt = $debt;
+            $this->rating = $rating;
         }
 
     }

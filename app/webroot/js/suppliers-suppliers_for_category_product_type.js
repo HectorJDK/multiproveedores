@@ -1,4 +1,3 @@
-
 function enviar_cotizacion(request_id, supplier_id)
 {
     var description = document.getElementById("description-"+supplier_id).value; 

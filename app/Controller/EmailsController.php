@@ -126,7 +126,8 @@ class EmailsController extends AppController {
 	    $mensaje = $mensaje['Email']['email_body'];                            
         
         //Reemplazar valores en correo molde
-        if($datosProducto != null){
+        if($datosProducto != null)
+        {
 	        //Claves del correo molde
 	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
 	        	"{telefonoContacto}","{datosProducto}");
@@ -152,6 +153,50 @@ class EmailsController extends AppController {
     		->to($proveedor["contact_email"])
    			->subject('Solicitud de cotización')
     		->send($mensaje);
-    	}
+    }
+
+    public function sendEmailForOrder($order, $supplier, $request, $product)
+    {
+
+        //Envio de correo
+        $configEmail = new EmailConfig();
+        //Cargar configuracion de mail
+        $Email = new CakeEmail($configEmail->cargarConfiguracion());
+
+        //Reemplazar correo molde con los datos y enviar
+        $correoMolde = new Email();
+        $message = $correoMolde->find('first');
+        $message = $message['Email']['email_body'];
+
+        //Reemplazar valores en correo molde
+        if($product != null)
+        {
+            //Claves del correo molde
+            $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
+                "{telefonoContacto}","{datosProducto}");
+            //Valores a reemplaazar de proveedor y tipo
+            $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
+                $supplier["contact_email"], $supplier["credit"], $supplier["contact_telephone"], $product
+            );
+        } else {
+            //Claves del correo molde
+            $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
+                "{telefonoContacto}","{claveProducto}");
+            //Valores a reemplaazar de proveedor y producto
+            $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
+                $supplier["contact_email"], $supplier["credit"], $supplier["contact_telephone"],
+                $product["manufacturer_id"]
+            );
+        }
+        //Mensaje modificado
+        $message = str_replace($keys, $values, $message);
+
+        //Enviar el correo
+        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
+            ->to($supplier["contact_email"])
+            ->subject('Orden')
+            ->send($message);
+    }
+
 
 }

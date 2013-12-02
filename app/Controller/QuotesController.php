@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('RequestsController', 'Controller');
 App::uses('ProductsSuppliersController', 'Controller');
 App::uses('OrdersController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
@@ -19,7 +20,7 @@ class QuotesController extends AppController
  *
  * @var array
  */
-public $components = array('Paginator');
+public $components = array('Paginator', 'RequestHandler');
 /**
  * index method
  *
@@ -121,6 +122,7 @@ public function index($request_id = null)
             }
             $transaction->commit();
         }
+        return $this->redirect(array('controller'=>'requests', 'action' => 'myRequests'));
     }
 
     private function accept($quote_query)
@@ -150,6 +152,60 @@ public function index($request_id = null)
         //actualizar precio
         $product_supplier_controller = new ProductsSuppliersController();
         $product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+    }
+
+
+    public function setProductToQuote()
+    {
+        $this->autoRender = false;
+        $this->autoLayout = false;
+
+        $quote_id = $this->request->data['quote_id'];
+        $manufacturer_id = $this->request->data['manufacturer_id'];
+        $price = $this->request->data['price'];
+
+        $quote = $this->Quote->findById($quote_id);
+        $requestController = new RequestsController();
+
+        if($requestController->validateIOwnRequest($this, $quote['Request']['id']))
+        {
+            if(is_null($quote['Quote']['product_id']))
+            {
+                $product = $this->Quote->Product->findByManufacturerId($manufacturer_id);
+                if(count($product) == 0)
+                {
+                    throw new Exception("No se encontró el producto.");
+                }
+                else
+                {
+                    $transaction = $this->Quote->getDataSource();
+                    $transaction->begin();
+
+                    $this->Quote->id = $quote_id;
+                    $this->Quote->saveField('product_id', $product['Product']['id']);
+                    $this->Quote->saveField('unitary_price', $price);
+
+                    $psc = new ProductsSuppliersController();
+                    $psc->ensure_that_supplier_supplies_product($quote['Quote']['supplier_id'], $product['Product']['id'], $price);
+                    $transaction->commit();
+                    $view = new View($this, false);
+                    $this->Quote->recursive = 2;
+                    $quote = $this->Quote->findById($quote_id);
+                    $quote_for_element = $quote['Quote'];
+                    $quote_for_element['Supplier'] = $quote['Supplier'];
+                    $quote_for_element['Product'] = $quote['Product'];
+                    echo $view->element('Quotes/pending', array('quote' => $quote_for_element));
+                }
+            }
+            else
+            {
+                throw new InternalErrorException("El quote ya tenía un producto asignado.");
+            }
+        }
+        else
+        {
+            throw new ForbiddenException("No le pertenece el request.");
+        }
     }
 
 }

@@ -39,6 +39,13 @@ class RequestsController extends AppController {
 		$this->set('requests', $requests);
 	}
 
+    public function validateIOwnRequest($controller, $request_id)
+    {
+        $user_id = $controller->Auth->user('id');
+        $request = $this->Request->findById($request_id);
+        return $request['Request']['user_id'] == $user_id;
+    }
+
 	/**
 	 *
 	 *@param string $id

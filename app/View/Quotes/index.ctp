@@ -1,3 +1,4 @@
+<?php echo $this->Html->script('quotes-index'); ?>
 <h3>Cotizaciones Pendientes</h3>
 
 <div class="filters">
@@ -25,54 +26,9 @@
 		  </div>
 		</div>
 
-		<?php foreach ($request['Quote'] as $quote): ?>
-		<div class="row striped">
-			<div class="col-8">
-			 	<div class="row">
-			 		<div class="col-5">
-			      Cotizacion #<?php echo h($quote['id']); ?>
-					</div>
-			    <div class="col-5 text-right light">
-			      Fecha de creación
-			    </div>
-			    <div class="col-2 bold">
-			      <?php echo $this->Time->format($quote['created'], '%d/%m/%y', 'invalid'); ?>
-			    </div>
-
-			  </div>
-
-			  <!-- Detalle -->
-			  <div class="row">
-			  	<div class="col-3 text-right light">
-		      	Proveedor
-		    	</div>
-		    	<div class="col-3">
-		      	<?php echo $this->Html->link($quote['supplier_id'], array('controller' => 'suppliers', 'action' => 'view', $quote['supplier_id'])); ?>
-		    	</div>
-		    	<div class="col-3 text-right light">
-		      	Producto
-		    	</div>
-		    	<div class="col-3">
-		      	<?php echo $this->Html->link($quote['product_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
-		    	</div>
-			  </div>
-			</div>
-			<div class="col-4">
-
-
-            <input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="1">Aceptar</input>
-				<hr />
-				<p>Rechazar por:</p>
-				<ul class="unstyled">
-					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="2" checked='checked'>Precio</input></li>
-					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="3">Sin Existencias</input></li>
-					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="4">Sin Respuesta</input></li>
-					<li><input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="5">Tiempo entrega</input></li>
-				</ul>
-
-			</div>
-		</div>
-		<?php endforeach;?>
+		<?php foreach ($request['Quote'] as $quote):
+            echo $this->element('Quotes/pending', array('quote' => $quote));
+		 endforeach;?>
 	</div>
 </form>
 <?php endforeach; ?>

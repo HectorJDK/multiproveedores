@@ -1,4 +1,7 @@
 <!-- uses $results, $request_id  -->
+<?php echo $this->Html->script('suppliers-suppliers_for_category_product_type'); ?>
+
+
 request id: <?php echo  $request_id ?>
 
 <?php foreach ($results as $result): ?>

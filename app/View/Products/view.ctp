@@ -1,7 +1,7 @@
 <div class="products view">
 <br>
 <br>
-<h1><?php echo __('Producto'); ?></h1>
+    <h1><?php echo __('Producto'); ?></h1>
 	<div class="row striped slim">
 		<div class="col-8">
 

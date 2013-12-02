@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('EmailsController', 'Controller');
 /**
  * Orders Controller
  *
@@ -57,6 +58,9 @@ class OrdersController extends AppController {
 
         $supplier['debt'] += $request['quantity'] * $quote['unitary_price'];
         $this->Order->Quote->Supplier->save($supplier);
+
+        $emailsController = new EmailsController();
+        $emailsController->sendEmailForOrder($order, $supplier, $request);
     }
 
 /**
