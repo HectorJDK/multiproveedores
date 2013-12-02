@@ -138,7 +138,7 @@
 <!-- Div de modal -->
  <div class="modal" id="modal-1">
     <div class="modal-content">
-      <h3>Nueva solicitud</h3>
+      <h3 class="modal-header">Nueva solicitud</h3>
       <div>
       	<form action="/multiproveedores/requests/duplicate" method="POST">
       		Nueva Nota
@@ -146,7 +146,7 @@
       		<textarea name="note" rows="4" cols="50"> </textarea>
     	    <button class="btn btn-info" type="submit">Guardar</button>
     	</form>
-        	<button class="modal-close">Cancelar</button>
+        	<button class="modal-close btn btn-danger">Cancelar</button>
 	    </form>
       </div>
     </div>
