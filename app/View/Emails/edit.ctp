@@ -47,7 +47,7 @@
 
 	<?php 
 		echo $this->Form->create('Email', $options_for_form);
-		echo $this->Form->input('with_copy', array('label' => 'Con copia:'));
+		echo $this->Form->input('with_copy', array('label' => 'Con copia:','class' => 'input-block', 'rows' => 1));
 		echo $this->Form->input('email_body', array('label' => 'Comentarios', 'class' => 'input-block', 'rows' => 20));
 	?>
 

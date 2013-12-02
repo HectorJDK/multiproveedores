@@ -46,7 +46,7 @@
 	      Precio Unitario
 	    </div>
 	    <div class="col-3">
-	      <?php echo "$".h($order['Order']['unitary_price']); ?>
+	      <?php echo "$".h($order['Quote']['unitary_price']); ?>
 	    </div>
 	  </div>
 
@@ -55,14 +55,14 @@
 	      Cantidad
 	    </div>
 	    <div class="col-3">
-	      <?php echo h($order['Order']['quantity']); ?>
+	      <?php echo h($order['Quote']['Request']['quantity']); ?>
 	    </div>
 
 	    <div class="col-3 text-right light">
 	      Precio Total
 	    </div>
 	    <div class="col-3">
-	      <?php echo "$".h($order['Order']['total_price']); ?>
+	      <?php echo "$".h($order['Quote']['unitary_price'] * $order['Quote']['Request']['quantity']); ?>
 	    </div>
 	  </div>
 	  <hr />

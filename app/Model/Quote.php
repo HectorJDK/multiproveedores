@@ -97,7 +97,7 @@ class Quote extends AppModel {
 			'fields' => '',
 			'order' => '',
             'counterCache' => true,
-            'counterScope' => array('Request.deleted' => 0)
+            'counterScope' => array('Quote.deleted' => 0)
 		),
 		'Supplier' => array(
 			'className' => 'Supplier',
