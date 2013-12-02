@@ -294,7 +294,8 @@ class Supplier extends AppModel {
                 $supplier[0]['credit'],
                 $supplier[0]['contact_telephone'],
                 $supplier[0]['payed'],
-                $supplier[0]['debt']
+                $supplier[0]['debt'],
+                $supplier[0]['rating']
             ));
         }
         return $result;
@@ -302,7 +303,7 @@ class Supplier extends AppModel {
 
     public function search_by_product_type_preparation($origin, $type)
     {
-        $query = "select s.id as id, s.corporate_name as corporate_name, s.contact_name as contact_name, s.contact_email as contact_email, s.credit as credit, s.contact_telephone as contact_telephone, s.payed as payed, s.debt as debt ";
+        $query = "select s.id as id, s.corporate_name as corporate_name, s.contact_name as contact_name, s.contact_email as contact_email, s.credit as credit, s.contact_telephone as contact_telephone, s.payed as payed, s.debt as debt, s.rating as rating ";
         $query .= "from suppliers as s ";
         if($origin != '')
         {
