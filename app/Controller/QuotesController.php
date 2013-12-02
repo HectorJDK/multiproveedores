@@ -194,6 +194,7 @@ public function index($request_id = null)
                     $quote_for_element = $quote['Quote'];
                     $quote_for_element['Supplier'] = $quote['Supplier'];
                     $quote_for_element['Product'] = $quote['Product'];
+                    $quote_for_element['Request'] = $quote['Request'];
                     echo $view->element('Quotes/pending', array('quote' => $quote_for_element));
                 }
             }
