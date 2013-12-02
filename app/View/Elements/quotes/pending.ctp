@@ -22,13 +22,13 @@
         <?php echo $this->Html->link($quote['supplier_id'], array('controller' => 'suppliers', 'action' => 'view', $quote['supplier_id'])); ?>
         </div>
 
+        <div class="col-3 text-right light">
+            Producto
+        </div>
         <?php
             if (is_null($quote['product_id']))
             {
                 ?>
-                    <div class="col-3 text-right light">
-                        Producto
-                    </div>
                     <div class="col-3">
                         <input name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
                     </div>
@@ -42,9 +42,6 @@
             else
             {
                 ?>
-                    <div class="col-3 text-right light">
-                        Producto
-                    </div>
                     <div class="col-3">
                         <?php echo $this->Html->link($quote['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
                     </div>
@@ -55,7 +52,7 @@
     </div>
     <div class="col-4">
 
-    <input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="1" disabled="<?php is_null($quote['product_id'])?>">Aceptar</input>
+    <input type="radio" name="<?php echo('data[quotes]['.$quote['id'].']');?>" value="1" <?php echo is_null($quote['product_id'])? 'disabled' : ''; ?> >Aceptar</input>
         <hr />
         <p>Rechazar por:</p>
         <ul class="unstyled">
