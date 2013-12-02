@@ -27,6 +27,11 @@ class OrdersController extends AppController {
 		$this->set('orders', $orders);
 	}
 
+	public function add() {
+		if ($this->request->is('post')) {
+			}
+	}
+
 /**
  * view method
  *

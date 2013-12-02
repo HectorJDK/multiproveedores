@@ -48,7 +48,8 @@ class OriginsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Origin->create();
-			if ($this->Origin->save($this->request->data)) {
+            $data = $this->request->data['Origin'];
+			if ($this->Origin->save($data)) {
 				$this->Session->setFlash(__('The category has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
