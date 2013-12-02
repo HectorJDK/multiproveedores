@@ -62,10 +62,14 @@ class OrdersController extends AppController {
         $this->Order->save($order);
 
         $supplier['debt'] += $request['quantity'] * $quote['unitary_price'];
-        $this->Order->Quote->Supplier->save($supplier);
+
+        //en este punto, $supplier ya no contiene el valor mas nuevo para rejected y accepted quotes, por lo que
+        //es importante actualizar únicamente el campo de debt y no el modelo entero.
+        $this->Order->Quote->Supplier->id = $supplier['id'];
+        $this->Order->Quote->Supplier->saveField('debt', $supplier['debt']);
 
         $emailsController = new EmailsController();
-        $emailsController->sendEmailForOrder($order, $supplier, $request);
+        //$emailsController->sendEmailForOrder($order, $supplier, $request);
     }
 
 /**

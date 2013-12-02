@@ -78,7 +78,7 @@ class SuppliersController extends AppController {
  */
 	public function edit($id = null)
 	{
-    $this->Supplier->id = $id;
+        $this->Supplier->id = $id;
     
 		if (!$this->Supplier->exists($id)) {
 			throw new NotFoundException(__('Invalid supplier'));
@@ -96,8 +96,8 @@ class SuppliersController extends AppController {
 		} else
         {
 			$options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
-      $supplier = $this->Supplier->find('first', $options);
-      $this->set('supplier', $supplier);
+            $supplier = $this->Supplier->find('first', $options);
+            $this->set('supplier', $supplier);
 			$this->request->data = $supplier;
 		}
 		$categories = $this->Supplier->Origin->find('list');
@@ -147,6 +147,28 @@ class SuppliersController extends AppController {
         $result = $this->Product->search_suppliers_for_products($products);
         $this->set('suppliers_products', $result);
         $this->set('request_id', $request_id);
+    }
+
+    public function increment_accepted_quotes($supplier_id)
+    {
+        $options = array('conditions' => array('id' => $supplier_id));
+        $supplier = $this->Supplier->find('first', $options);
+
+        $accepted_quotes = $supplier['Supplier']['accepted_quotes'] + 1;
+
+        $this->Supplier->id = $supplier_id;
+        $this->Supplier->saveField('accepted_quotes', $accepted_quotes);
+    }
+
+    public function increment_rejected_quotes($supplier_id)
+    {
+        $options = array('conditions' => array('id' => $supplier_id));
+        $supplier = $this->Supplier->find('first', $options);
+
+        $rejected_quotes = $supplier['Supplier']['rejected_quotes'] + 1;
+
+        $this->Supplier->id = $supplier_id;
+        $this->Supplier->saveField('rejected_quotes', $rejected_quotes);
     }
 
 }

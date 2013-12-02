@@ -119,7 +119,8 @@ class ProductsSuppliersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function delete($id = null)
+    {
 		$this->ProductsSupplier->id = $id;
 		if (!$this->ProductsSupplier->exists()) {
 			throw new NotFoundException(__('Invalid products supplier'));
@@ -161,5 +162,10 @@ class ProductsSuppliersController extends AppController {
             $result[0]['ProductsSupplier']['price'] = $price;
             $this->ProductsSupplier->save($result[0]);
         }
+    }
+
+    public function get_catalog_items_for_supplier($supplier_id)
+    {
+
     }
 }

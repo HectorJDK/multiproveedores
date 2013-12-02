@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('RequestsController', 'Controller');
+App::uses('SuppliersController', 'Controller');
 App::uses('ProductsSuppliersController', 'Controller');
 App::uses('OrdersController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
@@ -128,30 +129,28 @@ public function index($request_id = null)
     private function accept($quote_query)
     {
         //incrementar accepted_quotes
-        $supplier = $quote_query['Supplier'];
-        $supplier['accepted_quotes']++;
-        $this->Quote->Supplier->save($supplier);
+        $sc = new SuppliersController();
+        $sc->increment_accepted_quotes($quote_query['Supplier']['id']);
 
         //crear orden
         $orderController = new OrdersController();
         $orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request']);
 
         //actualizal precio
-        $product_supplier_controller = new ProductsSuppliersController();
-        $product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+        //$product_supplier_controller = new ProductsSuppliersController();
+        //$product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
 
     }
 
     private function reject($quote_query)
     {
         //incrementar rejected_quotes
-        $supplier = $quote_query['Supplier'];
-        $supplier['rejected_quotes']++;
-        $this->Quote->Supplier->save($supplier);
+        $sc = new SuppliersController();
+        $sc->increment_rejected_quotes($quote_query['Supplier']['id']);
 
         //actualizar precio
-        $product_supplier_controller = new ProductsSuppliersController();
-        $product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+        //$product_supplier_controller = new ProductsSuppliersController();
+        //$product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
     }
 
 
