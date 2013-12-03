@@ -8,7 +8,10 @@
 	</ul>
 </div>
 
-<?php foreach ($requests as $request): ?>
+<?php 
+ //echo "<pre>". print_r($this->element('sql_dump'),TRUE)."</pre>";
+foreach ($requests as $request): ?>
+	
 <form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/processQuotes">
     <input type="hidden" name="data[request_id]" value="<?php echo $request['Request']['id'] ?>"/>
 	<div class="row slim">
@@ -26,8 +29,8 @@
 		  </div>
 		</div>
 
-		<?php foreach ($request['Quote'] as $quote):
-            echo $this->element('Quotes/pending', array('quote' => $quote));
+		<?php foreach ($request['Quote'] as $keyQ =>$quote):
+            echo $this->element('Quotes/pending', array('quote' => $quote, 'keyQ'=>$keyQ));
 		 endforeach;?>
 	</div>
 </form>

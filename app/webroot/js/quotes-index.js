@@ -19,12 +19,13 @@ function replace_quote(quote_id, new_quote)
     div_quote.replaceWith(new_quote);
 }
 
-function setProductToQuote(quote_id)
+function setProductToQuote(quote_id, keyQ)
 {
     var data = {
         quote_id: quote_id,
         manufacturer_id: getManufacturerIdFromQuote(quote_id),
-        price: getPriceFromQuote(quote_id)
+        price: getPriceFromQuote(quote_id),
+        keyQ: keyQ,
     };
     $.ajax({
         url: 'http://localhost:8080/multiproveedores/quotes/setProductToQuote',

@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('RequestsController', 'Controller');
+App::uses('SuppliersController', 'Controller');
 App::uses('ProductsSuppliersController', 'Controller');
 App::uses('OrdersController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
@@ -44,12 +45,38 @@ public function index($request_id = null)
     }else{
         $this->Paginator->settings = array(
                 'limit' => 1,
-                'recursive'=>2,
-                'conditions' => array('Request.deleted' => 0, 'Request.user_id' => $userId, 'Request.quote_count > '=> 0)
+                'recursive'=>2,                     
+                'conditions' => array( 'Request.deleted' => 0,'Request.user_id' => $userId, 'Request.quote_count > '=> 0)
         );
     }
     $requests = $this->Paginator->paginate($this->Quote->Request);
+    for($i = 0 ; $i < count($requests); $i++)
+    {
+        for($j = 0; $j < count($requests[$i]['Quote']); $j++)
+        {
+            if($requests[$i]['Quote'][$j]['deleted']==1)
+            {
+                unset($requests[$i]['Quote'][$j]);
+                $j--;
+            }
+        }
+    }
 
+    //Obtencion de la informacion de los productos en cada quote
+    if(isset($requests[0]) and !is_null($requests[0])){
+        $this->Quote->Product->Behaviors->load('Containable');
+        foreach($requests[0]['Quote'] as $key => $value){
+            $data[$key]=$this->Quote->Product->find('first',
+                array(
+                    'conditions'=>array('Product.id'=>$value["product_id"])
+                ,
+                    'contain'=>array('Attribute','Type')
+                )
+            );
+        }
+        $this->Quote->Product->Behaviors->unload('Containable');
+        $this->set('data',$data);
+    }
 	$this->set('requests', $requests);
 }
 
@@ -72,6 +99,11 @@ public function index($request_id = null)
             $this->Session->setFlash(__('The quote could not be deleted. Please, try again.'));
         }
         return $this->redirect(array('action' => 'index'));
+    }
+
+    public function preview()
+    {
+
     }
 
     public function processQuotes()
@@ -128,30 +160,28 @@ public function index($request_id = null)
     private function accept($quote_query)
     {
         //incrementar accepted_quotes
-        $supplier = $quote_query['Supplier'];
-        $supplier['accepted_quotes']++;
-        $this->Quote->Supplier->save($supplier);
+        $sc = new SuppliersController();
+        $sc->increment_accepted_quotes($quote_query['Supplier']['id']);
 
         //crear orden
         $orderController = new OrdersController();
         $orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request']);
 
         //actualizal precio
-        $product_supplier_controller = new ProductsSuppliersController();
-        $product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+        //$product_supplier_controller = new ProductsSuppliersController();
+        //$product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
 
     }
 
     private function reject($quote_query)
     {
         //incrementar rejected_quotes
-        $supplier = $quote_query['Supplier'];
-        $supplier['rejected_quotes']++;
-        $this->Quote->Supplier->save($supplier);
+        $sc = new SuppliersController();
+        $sc->increment_rejected_quotes($quote_query['Supplier']['id']);
 
         //actualizar precio
-        $product_supplier_controller = new ProductsSuppliersController();
-        $product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+        //$product_supplier_controller = new ProductsSuppliersController();
+        //$product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
     }
 
 
@@ -160,9 +190,12 @@ public function index($request_id = null)
         $this->autoRender = false;
         $this->autoLayout = false;
 
+        $keyQ = $this->request->data['keyQ'];
+
         $quote_id = $this->request->data['quote_id'];
         $manufacturer_id = $this->request->data['manufacturer_id'];
         $price = $this->request->data['price'];
+
 
         $quote = $this->Quote->findById($quote_id);
         $requestController = new RequestsController();
@@ -195,7 +228,19 @@ public function index($request_id = null)
                     $quote_for_element['Supplier'] = $quote['Supplier'];
                     $quote_for_element['Product'] = $quote['Product'];
                     $quote_for_element['Request'] = $quote['Request'];
-                    echo $view->element('Quotes/pending', array('quote' => $quote_for_element));
+                     $this->Quote->Product->Behaviors->load('Containable');
+                        //echo "<pre>". print_r($requests,TRUE)."</pre>";                        
+                            $data[$keyQ]=$this->Quote->Product->find('first',
+                                array(
+                                    'conditions'=>array('Product.id'=>$quote['Quote']['product_id'])
+                                    ,
+                                 'contain'=>array('Attribute','Type')
+                                 )
+                                );                        
+                        $this->Quote->Product->Behaviors->unload('Containable');
+                        $this->set('data',$data);
+                    echo $view->element('Quotes/pending', array('quote' => $quote_for_element, 
+                        'data'=>$data,'keyQ'=>$keyQ));
                 }
             }
             else

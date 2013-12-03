@@ -121,7 +121,7 @@
 		 <?php echo $this->Form->select('type', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
 		 <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'], 'name'=>'request_id')); ?>
 
-	<?php echo $this->Form->end(array('label' => 'Buscar')); ?>
+	<?php echo $this->Form->end(array('label' => 'Buscar', 'class'=>'btn')); ?>
 
 </div>
 
