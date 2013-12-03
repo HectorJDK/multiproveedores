@@ -3,7 +3,7 @@
 <h2>Resultados de Búsqueda por Tipo</h2>
 
 <?php foreach ($results as $result): ?>
-<?php print_r($result)?>
+
 <div class="row striped slim">
 	<div class="col-8">
 		<div class="row">
