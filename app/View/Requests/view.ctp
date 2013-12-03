@@ -1,6 +1,9 @@
 <?php
 	echo $this->AssetCompress->script('requests-view');
 ?>
+
+<?php echo $this->element('requests_actions'); ?>
+
 <input id="request_id" type="hidden" value='<?php echo $request['Request']['id'] ?>'/>
 <div class="grey-container" >
 	<!-- Here is the button to duplicate a request -->

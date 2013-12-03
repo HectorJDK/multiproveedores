@@ -1,5 +1,6 @@
-<div class="grey-container">
+<?php echo $this->element('requests_actions'); ?>
 
+<div class="grey-container">
   <h2>Nueva Solicitud</h2>
 
   <?php echo $this->Form->create('Request', $options_for_form);  ?>

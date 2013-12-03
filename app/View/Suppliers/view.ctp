@@ -1,3 +1,5 @@
+<?php echo $this->element('suppliers_actions'); ?>
+
 <div class="grey-container" >
   <h2><?php echo $supplier['Supplier']['corporate_name']; ?></h2>
   <div class="row">

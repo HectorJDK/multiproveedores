@@ -1,3 +1,4 @@
+<?php echo $this->element('requests_actions'); ?>
 
 <h2>Solicitudes Abiertas</h2>
 <div class="filters">

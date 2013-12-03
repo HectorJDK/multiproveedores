@@ -426,3 +426,13 @@ form{
 .red {
   color: #C54F39;
 }
+
+ul.dropdown-menu.actions { 
+  position: relative;
+  float: left; 
+  margin-left: -190px;
+  display: block;
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

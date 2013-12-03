@@ -1,3 +1,4 @@
+<?php echo $this->element('suppliers_actions'); ?>
 <div class="grey-container">
 	<h2>Editar Proveedor</h2>
 	<?php echo $this->Form->create('Supplier', $options_for_form); 

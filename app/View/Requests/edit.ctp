@@ -1,3 +1,5 @@
+<?php echo $this->element('requests_actions'); ?>
+
 <div class="grey-container" >
   <h2>Editar Solicitud #<?php echo $request['Request']['id']; ?></h2>
   

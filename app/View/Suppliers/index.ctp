@@ -1,6 +1,6 @@
-<h1>Proveedores</h1>
-
 <?php echo $this->element('suppliers_actions'); ?>
+
+<h1>Proveedores</h1>
 
 <div class="filters">
 	<span>Ordenar por:</span>

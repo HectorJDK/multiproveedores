@@ -56,7 +56,7 @@
         $this->BootstrapNavbar->brand('Multiproveedores', array('controller'=>'requests', 'action'=>'index')) ;
         $this->BootstrapNavbar->beginMenu ('Solicitudes') ;
             $this->BootstrapNavbar->link ('Mis Solicitudes', array('controller'=>'requests', 'action'=>'myRequests')) ;
-            $this->BootstrapNavbar->link ('Solicitudes Activas', array('controller' => 'requests', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Pendientes', array('controller' => 'requests', 'action'=>'index')) ;
             $this->BootstrapNavbar->link ('Crear Solicitud', array('controller' => 'requests', 'action'=>'add')) ;
             $this->BootstrapNavbar->divider() ;
             $this->BootstrapNavbar->link ('Origenes', array('controller' => 'origins', 'action'=>'index')) ;
