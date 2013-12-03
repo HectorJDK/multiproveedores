@@ -43,7 +43,6 @@ public function index($request_id = null)
                 )
         );
     }else{
-        $this->Quote->Product->Behaviors->load('Containable');
         $this->Paginator->settings = array(
                 'limit' => 1,
                 'recursive'=>2,                     
@@ -62,20 +61,22 @@ public function index($request_id = null)
             }
         }
     }
-    //$this->Quote->Product->Behaviors->load('Containable');
-    //echo "<pre>". print_r($this->element('sql_dump'),TRUE)."</pre>";
 
-    foreach($requests[0]['Quote'] as $key => $value  ){
-        $data[$key]=$this->Quote->Product->find('first',
-            array(
-                'conditions'=>array('Product.id'=>$value["product_id"])
+    //Obtencion de la informacion de los productos en cada quote
+    if(isset($requests[0]) and !is_null($requests[0])){
+        $this->Quote->Product->Behaviors->load('Containable');
+        foreach($requests[0]['Quote'] as $key => $value){
+            $data[$key]=$this->Quote->Product->find('first',
+                array(
+                    'conditions'=>array('Product.id'=>$value["product_id"])
                 ,
-             'contain'=>array('Attribute','Type')
-             )
+                    'contain'=>array('Attribute','Type')
+                )
             );
+        }
+        $this->Quote->Product->Behaviors->unload('Containable');
+        $this->set('data',$data);
     }
-    $this->Quote->Product->Behaviors->unload('Containable');
-    $this->set('data',$data);
 	$this->set('requests', $requests);
 }
 
