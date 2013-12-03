@@ -43,15 +43,28 @@ public function index($request_id = null)
                 )
         );
     }else{
+        $this->Quote->Product->Behaviors->load('Containable');
         $this->Paginator->settings = array(
                 'limit' => 1,
-                'recursive'=>2,
-                'conditions' => array('Request.deleted' => 0, 'Request.user_id' => $userId, 'Request.quote_count > '=> 0)
+                'recursive'=>2,                     
+                'conditions' => array( 'Request.deleted' => 0,'Request.user_id' => $userId, 'Request.quote_count > '=> 0)
         );
     }
     $requests = $this->Paginator->paginate($this->Quote->Request);
-    $this->Quote->Product->Behaviors->load('Containable');
-    //echo "<pre>". print_r($requests,TRUE)."</pre>";
+    foreach ($requests as $key => $request)
+    {
+        for($i = 0; $i < count($request['Quote']); $i++)
+        {
+            if($request['Quote'][$i]['deleted']==1)
+            {
+                unset($request['Quote'][$i]);
+                $i--;
+            }
+        }
+    }
+    //$this->Quote->Product->Behaviors->load('Containable');
+    //echo "<pre>". print_r($this->element('sql_dump'),TRUE)."</pre>";
+
     foreach($requests[0]['Quote'] as $key => $value  ){
         $data[$key]=$this->Quote->Product->find('first',
             array(
