@@ -74,7 +74,9 @@
 	  		<label for="rating">Rating</label>
 	  	</div>
 	  	<div class="col-1">
-	  		<input type="text" id="rating" class="input-large"/>
+	  		 <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Calidad del servicio en general del 1 al 5 (5 siendo la mejor calidad)">
+	  			<input type="text" id="rating" class="input-large"/>
+			</a>
 	  	</div>
 	  	<div class="col-2 text-right light">
 	  		<label for="delivery_date">Fecha de Entrega</label>
@@ -89,7 +91,7 @@
 	  		<input type="text" id="pay_date" class="input-block" data-datepicker/>
 	  	</div>
 	  	<div class="col-1"></div>
-	  </div>	
+	  </div>
 	</div>
 
 	<!-- Actions -->
@@ -97,7 +99,7 @@
 		<button type="submit" class="btn btn-info btn-block"><i class="icon-ok"></i>Generar Cuenta por Pagar</button>
 		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
 	</div>
-	</form>	
+	</form>
 </div>
 
 <?php endforeach; ?>
