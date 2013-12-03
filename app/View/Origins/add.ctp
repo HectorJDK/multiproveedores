@@ -1,6 +1,8 @@
 <div class="grey-container">
   <h2>Nuevo Origen</h2>
-  <?php echo $this->Form->create('Origin', $options_for_form);
+  <?php echo $this->Form->create('Origin', $options_for_form); ?>
+  <a href="#" data-toggle="tooltip" data-placement="left" title="" data-original-title="URL del origen que desea agregar">
+    <?php
     echo $this->Form->input('url', array('label' => 'Url'));
   ?>
   <div class="text-right">
