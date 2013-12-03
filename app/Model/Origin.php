@@ -42,7 +42,7 @@ class Origin extends AppModel {
 		'url' => array(
 			'url' => array(
 				'rule' => array('url'),
-				//'message' => 'Your custom message here',
+				'message' => 'Se necesita ingresar un URL correctamente formado',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule

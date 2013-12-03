@@ -1,11 +1,9 @@
 <?php echo $this->element('requests_actions'); ?>
-
 <h2>Solicitudes Abiertas</h2>
 <div class="filters">
   <span>Ordenar por:</span>
   <ul class="pagination pagination-inverse">
-    <li><?php echo $this->Paginator->sort('category_id'); ?></li>
-    <li><?php echo $this->Paginator->sort('created'); ?></li>
+    <li><?php echo $this->Paginator->sort('created', 'Fecha Creación'); ?></li>
   </ul>
   <div class="pull-right" style="margin-top: -12px;">
     <form action="/multiproveedores/requests/index" method="POST" class="inline-form">
@@ -23,13 +21,13 @@
 <?php foreach ($requests as $request): ?>
 <div class="row striped slim">
   <div class="col-8">
-    <?php if (is_null(!$request['Origin']['url'])): ?>
+    <?php if (!is_null($request['Origin']['url'])): ?>
     <div class="row">
       <div class="col-3 text-right light">
         Página Origen:
       </div>
-      <div class="col-9">
-        <?php echo $this->Html->link($request['Origin']['url'], array('controller' => 'categories', 'action' => 'view', $request['Origin']['id'])); ?>
+      <div class="col-9 blue">
+        <?php echo $request['Origin']['url']; ?>
       </div>
     </div>
     <?php endif; ?>
@@ -39,7 +37,7 @@
         Comentarios:
       </div>
       <div class="col-9">
-        <?php echo $this->Html->link($request['Content']['comment'], array('controller' => 'contents', 'action' => 'view', $request['Content']['id'])); ?>
+        <?php echo $request['Content']['comment']; ?>
       </div>
     </div>
 

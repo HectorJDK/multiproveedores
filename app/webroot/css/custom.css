@@ -427,6 +427,10 @@ form{
   color: #C54F39;
 }
 
+.blue {
+  color: #2980b9;
+}
+
 ul.dropdown-menu.actions { 
   position: relative;
   float: left; 
