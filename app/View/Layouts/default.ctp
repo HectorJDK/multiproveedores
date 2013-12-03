@@ -67,10 +67,7 @@
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Ordenes') ;
             $this->BootstrapNavbar->link ('Ordenes por Cerrar', array('controller'=>'orders', 'action'=>'index')) ;
-        $this->BootstrapNavbar->endMenu () ;
-        $this->BootstrapNavbar->beginMenu ('Cuentas') ;
-            $this->BootstrapNavbar->link ('Cuentas por Pagar', array('controller'=>'accounts', 'action'=>'index')) ;
-            $this->BootstrapNavbar->link ('Historial de Pagos', array('controller' => 'accounts', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Ordenes por Pagar', array('controller'=>'orders', 'action'=>'index')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Proveedores') ;
             $this->BootstrapNavbar->link ('Proveedores', array('controller'=>'suppliers', 'action'=>'index')) ;

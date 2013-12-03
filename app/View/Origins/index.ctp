@@ -1,58 +1,38 @@
-<div class="categories index">
-	<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Acciones'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
-			<li><?php echo $this->Html->link(__('New Category'), array('action' => 'add')); ?></li>
-		</ul>
-	</div>
-	
-	<h2><?php echo __('Categories'); ?></h2>
+<h2>Origenes</h2>
 
-	<div class="filters"> Ordenar por:
-			<?php echo $this->Paginator->sort('id'); ?>
-			<?php echo $this->Paginator->sort('url'); ?>
+<div class="small-content">
+	<div class="filters">
+		<span>Ordenar por:</span>
+		  <ul class="pagination pagination-inverse">
+		    <li><?php echo $this->Paginator->sort('id'); ?></li>
+		    <li><?php echo $this->Paginator->sort('url'); ?></li>
+		  </ul>
 	</div>
 
-	<?php foreach ($origins as $origin): ?>
-	<div class="row striped slim">
-		<div class="col-8">
-			<div class="row">
-				<div class="col-3 text-right light">
-					Id
-				</div>
-				<div class="col-3">
-					<?php echo h($origin['Origin']['id']); ?>&nbsp;
-				</div>
-			</div>
+	<table class="table table-striped" width="500px">
+		<thead>
+			<tr>
+				<th width="50px;">Id</th>
+				<th width="300px;">URL</th>
+				<th width="200px;"></th>
+			</tr>
+		</thead>
 
-			<div class="row">
-				<div class="col-3 text-right light">
-					Cateogria
-				</div>
-				<div class="col-3">
-					<?php echo h($origin['Origin']['url']); ?>&nbsp;
-				</div>
-			</div>
+		<tbody>
 
-		</div>
-		<div class="col-4">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $origin['Origin']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $origin['Origin']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $origin['Origin']['id']), null, __('Are you sure you want to delete # %s?', $origin['Origin']['id'])); ?>
-		</div>
-	</div>
-<?php endforeach; ?>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="pagination pagination-center">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
+			<?php foreach ($origins as $origin): ?>
+				<tr>
+					<td><?php echo $origin['Origin']['id']; ?></td>
+					<td><?php echo $origin['Origin']['url']; ?></td>
+					<td>
+						<?php
+							echo $this->Html->link("Editar", array('action' => 'edit', $origin['Origin']['id']), array('class' => 'btn btn-success btn-block btn-small'));
+						?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	<?php echo $this->element('paginator'); ?>
 </div>
