@@ -22,7 +22,8 @@ public $components = array('Paginator');
  */
 public function index() {
 	$this->Origin->recursive = 0;
-	$this->set('origins', $this->Paginator->paginate());
+    $origins = $this->Paginator->paginate(array('Origin.deleted' => 0));
+	$this->set('origins', $origins);
 }
 
 /**
@@ -52,11 +53,11 @@ public function add() {
 		$this->Origin->create();
         //Obtenemos la informacion y la guardamos en lowercase
 		$data = $this->request->data['Origin'];
-		$repetition = strtolower($data['url']);
+		$data['url'] = strtolower($data['url']);
 
         //Limitamos la busqueda a solo los datos que nos interesan
         $this->Origin->recursive = -1;
-		$error = $this->Origin->find('first', array('conditions' => array('Origin.deleted' => 0, 'Origin.url' => $repetition)));
+		$error = $this->Origin->find('first', array('conditions' => array('Origin.deleted' => 0, 'Origin.url' => $data['url'])));
 
 		if (!isset($error['Origin']))
         {
