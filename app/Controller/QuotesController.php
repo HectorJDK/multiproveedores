@@ -51,14 +51,14 @@ public function index($request_id = null)
         );
     }
     $requests = $this->Paginator->paginate($this->Quote->Request);
-    foreach ($requests as $key => $request)
+    for($i = 0 ; $i < count($requests); $i++)
     {
-        for($i = 0; $i < count($request['Quote']); $i++)
+        for($j = 0; $j < count($requests[$i]['Quote']); $j++)
         {
-            if($request['Quote'][$i]['deleted']==1)
+            if($requests[$i]['Quote'][$j]['deleted']==1)
             {
-                unset($request['Quote'][$i]);
-                $i--;
+                unset($requests[$i]['Quote'][$j]);
+                $j--;
             }
         }
     }
@@ -98,6 +98,11 @@ public function index($request_id = null)
             $this->Session->setFlash(__('The quote could not be deleted. Please, try again.'));
         }
         return $this->redirect(array('action' => 'index'));
+    }
+
+    public function preview()
+    {
+
     }
 
     public function processQuotes()
