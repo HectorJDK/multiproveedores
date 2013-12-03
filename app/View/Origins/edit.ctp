@@ -1,13 +1,13 @@
-<div class="categories form">
-
-<?php echo $this->Form->create('Category'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Category'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('url');
-		echo $this->Form->input('Supplier');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="grey-container">
+  <h2>Editar Origen</h2>
+  <?php echo $this->Form->create('Origin', $options_for_form); 
+    echo $this->Form->input('url', array('label' => 'Url'));
+  ?>
+  <div class="text-right">
+  <?php 
+    echo $this->Html->link("Cancelar", array('action' => 'index'), array('class' => 'btn btn-danger'));
+    echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));?>
+  </div>  
 </div>
+
+<?php echo $this->element('requests_actions'); ?>

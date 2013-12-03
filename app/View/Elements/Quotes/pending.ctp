@@ -22,7 +22,7 @@
         <?php echo $this->Html->link($quote['Supplier']['corporate_name'], array('controller' => 'suppliers', 'action' => 'view', $quote['supplier_id'])); ?>
         </div>
 
-       
+
       </div>
 
       <div class="row">
@@ -40,7 +40,7 @@
                         <?php echo $data[$keyQ]['Type']['type_name'];?>
                       </div>
         <?php }?>
- 
+
       </div>
 
       <div class="row">
@@ -74,14 +74,14 @@
                     <div class="col-3">
                         <input name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
                     </div>
-                   
+
           <?php } else { ?>
                     <div class="col-3">
                         <?php echo $this->Html->link($quote['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
                     </div>
           <?php } ?>
         <?php }?>
-          
+
       </div>
 
       <div class="row">
@@ -102,13 +102,13 @@
                         <input name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
                       </div>
                       <div class="col-3 text-right light">
-                       
+
                       </div>
                     <div class="col-3 text-right light">
                     <input value="Agregar producto" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .','.$keyQ.')'; ?>"/>
                   </div>
                     <?php } else {?>
-                  
+
                     <?php }?>
       </div>
 
@@ -125,15 +125,15 @@
           <?php if (!is_null($quote['product_id'])){
                   foreach($data[$keyQ]['Attribute'] as $atributo){
             ?>
-            <tr><td>                      
-                        <?php echo $atributo['name'];?>       
+            <tr><td>
+                        <?php echo $atributo['name'];?>
                      </td>
-                     <td>                    
+                     <td>
                         <?php echo $atributo['AttributesProduct']['value'];?>
                       </td>
-                  </tr>                                          
+                  </tr>
           <?php }
-        }?>        
+        }?>
       </table>
     </div>
       </div>
@@ -143,7 +143,11 @@
               Razon de Perdida
           </div>
           <div class="col-3">
-            <?php echo ($quote['Supplier']['accepted_quotes'] / $quote['Supplier']['rejected_quotes'])?>
+            <?php echo '<span class="red">';
+                echo $quote['Supplier']['accepted_quotes'];
+                echo '</span>';
+                echo " de " ;
+                echo $quote['Supplier']['rejected_quotes'] + $quote['Supplier']['accepted_quotes'];?>
           </div>
       </div>
     </div>

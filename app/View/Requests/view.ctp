@@ -73,8 +73,10 @@
 	  Notas
 	</div>
 	<div class="col-9">
+		<a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregue notas importantes para la solicitud">
 	  <?php echo $this->Form->textarea('Request.notes', array('id' => 'request_notes', 'label' => '', 'cols'=> 45,
 	  'rows'=>5,'default'=>$request['Request']['note'],'onchange' => 'update_notes_request(this,'.$request['Request']['id'].')')); ?>
+		</a>
 	</div>
   </div>
   <!-- Cantidad-->
@@ -83,8 +85,10 @@
 	  Cantidad
 	</div>
 	<div class="col-9">
+		<a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Cantidad de productos que se piden">
 	  <?php echo $this->Form->input('Request.quantity', array('id' => 'request_quantity', 'label' => '',
 	  'onchange' => 'updateQty(this,'.$request['Request']['id'].')','default'=>h($request['Request']['quantity'])));?>
+		</a>
 	</div>
   </div>
 </div>
@@ -121,7 +125,7 @@
 		 <?php echo $this->Form->select('type', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
 		 <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'], 'name'=>'request_id')); ?>
 
-	<?php echo $this->Form->end(array('label' => 'Buscar')); ?>
+	<?php echo $this->Form->end(array('label' => 'Buscar', 'class'=>'btn')); ?>
 
 </div>
 

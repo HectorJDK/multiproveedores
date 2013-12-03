@@ -16,7 +16,14 @@
 			<div class="col-3"> <?php echo $result->contact_email; ?> </div>
 
 			<div class="col-3 light text-right">Credito</div>
-			<div class="col-3"> <?php echo $result->credit;?></div>
+			<div class="col-3">
+				<?php if ($result->credit > 0) {
+					echo "Si";
+				}
+				else {
+					echo "No";
+				}?>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-3 light"> Nombre de Contacto</div>
@@ -43,9 +50,11 @@
 		<div class="row">
 			<!-- Aqui se deben de mostrar las cotizaciones perdidas -->
 			<div class="col-3 light">
-				Cotizaciones Perdidas:
+				Razon de Perdida:
 			</div>
-			<div class="col-3"></div>
+			<div class="col-3">
+
+			</div>
 
 			<div class="col-3 light text-right">Adeudos</div>
 			<div class="col-3 red"><?php echo $result->debt; ?></div>
