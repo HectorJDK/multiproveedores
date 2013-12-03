@@ -33,12 +33,12 @@
             <?php echo $quote['Supplier']['moral_rfc']; ?>
         </div>
         <?php if(isset($quote['Product']['type_id'])){?>
-        <div class="col-3 text-right light">
-            Tipo de Producto
-        </div>
-        <div class="col-3">
-            <?php echo $quote['Product']['type_id']?>
-        </div>
+       <div class="col-3 text-right light">
+                        Tipo
+                      </div>
+                      <div class="col-3">
+                        <?php echo $data[$keyQ]['Type']['type_name'];?>
+                      </div>
         <?php }?>
  
       </div>
@@ -105,8 +105,10 @@
                        
                       </div>
                     <div class="col-3 text-right light">
-                    <input value="Agregar producto" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .')'; ?>"/>
+                    <input value="Agregar producto" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .','.$keyQ.')'; ?>"/>
                   </div>
+                    <?php } else {?>
+                  
                     <?php }?>
       </div>
 
@@ -117,6 +119,23 @@
           <div class="col-3 red">
               <?php echo $quote['Supplier']['debt']?>
           </div>
+          <div class="col-2">&nbsp;</div>
+          <div class="col-3">
+         <table class="col-3">
+          <?php if (!is_null($quote['product_id'])){
+                  foreach($data[$keyQ]['Attribute'] as $atributo){
+            ?>
+            <tr><td>                      
+                        <?php echo $atributo['name'];?>       
+                     </td>
+                     <td>                    
+                        <?php echo $atributo['AttributesProduct']['value'];?>
+                      </td>
+                  </tr>                                          
+          <?php }
+        }?>        
+      </table>
+    </div>
       </div>
 
       <div class="row">

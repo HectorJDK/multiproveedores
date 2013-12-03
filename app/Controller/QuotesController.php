@@ -50,7 +50,19 @@ public function index($request_id = null)
         );
     }
     $requests = $this->Paginator->paginate($this->Quote->Request);
-
+    $this->Quote->Product->Behaviors->load('Containable');
+    //echo "<pre>". print_r($requests,TRUE)."</pre>";
+    foreach($requests[0]['Quote'] as $key => $value  ){
+        $data[$key]=$this->Quote->Product->find('first',
+            array(
+                'conditions'=>array('Product.id'=>$value["product_id"])
+                ,
+             'contain'=>array('Attribute','Type')
+             )
+            );
+    }
+    $this->Quote->Product->Behaviors->unload('Containable');
+    $this->set('data',$data);
 	$this->set('requests', $requests);
 }
 
@@ -159,9 +171,12 @@ public function index($request_id = null)
         $this->autoRender = false;
         $this->autoLayout = false;
 
+        $keyQ = $this->request->data['keyQ'];
+
         $quote_id = $this->request->data['quote_id'];
         $manufacturer_id = $this->request->data['manufacturer_id'];
         $price = $this->request->data['price'];
+
 
         $quote = $this->Quote->findById($quote_id);
         $requestController = new RequestsController();
@@ -194,7 +209,19 @@ public function index($request_id = null)
                     $quote_for_element['Supplier'] = $quote['Supplier'];
                     $quote_for_element['Product'] = $quote['Product'];
                     $quote_for_element['Request'] = $quote['Request'];
-                    echo $view->element('Quotes/pending', array('quote' => $quote_for_element));
+                     $this->Quote->Product->Behaviors->load('Containable');
+                        //echo "<pre>". print_r($requests,TRUE)."</pre>";                        
+                            $data[$keyQ]=$this->Quote->Product->find('first',
+                                array(
+                                    'conditions'=>array('Product.id'=>$quote['Quote']['product_id'])
+                                    ,
+                                 'contain'=>array('Attribute','Type')
+                                 )
+                                );                        
+                        $this->Quote->Product->Behaviors->unload('Containable');
+                        $this->set('data',$data);
+                    echo $view->element('Quotes/pending', array('quote' => $quote_for_element, 
+                        'data'=>$data,'keyQ'=>$keyQ));
                 }
             }
             else
