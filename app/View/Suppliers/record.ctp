@@ -4,6 +4,7 @@ Cotizaciones aceptadas: <?php echo $supplier['accepted_quotes']; ?><br/>
 Cotizaciones rechazadas: <?php echo $supplier['rejected_quotes']; ?><br/>
 Deuda hacia el proveedor: <?php echo $supplier['debt']; ?><br/>
 Total pagado al proveedor: <?php echo $supplier['payed']; ?><br/>
+Rating promedio: <?php echo $supplier['rating']; ?><br/>
 
 <h3>Órdenes pagadas:<h3>
 <table>
