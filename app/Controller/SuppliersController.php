@@ -172,11 +172,18 @@ class SuppliersController extends AppController {
         $this->Supplier->saveField('rejected_quotes', $rejected_quotes);
     }
 
-    public function get_accepted_orders_for_supplier($supplier_id)
+    public function record($supplier_id)
     {
-        $this->autoRender = false;
+        $this->Supplier->recursive = -1;
+        $payed_orders = $this->get_accepted_orders_for_supplier($this, $supplier_id);
+        $supplier = $this->Supplier->findById($supplier_id);
+        $supplier = $supplier['Supplier'];
+        $this->set(compact('supplier', 'payed_orders'));
+    }
 
-        $this->Paginator->settings = array(
+    public function get_accepted_orders_for_supplier($controller, $supplier_id)
+    {
+        $controller->Paginator->settings = array(
             'limit' => 20,
             'recursive' => 1,
             'contain' => 'Order',
@@ -186,7 +193,7 @@ class SuppliersController extends AppController {
                 'Order.payed' => true,
             )
         );
-        $query_result = $this->Paginator->paginate($this->Supplier->Quote);
+        $query_result = $controller->Paginator->paginate($controller->Supplier->Quote);
         $result = array();
         foreach ($query_result as $quote)
         {
@@ -200,8 +207,7 @@ class SuppliersController extends AppController {
                 )
             );
         }
-
-        echo json_encode($result);
+        return $result;
     }
 
 }
