@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 App::uses('ProductSearch', 'Lib');
 App::uses('SupplierResult', 'Lib');
+App::uses('PastOrder', 'Lib');
 
 /**
  * Suppliers Controller
@@ -169,6 +170,38 @@ class SuppliersController extends AppController {
 
         $this->Supplier->id = $supplier_id;
         $this->Supplier->saveField('rejected_quotes', $rejected_quotes);
+    }
+
+    public function get_accepted_orders_for_supplier($supplier_id)
+    {
+        $this->autoRender = false;
+
+        $this->Paginator->settings = array(
+            'limit' => 20,
+            'recursive' => 1,
+            'contain' => 'Order',
+            'conditions' => array(
+                'supplier_id' => $supplier_id,
+                'status_quote_id' => 1,
+                'Order.payed' => true,
+            )
+        );
+        $query_result = $this->Paginator->paginate($this->Supplier->Quote);
+        $result = array();
+        foreach ($query_result as $quote)
+        {
+            array_push($result,
+                new PastOrder(
+                    $quote['Product'],
+                    $quote['Request']['quantity'],
+                    $quote['Quote']['unitary_price'],
+                    $quote['Quote']['modified'],
+                    $quote['Order']['rating']
+                )
+            );
+        }
+
+        echo json_encode($result);
     }
 
 }

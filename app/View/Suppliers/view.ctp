@@ -96,4 +96,4 @@
   </div>
 </div>
 
-<?php echo $this->element('suppliers_actions'); ?>
+<?php echo $this->element('suppliers_actions', array(compact('supplier'))); ?>

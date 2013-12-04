@@ -168,8 +168,8 @@ public function index($request_id = null)
         $orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request']);
 
         //actualizal precio
-        //$product_supplier_controller = new ProductsSuppliersController();
-        //$product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+        $product_supplier_controller = new ProductsSuppliersController();
+        $product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
 
     }
 
@@ -253,5 +253,4 @@ public function index($request_id = null)
             throw new ForbiddenException("No le pertenece el request.");
         }
     }
-
 }

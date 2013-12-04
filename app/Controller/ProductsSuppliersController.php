@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Catalog', 'Lib');
+App::uses('CatalogItem', 'Lib');
 /**
  * ProductsSuppliers Controller
  *
@@ -13,7 +15,7 @@ class ProductsSuppliersController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'RequestHandler');
 
 /**
  * index method
@@ -32,7 +34,8 @@ class ProductsSuppliersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function view($id = null)
+    {
 		if (!$this->ProductsSupplier->exists($id)) {
 			throw new NotFoundException(__('Invalid products supplier'));
 		}
@@ -134,6 +137,19 @@ class ProductsSuppliersController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
+    public function ensure_that_supplier_supplies_product_by_manufacturer_id()
+    {
+        $this->autoRender = false;
+
+        $supplier_id = $this->request->data['supplier_id'];
+        $manufacturer_id = $this->request->data['product_id'];
+        $price = $this->request->data['price'];
+
+        $products = $this->ProductsSupplier->Product->find('first', array('conditions' => array('manufacturer_id' => $manufacturer_id)));
+
+        return $this->ensure_that_supplier_supplies_product($supplier_id, $products['Product']['id'], $price);
+    }
+
     public function ensure_that_supplier_supplies_product($supplier_id, $product_id, $price)
     {
         $this->autoLayout = false;
@@ -164,8 +180,46 @@ class ProductsSuppliersController extends AppController {
         }
     }
 
-    public function get_catalog_items_for_supplier($supplier_id)
+    public function catalog($supplier_id)
     {
+        $this->ProductsSupplier->recursive = -1;
+        $supplier = $this->ProductsSupplier->Supplier->findById($supplier_id);
+        $catalog_items = $this->get_catalog_items_for_supplier($this, $supplier_id);
+        $catalog = new Catalog($supplier['Supplier'], $catalog_items);
+        $this->set(compact('catalog'));
+    }
 
+    private function get_catalog_items_for_supplier($controller, $supplier_id)
+    {
+        $controller->Paginator->settings = array(
+            'limit' => 20,
+            'recursive'=>0,
+            'conditions' => array('supplier_id' => $supplier_id, 'deleted_product' => false)
+        );
+        $query_result = $controller->Paginator->paginate($controller->ProductsSupplier);
+        $result = array();
+        foreach ($query_result as $item)
+        {
+            array_push($result,
+                new CatalogItem(
+                    $item['ProductsSupplier']['id'],
+                    $item['Product'],
+                    $item['ProductsSupplier']['price'],
+                    $item['ProductsSupplier']['modified']
+                )
+            );
+        }
+        return $result;
+    }
+
+    public function remove_product_from_supplier()
+    {
+        $this->autoRender = false;
+        $product_id = $this->request->data['product_id'];
+        $supplier_id = $this->request->data['supplier_id'];
+        $this->ProductsSupplier->deleteAll(array(
+            'supplier_id' => $supplier_id,
+            'product_id' => $product_id
+        ));
     }
 }

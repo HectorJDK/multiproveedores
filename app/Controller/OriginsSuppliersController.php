@@ -106,4 +106,58 @@ class OriginsSuppliersController extends AppController {
 			$this->Session->setFlash(__('The categories supplier could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+    public function originsForSupplier($supplier_id)
+    {
+        $this->OriginsSupplier->recursive = -1;
+        $supplier = $this->OriginsSupplier->Supplier->findById($supplier_id);
+        $supplier = $supplier['Supplier'];
+        $origins = $this->get_origins_for_supplier($this, $supplier_id);
+        $all_origins = $this->OriginsSupplier->Origin->find('all');
+        $this->set(compact('supplier', 'origins', 'all_origins'));
+    }
+
+    private function get_origins_for_supplier($controller, $supplier_id)
+    {
+        $controller->Paginator->settings = array(
+            'limit' => 20,
+            'recursive'=>0,
+            'conditions' => array('supplier_id' => $supplier_id, 'deleted_origin' => false)
+        );
+        $results = $controller->Paginator->paginate($controller->OriginsSupplier);
+        $formatted_results = array();
+        foreach ($results as $result)
+        {
+            array_push($formatted_results, $result['Origin']);
+        }
+        return $formatted_results;
+    }
+
+    public function addOriginToSupplier($origin_id, $supplier_id)
+    {
+        $this->autoRender = false;
+        $results = $this->OriginsSupplier->find('all',
+            array('conditions' =>
+                array(
+                    'supplier_id' => $supplier_id,
+                    'origin_id' => $origin_id
+                )
+            )
+        );
+        if(count($results) > 0) return;
+
+        $newRelation['origin_id'] = $origin_id;
+        $newRelation['supplier_id'] = $supplier_id;
+        $this->OriginsSupplier->save($newRelation);
+    }
+
+    public function removeOriginFromSupplier($origin_id, $supplier_id)
+    {
+        $this->autoRender = false;
+        $this->OriginsSupplier->deleteAll(array(
+            'supplier_id' => $supplier_id,
+            'origin_id' => $origin_id
+        ));
+    }
+}
