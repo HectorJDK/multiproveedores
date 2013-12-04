@@ -8,12 +8,8 @@
 	</ul>
 </div>
 
-<?php
- //echo "<pre>". print_r($this->element('sql_dump'),TRUE)."</pre>";
-foreach ($requests as $request):
-	print_r($request)?>
-
-<form id="<?php echo $request['Request']['id'] ?>" method="post" action="quotes/processQuotes">
+<?php foreach ($requests as $request):?>	
+<form id="<?php echo $request['Request']['id'] ?>" method="post" action="http://localhost:8080/multiproveedores/quotes/preview">
     <input type="hidden" name="data[request_id]" value="<?php echo $request['Request']['id'] ?>"/>
 	<div class="row slim">
 		<!-- Request -->

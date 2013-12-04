@@ -1,3 +1,5 @@
+<?print_r($data);?>
+<?print_r($quote);?>
 <div class="grey-container">
   <h2> Generar Orden de Compra </h2>
   <div class="row">

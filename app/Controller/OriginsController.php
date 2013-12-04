@@ -51,7 +51,7 @@ public function add() {
 	if ($this->request->is('post')) {
         //Preparamos la insercion en la base de datos
 		$this->Origin->create();
-        //Obtenemos la informacion y la guardamos en lowercase
+        //Obtenemos la informacion y la guardamos en lowercaset
 		$data = $this->request->data['Origin'];
 		$data['url'] = strtolower($data['url']);
 
