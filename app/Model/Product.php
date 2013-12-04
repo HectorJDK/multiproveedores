@@ -128,8 +128,8 @@ class Product extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
 			),
-        'Original' => array(
-            'className' => 'Equivalency',
+        'AsOriginal' => array(
+            'className' => 'EquivalencyRelation',
             'foreignKey' => 'original_id',
             'dependent' => false,
             'conditions' => '',
@@ -142,8 +142,8 @@ class Product extends AppModel {
             'counterQuery' => '',
             'table' => 'products',
         ),
-        'Equivalent' => array(
-            'className' => 'Equivalency',
+        'AsEquivalent' => array(
+            'className' => 'EquivalencyRelation',
             'foreignKey' => 'equivalent_id',
             'dependent' => false,
             'conditions' => '',

@@ -229,6 +229,41 @@ public function add()
 
 		$this->set(compact('result'));
 	}
+
+    public function equivalent_to($id)
+    {
+        $this->Product->recursive = -1;
+        if (!$this->Product->exists($id)) {
+            throw new NotFoundException('Producto invalido');
+        }
+        $equivalent = $this->Product->findById($id);
+
+        $this->Paginator->settings = array(
+            'limit' => 20,
+            'recursive'=>0,
+            'conditions' => array('equivalent_id' => $id, 'original_id !=' => $id, 'deleted_original' => false)
+        );
+        $equivalency_relations = $this->Paginator->paginate($this->Product->AsEquivalent);
+        $this->set(compact('equivalent', 'equivalency_relations'));
+    }
+
+    public function has_as_equivalents($id)
+    {
+        $this->Product->recursive = -1;
+        if (!$this->Product->exists($id)) {
+            throw new NotFoundException('Producto invalido');
+        }
+        $original = $this->Product->findById($id);
+
+        $this->Paginator->settings = array(
+            'limit' => 20,
+            'recursive'=>0,
+            'conditions' => array('original_id' => $id, 'equivalent_id !=' => $id, 'deleted_equivalent' => false)
+        );
+        $equivalency_relations = $this->Paginator->paginate($this->Product->AsOriginal);
+        $this->set(compact('original', 'equivalency_relations'));
+    }
+
 /**
 	 * asignarEquivalencias method
 	 *

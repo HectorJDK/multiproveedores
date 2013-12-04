@@ -184,19 +184,19 @@ class ProductsSuppliersController extends AppController {
     {
         $this->ProductsSupplier->recursive = -1;
         $supplier = $this->ProductsSupplier->Supplier->findById($supplier_id);
-        $catalog_items = $this->get_catalog_items_for_supplier($this, $supplier_id);
+        $catalog_items = $this->get_catalog_items_for_supplier($supplier_id);
         $catalog = new Catalog($supplier['Supplier'], $catalog_items);
         $this->set(compact('catalog'));
     }
 
-    private function get_catalog_items_for_supplier($controller, $supplier_id)
+    private function get_catalog_items_for_supplier($supplier_id)
     {
-        $controller->Paginator->settings = array(
+        $this->Paginator->settings = array(
             'limit' => 20,
             'recursive'=>0,
             'conditions' => array('supplier_id' => $supplier_id, 'deleted_product' => false)
         );
-        $query_result = $controller->Paginator->paginate($controller->ProductsSupplier);
+        $query_result = $this->Paginator->paginate($this->ProductsSupplier);
         $result = array();
         foreach ($query_result as $item)
         {
