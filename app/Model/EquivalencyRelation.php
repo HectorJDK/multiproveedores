@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Product $original
  * @property Product $equivalent
  */
-class Equivalency extends AppModel {
+class EquivalencyRelation extends AppModel {
 
     /**
      * Display field
