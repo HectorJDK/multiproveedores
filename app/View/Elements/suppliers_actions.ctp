@@ -3,5 +3,6 @@
   <ul class="dropdown-menu bottom-up pull-right">
     <li><?php echo $this->Html->link("Ver Origenes", array('controller' => 'originsSuppliers', 'action' => 'originsForSupplier', $supplier['Supplier']['id'])); ?> </li>
     <li><?php echo $this->Html->link("Historial", array('action' => 'record', $supplier['Supplier']['id'])) ?></li>
+    <li><?php echo $this->Html->link("Ver Catálogo", array('controller' => 'productsSuppliers', 'action' => 'catalog', $supplier['Supplier']['id'])); ?> </li>
   </ul>
 </div>

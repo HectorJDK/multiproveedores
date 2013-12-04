@@ -2,6 +2,7 @@
 	echo $this->AssetCompress->script('requests-view');
 ?>
 <input id="request_id" type="hidden" value='<?php echo $request['Request']['id'] ?>'/>
+<div class="request-view">
 <div class="grey-container" >
 	<!-- Here is the button to duplicate a request -->
 	<div class="pull-right">
@@ -93,6 +94,7 @@
   </div>
 </div>
 
+
 <!-- Búsqueda de proveedores mediante búsqueda de producto -->
 <ul class="nav nav-tabs" id="search-tabs">
 	<li class="active"><a href="#attributes">Busqueda por Atributos</a></li>
@@ -155,3 +157,4 @@
       </div>
     </div>
   </div>
+</div>

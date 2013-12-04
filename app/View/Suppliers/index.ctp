@@ -17,9 +17,9 @@
 			<h4><?php echo $supplier['Supplier']['corporate_name']; ?></h4>
 		</div>
 	</div>
-	<div class="col-2 text-center">
+	<!-- <div class="col-2 text-center">
 		<?php echo $this->Html->link("Ver Catálogo", array('controller' => 'productsSuppliers', 'action' => 'catalog', $supplier['Supplier']['id']), array('class' => 'btn btn-warning btn-block btn-small')); ?>
-	</div>
+	</div> -->
 	<div class="col-2 text-center">
 		<?php echo $this->Html->link("Ver", array('action' => 'view', $supplier['Supplier']['id']), array('class' => 'btn btn-info btn-block btn-small')); ?>
 	</div>
