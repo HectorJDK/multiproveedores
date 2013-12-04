@@ -1,3 +1,4 @@
+<?php echo $this->Html->script('suppliers-view'); ?>
 <div class="grey-container" >
   <h2><?php echo $supplier['Supplier']['corporate_name']; ?></h2>
   <div class="row">
@@ -92,7 +93,7 @@
 
   <div class="text-right">
     <?php echo $this->Html->link("Editar", array('action' => 'edit', $supplier['Supplier']['id']), array('class' => 'btn btn-success')); ?>
-    <?php echo $this->Html->link("Eliminar", array('action' => 'view', $supplier['Supplier']['id']), array('class' => 'btn btn-danger')); ?>    
+    <?php echo $this->Form->postLink('Borrar', array('action' => 'delete', $supplier['Supplier']['id']), null, __('¿Estás seguro de querer borrar a %s?', $supplier['Supplier']['corporate_name'])); ?>
   </div>
 </div>
 

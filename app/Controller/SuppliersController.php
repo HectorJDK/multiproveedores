@@ -27,6 +27,7 @@ class SuppliersController extends AppController {
  */
 	public function index() {
 		$this->Supplier->recursive = 0;
+        $this->Paginator->settings = array('conditions' => array('deleted' => false));
 		$this->set('suppliers', $this->Paginator->paginate());
 	}
 
@@ -120,13 +121,37 @@ class SuppliersController extends AppController {
 			throw new NotFoundException(__('Invalid supplier'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Supplier->delete()) {
+		if ($this->perform_delete($this))
+        {
 			$this->Session->setFlash(__('The supplier has been deleted.'));
-		} else {
+		} else
+        {
 			$this->Session->setFlash(__('The supplier could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
+    private function perform_delete($controller)
+    {
+        $transaction = $controller->Supplier->getDataSource();
+        $transaction->begin();
+
+        $controller->Supplier->saveField('deleted', true);
+
+        //Borrar de products_supplier
+        $this->Supplier->ProductsSupplier->updateAll(
+            array('deleted_supplier' => true),
+            array('supplier_id' => $this->Supplier->id)
+        );
+
+        //Borrar de origins_supplier
+        $this->Supplier->OriginsSupplier->updateAll(
+            array('deleted_supplier' => true),
+            array('supplier_id' => $this->Supplier->id)
+        );
+        $transaction->commit();
+        return true;
+    }
 
 
     public function suppliers_for_category_product_type()
