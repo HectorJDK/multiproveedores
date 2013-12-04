@@ -148,7 +148,7 @@ public function index($request_id = null)
                     )
                 );
                 $this->Quote->Behaviors->unload('Containable');
-                $this->set('data', $data);
+                $this->Session->write('data', $data);
                 $this->set('quote', $accepted_quote);
             }
             else
@@ -173,8 +173,10 @@ public function index($request_id = null)
 		//Marcar el request como deleted
         if(is_null($request_id) and is_null($quotes))
         {
-            $request_id = $this->request->data['request_id'];
-            $quotes = $this->request->data['quotes'];
+            $data = $this->Session->read('data');
+            $quotes = $data['quotes'];
+            $request_id = $data['request_id'];
+            $this->Session->delete('quotes');
         }
 
 		//Asignar status y procesar quotes

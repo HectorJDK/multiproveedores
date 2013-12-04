@@ -155,7 +155,7 @@ class EmailsController extends AppController {
     		->send($mensaje);
     }
 
-    public function sendEmailForOrder($order, $supplier, $request, $product)
+    public function sendEmailForOrder($order, $supplier, $request, $product=null)
     {
 
         //Envio de correo

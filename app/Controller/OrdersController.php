@@ -69,7 +69,7 @@ class OrdersController extends AppController {
         $this->Order->Quote->Supplier->saveField('debt', $supplier['debt']);
 
         $emailsController = new EmailsController();
-        //$emailsController->sendEmailForOrder($order, $supplier, $request);
+        $emailsController->sendEmailForOrder($order, $supplier, $request);
     }
 
 /**
