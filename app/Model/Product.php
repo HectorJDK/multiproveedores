@@ -416,9 +416,9 @@ class Product extends AppModel {
 		$query .= "from ";
 		$query .= "( ";
         $query .= "select equivalent_id as e_id ";
-        $query .= "from equivalencies ";
-        $query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
-        $query .= "AND equivalencies.deleted_right = false ";
+        $query .= "from equivalency_relation as er ";
+        $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
+        $query .= "AND er.deleted_equivalent = false ";
         $query .= ")as equivalencies ";
         $query .= "inner join ";
         $query .= "attributes_products ";
@@ -427,6 +427,7 @@ class Product extends AppModel {
         $query .= "products as p ";
         $query .= "where ";
         $query .= "p.generic = false AND ";
+        $query .= "er.deleted_equivalent = false AND ";
         $query .= "attributes.id = attributes_products.attribute_id AND ";
         $query .= "p.id = equivalencies.e_id ";
         $query .= $this->exclude($excluding);
@@ -441,9 +442,9 @@ class Product extends AppModel {
 		$query .= "from ";
 		$query .= "( ";
 			$query .= "select equivalent_id as e_id ";
-			$query .= "from equivalencies ";
+			$query .= "from equivalency_relation as er ";
 			$query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
-            $query .= "AND equivalencies.deleted_right = false ";
+            $query .= "AND er.deleted_equivalent = false ";
 			$query .= ")as equivalencies ";
         $query .= "inner join ";
         $query .= "attributes_products ";
@@ -466,9 +467,9 @@ class Product extends AppModel {
 		$query .= "from ";
 		$query .= "( ";
         $query .= "select equivalent_id as e_id ";
-        $query .= "from equivalencies ";
-        $query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
-        $query .= "AND equivalencies.deleted_right = false ";
+        $query .= "from equivalency_relation as er ";
+        $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
+        $query .= "AND er.deleted_equivalent = false ";
         $query .= ")as equivalencies ";
         $query .= "inner join ";
         $query .= "attributes_products ";
