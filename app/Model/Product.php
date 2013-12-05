@@ -416,7 +416,7 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
 		$query .= "( ";
-        $query .= "select equivalent_id as e_id ";
+        $query .= "select equivalent_id as e_id, deleted_equivalent ";
         $query .= "from equivalency_relations as er ";
         $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
         $query .= "AND er.deleted_equivalent = false ";
@@ -428,7 +428,7 @@ class Product extends AppModel {
         $query .= "products as p ";
         $query .= "where ";
         $query .= "p.generic = false AND ";
-        $query .= "er.deleted_equivalent = false AND ";
+        $query .= "equivalencies.deleted_equivalent = false AND ";
         $query .= "attributes.id = attributes_products.attribute_id AND ";
         $query .= "p.id = equivalencies.e_id ";
         $query .= $this->exclude($excluding);
@@ -442,9 +442,9 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
 		$query .= "( ";
-			$query .= "select equivalent_id as e_id ";
-			$query .= "from equivalency_relation as er ";
-			$query .= $this->ids_place_holders('where equivalencies.original_id', count($products_ids));
+			$query .= "select equivalent_id as e_id, deleted_equivalent  ";
+			$query .= "from equivalency_relations as er ";
+			$query .= $this->ids_place_holders('where er.original_id', count($products_ids));
             $query .= "AND er.deleted_equivalent = false ";
 			$query .= ")as equivalencies ";
         $query .= "inner join ";
@@ -454,6 +454,7 @@ class Product extends AppModel {
         $query .= "products as p ";
         $query .= "where ";
         $query .= "p.generic = true AND ";
+        $query .= "equivalencies.deleted_equivalent = false AND ";
         $query .= "attributes.id = attributes_products.attribute_id AND ";
         $query .= "p.id = equivalencies.e_id ";
         $query .= $this->exclude($excluding);
@@ -467,8 +468,8 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
 		$query .= "( ";
-        $query .= "select equivalent_id as e_id ";
-        $query .= "from equivalency_relation as er ";
+        $query .= "select equivalent_id as e_id, deleted_equivalent  ";
+        $query .= "from equivalency_relations as er ";
         $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
         $query .= "AND er.deleted_equivalent = false ";
         $query .= ")as equivalencies ";
@@ -478,6 +479,7 @@ class Product extends AppModel {
         $query .= "attributes, ";
         $query .= "products as p ";
         $query .= "where ";
+        $query .= "equivalencies.deleted_equivalent = false AND ";
         $query .= "attributes.id = attributes_products.attribute_id AND ";
         $query .= "p.id = equivalencies.e_id ";
         $query .= $this->exclude($excluding);
