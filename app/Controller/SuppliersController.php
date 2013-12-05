@@ -187,15 +187,40 @@ class SuppliersController extends AppController {
         $this->Supplier->saveField('accepted_quotes', $accepted_quotes);
     }
 
-    public function increment_rejected_quotes($supplier_id)
+    public function increment_rejected_quotes($supplier_id, $reason)
     {
-        $options = array('conditions' => array('id' => $supplier_id));
-        $supplier = $this->Supplier->find('first', $options);
+        //Limitamos la recursividad de la busqueda
+        $this->Supplier->recursive = -1;
+        $supplier = $this->Supplier->findById($supplier_id);
 
-        $rejected_quotes = $supplier['Supplier']['rejected_quotes'] + 1;
-
+        //Eliminamos los datos no deseados para guadar
         $this->Supplier->id = $supplier_id;
-        $this->Supplier->saveField('rejected_quotes', $rejected_quotes);
+        $this->Supplier->set('rejected_quotes', $supplier['Supplier']['rejected_quotes'] + 1);
+
+        //Obtenemos el caso de la perdida de la cotizacion y aumentamos su razon de perdida (otra posible solucion es con counters)
+        switch ($reason) {
+            case 2:
+                $this->Supplier->set('rejected_price', $supplier['Supplier']['rejected_price'] + 1);
+                break;
+
+            case 3:
+                $this->Supplier->set('rejected_existance', $supplier['Supplier']['rejected_existance'] + 1);
+                break;
+
+            case 4:
+                $this->Supplier->set('rejected_response', $supplier['Supplier']['rejected_response'] + 1);
+                break;
+
+            case 5:
+                $this->Supplier->set('rejected_delivery', $supplier['Supplier']['rejected_delivery'] + 1);
+                break;
+        }
+
+        //Actualizamos, de no ser posible aventamos el error
+        if (!$this->Supplier->save())
+        {
+            throw new InternalErrorException("Error al actualizar la DB");
+        }
     }
 
     public function record($supplier_id)

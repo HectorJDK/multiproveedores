@@ -196,7 +196,7 @@ public function index($request_id = null)
 			}
 			else
 			{
-				$this->reject($quote_query);
+				$this->reject($quote_query, $value);
 			}
 		}
 
@@ -227,8 +227,7 @@ public function index($request_id = null)
 
 		//crear orden
 		//Obtener mail de usuario logueado
-        $userMail=$this->Auth->user(); 
-        print_r($userMail);
+        $userMail=$this->Auth->user();
 		$orderController = new OrdersController();
 		$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request'],$userMail["email"], $userMail["pass_email"]);
 
@@ -238,15 +237,11 @@ public function index($request_id = null)
 
 	}
 
-	private function reject($quote_query)
+	private function reject($quote_query, $value)
 	{
-		//incrementar rejected_quotes
+		//incrementar rejected_quotes y aumenta la razon de la perdida de la cotizacion de ser con el tipo que fue
 		$sc = new SuppliersController();
-		$sc->increment_rejected_quotes($quote_query['Supplier']['id']);
-
-		//actualizar precio
-		//$product_supplier_controller = new ProductsSuppliersController();
-		//$product_supplier_controller->update_price_by_quote($quote_query['Quote'], $quote_query['Supplier']);
+		$sc->increment_rejected_quotes($quote_query['Supplier']['id'], $value);
 	}
 
 
