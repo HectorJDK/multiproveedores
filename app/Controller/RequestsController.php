@@ -392,6 +392,7 @@ class RequestsController extends AppController {
         //Enviar email
         //Obtener mail de usuario logueado
         $userMail=$this->Auth->user();    
+        print_r($userMail);
        	$emailsController = new EmailsController();
         $emailsController->sendEmailForQuote($proveedor,null,  $datos[2], $userMail["email"], $userMail["pass_email"]);
         
