@@ -126,6 +126,9 @@ form{
 #search-tabs .tab-content .btn, #search-tabs .tab-content select {
 	display: block !important;
 }
+.tab-content select {
+  margin-bottom: 20px;
+}
 #search-tabs#search-tabs.nav-tabs,
 #search-tabs.nav-pills {
   *zoom: 1;
@@ -433,16 +436,16 @@ form{
   color: #2980b9;
 }
 
-ul.dropdown-menu.actions { 
+ul.dropdown-menu.actions {
   position: relative;
-  float: left; 
+  float: left;
   margin-left: -190px;
   display: block;
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
      -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
-        
+
 .catalog .form-fields {
   margin-right: 20px;
 }

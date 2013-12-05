@@ -108,14 +108,16 @@
 <div class="tab-content">
 	<div class="tab-pane active" id="attributes">
 <!-- 1: Búsqueda por atributo -->
-
-	<label>Categoría:</label>
-		<?php echo $this->Form->select('Categoría', $categories, array('id' => '1-category_id')); ?>
-	<label>Tipo:</label>
-		<?php echo $this->Form->select('Tipo', $types, array('id' => '1-product_type_id', 'onchange' => 'type_changed1()')); ?>
-
-	<label> <?php echo __('Atributos del producto:') ?> </label>
-	<div id="1-atributos"> </div>
+	<div class="col-4">
+		<label>Categoría:</label>
+			<?php echo $this->Form->select('Categoría', $categories, array('id' => '1-category_id')); ?>
+		<label>Tipo:</label>
+			<?php echo $this->Form->select('Tipo', $types, array('id' => '1-product_type_id', 'onchange' => 'type_changed1()')); ?>
+	</div>
+	<div class="col-4">
+		<label> <?php echo __('Atributos del producto:') ?> </label>
+		<div id="1-atributos"> </div>
+	</div>
 	<input type="submit" value="Buscar" onClick="search1()" class="btn"/>
 </div>
 
@@ -123,14 +125,16 @@
 <div class="tab-pane" id="type">
 
 	<?php echo $this->Form->create('Supplier', array('method' => 'GET', 'controller' =>'suppliers', 'action' => 'suppliers_for_category_product_type')); ?>
-
-		<label>Categoría:</label>
-		 <?php echo $this->Form->select('category', $categories, array('id' => '2-category_id')); ?>
-		<label>Tipo:</label>
-		 <?php echo $this->Form->select('type', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
-		 <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'], 'name'=>'request_id')); ?>
-
-	<?php echo $this->Form->end(array('label' => 'Buscar', 'class'=>'btn')); ?>
+		<div class="col-4">
+			<label>Categoría:</label>
+			 <?php echo $this->Form->select('category', $categories, array('id' => '2-category_id')); ?>
+			<label>Tipo:</label>
+			 <?php echo $this->Form->select('type', $types, array('id' => '2-product_type_id', 'onchange' => 'type_changed()')); ?>
+			 <?php echo $this->Form->hidden('request', array('value'=> $request['Request']['id'], 'name'=>'request_id')); ?>
+		</div>
+		<div class="col-4">
+			<?php echo $this->Form->end(array('label' => 'Buscar', 'class'=>'btn')); ?>
+		</div>
 
 </div>
 
