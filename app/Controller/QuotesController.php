@@ -226,8 +226,11 @@ public function index($request_id = null)
 		$sc->increment_accepted_quotes($quote_query['Supplier']['id']);
 
 		//crear orden
+		//Obtener mail de usuario logueado
+        $userMail=$this->Auth->user(); 
+        print_r($userMail);
 		$orderController = new OrdersController();
-		$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request']);
+		$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request'],$userMail["email"], $userMail["pass_email"]);
 
 		//actualizal precio
 		$product_supplier_controller = new ProductsSuppliersController();

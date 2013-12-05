@@ -78,23 +78,23 @@
 		<!-- otro renglon -->
 		<div class="row">
 			<div class="col-3 text-right light">
-				Datos del producto
-			</div>
-
-			<div class="col-3">
-				{datosProducto}
-			</div>
-		
-		</div>
-	<?php }
- 		if($email['Email']['id']==2 || $email['Email']['id']==3){?>
-		<div class="row">
-			<div class="col-3 text-right light">
 				Identificador del producto
 			</div>
 
 			<div class="col-3">
-				{claveProducto}
+				{identificadorProducto}
+			</div>
+		
+		</div>
+	<?php }
+ 		if($email['Email']['id']==2){?>
+		<div class="row">
+			<div class="col-3 text-right light">
+				Descripción del producto
+			</div>
+
+			<div class="col-3">
+				{descripcionProducto}
 			</div>
 		
 		</div>

@@ -120,36 +120,45 @@ class EmailsController extends AppController {
  		//Envio de correo 	    
 	    $configEmail = new EmailConfig();
 		//Cargar configuracion de mail		
+		$datosConfig = array();
 		$datosConfig=$configEmail->cargarConfiguracion();
-		$datosConfig['username']= $email;
-		$datosConfig['password'] = $pass_email;
+
+		$datosConfig['username']=$email;
+		$datosConfig['password']=$pass_email;
+
 	    $Email = new CakeEmail($datosConfig);
 	    
 	    //Reemplazar correo molde con los datos y enviar
-	    $correoMolde = new Email();
-	    $mensaje = $correoMolde->find('first'); 	    
-	    $mensaje = $mensaje['Email']['email_body'];                            
+	    $correoMolde = new Email();	                      
         
         //Reemplazar valores en correo molde
         if($datosProducto != null)
         {
+        	//Obtener molde con producto
+        	$mensaje = $correoMolde->find('first', array('conditions'=>array('Email.id'=>1))); 	    
 	        //Claves del correo molde
 	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
-	        	"{telefonoContacto}","{datosProducto}");
+	        	"{telefonoContacto}","{identificadorProducto}");
 	        //Valores a reemplaazar de proveedor y tipo
 	        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
-	        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"],$datosProducto        	
+	        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"], $producto["manufacturer_id"]       	
 	        	);
-    	} else {    	 
+    	} else {  
+    		//Obtener molde sin producto
+    		$mensaje = $correoMolde->find('first', array('conditions'=>array('Email.id'=>2))); 	    
+	      	 
 	        //Claves del correo molde
 	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
-	        	"{telefonoContacto}","{claveProducto}");
+	        	"{telefonoContacto}","{descripcionProducto}");
 	        //Valores a reemplaazar de proveedor y producto
 	        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
 	        	$proveedor["contact_email"], $proveedor["credit"],$proveedor["contact_telephone"],
-	        	$producto["manufacturer_id"]
+	        	$datosProducto
 	        	);
     	}
+
+    	//Mensaje del molde original
+    	$mensaje = $mensaje['Email']['email_body'];  
         //Mensaje modificado
         $mensaje = str_replace($claves, $valores, $mensaje);
         
@@ -160,17 +169,20 @@ class EmailsController extends AppController {
     		->send($mensaje);
     }
 
-    public function sendEmailForOrder($order, $supplier, $request, $product=null)
+    public function sendEmailForOrder($order, $supplier, $request, $product=null,$email, $pass_email)
     {
 
         //Envio de correo
         $configEmail = new EmailConfig();
-        //Cargar configuracion de mail
-        $Email = new CakeEmail($configEmail->cargarConfiguracion());
+        //Cargar configuracion de mail		
+		$datosConfig=$configEmail->cargarConfiguracion();
+		$datosConfig['username']=$email;
+		$datosConfig['password']=$pass_email;
+	    $Email = new CakeEmail($datosConfig);
 
         //Reemplazar correo molde con los datos y enviar
-        $correoMolde = new Email();
-        $message = $correoMolde->find('first');
+        $correoMolde = new Email(); 
+        $message = $correoMolde->find('first', array('conditions'=>array('Email.id'=>'3')));
         $message = $message['Email']['email_body'];
 
         //Reemplazar valores en correo molde
@@ -181,16 +193,16 @@ class EmailsController extends AppController {
                 "{telefonoContacto}","{datosProducto}");
             //Valores a reemplaazar de proveedor y tipo
             $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
-                $supplier["contact_email"], $supplier["credit"], $supplier["contact_telephone"], $product
+                $supplier["contact_email"], $supplier["credit"], $supplier["contact_telephone"], $product["manufacturer_id"]
             );
         } else {
             //Claves del correo molde
             $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}","{credito}",
-                "{telefonoContacto}","{claveProducto}");
+                "{telefonoContacto}","{descripcion}");
             //Valores a reemplaazar de proveedor y producto
             $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
                 $supplier["contact_email"], $supplier["credit"], $supplier["contact_telephone"],
-                $product["manufacturer_id"]
+               "pendiente"
             );
         }
         //Mensaje modificado
@@ -199,7 +211,7 @@ class EmailsController extends AppController {
         //Enviar el correo
         $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
             ->to($supplier["contact_email"])
-            ->subject('Orden')
+            ->subject('Orden de compra')
             ->send($message);
     }
 

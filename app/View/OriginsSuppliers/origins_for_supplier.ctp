@@ -2,14 +2,14 @@
 <?php echo $this->Html->script('originsSuppliers-originsForSupplier'); ?>
 <h2>Orígenes para <?php echo $supplier['corporate_name'] ?></h2>
 <?php echo $this->Form->hidden('supplier_id', array('id' => 'supplier_id', 'value' => $supplier['id'])); ?>
-<table>
+<table class="table table-striped">
     <?php
-        echo $this->Html->tableHeaders(array('URL'));
+        echo $this->Html->tableHeaders(array('URL', ''));
         foreach ($origins as $origin) :
             echo $this->Html->tableCells(
                 array(
                         $origin['url'],
-                        $this->Form->button('Eliminar relación', array('onclick' => 'removeOriginFromSupplier(' . $origin['id'] . ')'))
+                        $this->Form->button('Eliminar relación', array('onclick' => 'removeOriginFromSupplier(' . $origin['id'] . ')', 'class'=>'btn btn-danger btn-small'))
                 ),
                 array('id' => 'o-' . $origin['id']),
                 array('id' => 'o-' . $origin['id']) //sí, se necesita poner 2 veces. Uno para odd rows, otro para evens.
@@ -27,5 +27,5 @@ URL :
     endforeach;
 ?>
 </select>
-<button onclick="addOriginToSupplier()">Añadir</button>
+<button onclick="addOriginToSupplier()" class="btn btn-info">Añadir</button>
 <?php echo $this->element('paginator'); ?>
