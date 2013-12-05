@@ -59,6 +59,7 @@
 			<div class="col-3 light text-right">Adeudos</div>
 			<div class="col-3 red"><?php echo $result->debt; ?></div>
 		</div>
+	</div>
 	<div class="col-4 text-center inner-actions">
 		<button class="btn btn-info" data-furatto="modal" data-target="#modal-<?php echo $result->id?>" data-transition="8" data-theme="info">Enviar Cotización</button>
 	</div>
