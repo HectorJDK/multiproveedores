@@ -122,8 +122,10 @@ class EmailsController extends AppController {
 		//Cargar configuracion de mail		
 		$datosConfig = array();
 		$datosConfig=$configEmail->cargarConfiguracion();
+
 		$datosConfig['username']=$email;
 		$datosConfig['password']=$pass_email;
+
 	    $Email = new CakeEmail($datosConfig);
 	    
 	    //Reemplazar correo molde con los datos y enviar
