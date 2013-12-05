@@ -27,6 +27,7 @@ public $components = array('Paginator', 'RequestHandler');
  */
 public function index() {
 	$this->Product->recursive = 0;
+    $this->Paginator->settings = array('conditions' => array('Product.deleted' => false));
 	$this->set('products', $this->Paginator->paginate());
 }
 
@@ -201,13 +202,42 @@ public function add()
 			throw new NotFoundException(__('Invalid product'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Product->delete()) {
+		if ($this->perform_delete($this))
+        {
 			$this->Session->setFlash(__('The product has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The product could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
+    private function perform_delete($controller)
+    {
+        $transaction = $controller->Product->getDataSource();
+        $transaction->begin();
+
+        $controller->Product->saveField('deleted', true);
+
+        //Borrar de products_supplier
+        $this->Product->ProductsSupplier->updateAll(
+            array('deleted_product' => true),
+            array('product_id' => $this->Product->id)
+        );
+
+        //Borrar de equivalencias como original
+        $this->Product->AsOriginal->updateAll(
+            array('deleted_original' => true),
+            array('original_id' => $this->Product->id)
+        );
+
+        //Borrar de equivalencias como equivalente
+        $this->Product->AsEquivalent->updateAll(
+            array('deleted_equivalent' => true),
+            array('equivalent_id' => $this->Product->id)
+        );
+        $transaction->commit();
+        return true;
+    }
 
 
 											// SEARCHS!!!
