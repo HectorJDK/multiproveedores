@@ -114,11 +114,16 @@ class EmailsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function sendEmailForQuote($proveedor, $producto=null, $datosProducto = null) {
+	public function sendEmailForQuote($proveedor, $producto=null, $datosProducto = null, $email, $pass_email) { 	
+
+
  		//Envio de correo 	    
 	    $configEmail = new EmailConfig();
-		//Cargar configuracion de mail
-	    $Email = new CakeEmail($configEmail->cargarConfiguracion());
+		//Cargar configuracion de mail		
+		$datosConfig=$configEmail->cargarConfiguracion();
+		array_push($datosConfig, array("username"=>$email));
+		array_push($datosConfig, array("password"=>$pass_email));
+	    $Email = new CakeEmail($datosConfig);
 	    
 	    //Reemplazar correo molde con los datos y enviar
 	    $correoMolde = new Email();

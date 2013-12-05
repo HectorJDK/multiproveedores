@@ -53,7 +53,7 @@ class RequestsController extends AppController {
 	 *
 	 */
 	public function myRequests()
-	{
+	{		
 		$userId = $this->Auth->user('id');
 		$this->Request->recursive = 0;
 		$requests = $this->Paginator->paginate(array('Request.user_id' => $userId, 'Request.deleted' => 0));
@@ -390,8 +390,10 @@ class RequestsController extends AppController {
         'conditions' => array('Supplier.id' =>  $datos[1])))['Supplier'];
         
         //Enviar email
+        //Obtener mail de usuario logueado
+        $userMail=$this->Auth->user();    
        	$emailsController = new EmailsController();
-        $emailsController->sendEmailForQuote($proveedor,null,  $datos[2]);
+        $emailsController->sendEmailForQuote($proveedor,null,  $datos[2], $userMail["email"], $userMail["pass_email"]);
         
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];

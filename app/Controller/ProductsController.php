@@ -4,7 +4,7 @@ App::uses('ProductSearch', 'Lib');
 App::uses('ProductSearchQueries', 'Lib');
 App::uses('AttributesProduct', 'Model');
 App::uses('ProductsSupplier', 'Model');
-App::uses('Equivalency', 'Model');
+App::uses('EquivalencyRelation', 'Model');
 
 /**
  * Products Controller
@@ -124,7 +124,7 @@ public function add()
 					$equivalencies['original_id'] = $this->Product->getInsertID();
 					$equivalencies['equivalent_id'] = $this->Product->getInsertID();
 
-					$Equivalency = new Equivalency();
+					$Equivalency = new EquivalencyRelation();
 					$Equivalency->create();
 
 					//Creamos el prodcuto 

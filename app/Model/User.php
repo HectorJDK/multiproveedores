@@ -26,7 +26,7 @@ class User extends AppModel {
 public function beforeSave($options = array()) {
     if (isset($this->data[$this->alias]['password'])) {
         $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
-    }
+    }    
     return true;
 }
 
@@ -74,7 +74,25 @@ public function beforeSave($options = array()) {
 		),
 		'password' => array(
 			'maxLength' => array(
-				'rule' => array('maxLength', 45),
+				'rule' => array('maxLength', 60),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'pass_email' => array(
+			'maxLength' => array(
+				'rule' => array('maxLength', 60),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
