@@ -74,7 +74,7 @@
 	  		<label for="rating">Rating</label>
 	  	</div>
 	  	<div class="col-1">
-	  		 <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Calidad del servicio en general del 1 al 5 (5 siendo la mejor calidad)">
+	  		 <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Calidad del servicio en general del 1 al 10 (10 siendo la mejor calidad)">
 	  			<input type="text" id="rating" class="input-large"/>
 			</a>
 	  	</div>
