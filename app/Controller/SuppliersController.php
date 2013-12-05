@@ -25,7 +25,8 @@ class SuppliersController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function index()
+    {
 		$this->Supplier->recursive = 0;
         $this->Paginator->settings = array('conditions' => array('deleted' => false));
 		$this->set('suppliers', $this->Paginator->paginate());
