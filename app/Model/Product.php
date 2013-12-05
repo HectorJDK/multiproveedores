@@ -314,7 +314,8 @@ class Product extends AppModel {
 	{
 		$query = "select p.id, p.manufacturer_id, name, data_type_id, value ";
 		$query .= "from products as p, attributes as a, attributes_products as ap, products_suppliers as ps ";
-		$query .= "WHERE ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
+		$query .= "WHERE ps.deleted_supplier = 'false' AND "; //checar que el supplier no esté borrado
+        $query .= "p.deleted = false AND ";      //Checar que el producto no esté borrado
         $query .= "p.id in ";
 		$query .= "(select suppliers_filter.p_id ";
 			$query .= "from ";
@@ -340,10 +341,9 @@ class Product extends AppModel {
         $query .= "origins_suppliers as cs ";
         $query .= "where ";
         $query .= "cs.supplier_id = suppliers_filter.s_id AND ";
-        $query .= "cs.origin_id = ? AND";
+        $query .= "cs.origin_id = ? AND ";
         $query .= "cs.deleted_origin = false ";  //Checar que el origen no esté borrado
         $query .= ") ";
-        $query .= "AND p.deleted = false ";      //Checar que el producto no esté borrado
         $query .= "AND p.generic = false ";
         $query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
 		$query .= "AND p.id = ps.product_id "; //at least one supplier
@@ -402,6 +402,7 @@ class Product extends AppModel {
         $query .= "attributes ";
         $query .= "where ";
         $query .= "attributes.id = attributes_products.attribute_id ";
+        $query .= "p.deleted = false ";
         $query .= "order by p.id, attribute_id";
 
 	return array('query' => $query, 'values' => $ids);
@@ -416,7 +417,7 @@ class Product extends AppModel {
 		$query .= "from ";
 		$query .= "( ";
         $query .= "select equivalent_id as e_id ";
-        $query .= "from equivalency_relation as er ";
+        $query .= "from equivalency_relations as er ";
         $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
         $query .= "AND er.deleted_equivalent = false ";
         $query .= ")as equivalencies ";

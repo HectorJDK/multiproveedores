@@ -43,7 +43,8 @@ class ProductsController extends AppController {
             throw new NotFoundException(__('Invalid product'));
         }
         $options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
-        $this->set('product', $this->Product->find('first', $options));
+        $product = $this->Product->find('first', $options);
+        $this->set(compact('product'));
     }
 
     /**
@@ -64,12 +65,6 @@ class ProductsController extends AppController {
 
             //Decodificamos los datos de los atributos y los eliminamos
             $attributes = json_decode($this->request->data["Attributes"]["attributes_values"]);
-
-            //Obtenemos los datos de los proveedores y lo eliminamos
-            $suppliers = $this->request->data["Supplier"];
-
-            //Obtenemos los datos para guardar en las equivalencias
-            //Pendiente
 
             //Primer fase transaccion
             $this->Product->create();
@@ -100,23 +95,6 @@ class ProductsController extends AppController {
                             $this->Session->setFlash(__('The type could not be saved. Please, try again.'));
                             $failure = true;
                             break;
-                        }
-                    }
-
-                    if(!$failure)
-                    {
-                        //Formato para guardar los datos
-                        $suppliers['product_id'] = $this->Product->getInsertID();
-
-                        //Creacion del modelo para guardar en la tabla correspondiente
-                        $ProductsSupplier = new ProductsSupplier();
-                        $ProductsSupplier->create();
-
-                        if(!$ProductsSupplier->save($suppliers))
-                        {
-                            $transaction->rollback();
-                            $this->Session->setFlash(__('The type could not be saved. Please, try again. 1'));
-                            $failure = true;
                         }
                     }
 
@@ -156,8 +134,7 @@ class ProductsController extends AppController {
         //Datos que se pasan a la vista
         $types = $this->Product->Type->find('list');
         $attributes = $this->Product->Attribute->find('list');
-        $suppliers = $this->Product->Supplier->find('list');
-        $this->set(compact('types', 'attributes', 'suppliers'));
+        $this->set(compact('types', 'attributes'));
     }
 
     /**

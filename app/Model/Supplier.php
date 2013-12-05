@@ -291,7 +291,7 @@ class Supplier extends AppModel {
         $query .= "from suppliers as s ";
         if($origin != '')
         {
-            $query .= ", origins_suppliers as cs ";
+            $query .= ", origins_suppliers as os ";
         }
         $query .= "where ";
         $query .= "exists ";
@@ -309,9 +309,9 @@ class Supplier extends AppModel {
         if($origin != '')
         {
             $query .= "AND ";
-            $query .= "cs.category_id = ? AND ";
-            $query .= "cs.deleted_origin = false AND ";     //checar que el origen no esté borrado
-            $query .= "cs.supplier_id = s.id";
+            $query .= "os.origin_id = ? AND ";
+            $query .= "os.deleted_origin = false AND ";     //checar que el origen no esté borrado
+            $query .= "os.supplier_id = s.id";
         }
 
         $values = array();
