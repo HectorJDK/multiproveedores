@@ -294,17 +294,23 @@ class Supplier extends AppModel {
             $query .= ", origins_suppliers as os ";
         }
         $query .= "where ";
-        $query .= "exists ";
-        $query .= "( ";
-        $query .= "select * ";
-        $query .= "From products_suppliers as ps, products as p ";
-        $query .= "Where ";
-        $query .= "ps.supplier_id = s.id AND ";
-        $query .= "ps.product_id = p.id AND ";
-        $query .= "ps.deleted_product = false AND ";  //checar que el producto no esté borrado
-        $query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
-        $query .= "p.type_id = ?";
-        $query .= ") ";
+        $query .= "(";
+            $query .= "exists (select * ";
+            $query .= "From products_suppliers as ps, products as p ";
+            $query .= "Where ";
+            $query .= "ps.supplier_id = s.id AND ";
+            $query .= "ps.product_id = p.id AND ";
+            $query .= "ps.deleted_product = false AND ";  //checar que el producto no esté borrado
+            $query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
+            $query .= "p.type_id = ?";
+            $query .= ") ";
+        $query .= "OR ";
+            $query .= "exists (select * ";
+            $query .= "FROM suppliers_types AS st ";
+            $query .= "WHERE st.type_id = ? AND ";
+            $query .= "st.supplier_id = s.id ";
+            $query .= ") ";
+        $query .= ")";
 
         if($origin != '')
         {
@@ -315,7 +321,7 @@ class Supplier extends AppModel {
         }
 
         $values = array();
-        array_push($values, $type);
+        array_push($values, $type, $type);
         if($origin != '')
         {
             array_push($values, $origin);
