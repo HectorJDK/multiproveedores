@@ -42,7 +42,8 @@
 		<div class="col-3 inner-actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $product['Product']['id']), array('class' => 'btn btn-warning btn-small')); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $product['Product']['id']), array('class' => 'btn btn-info btn-small')); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $product['Product']['id']), array('class' => 'btn btn-danger btn-small'), null, __('Are you sure you want to delete # %s?', $product['Product']['id'])); ?>
+		    <?php echo $this->Form->postLink('Borrar', array('action' => 'delete', $product['Product']['id']), array('class' => 'btn btn-danger btn-small'), __('¿Estás seguro de borrar %s?', $product['Product']['manufacturer_id'])); ?>
+
 		</div>
 	</div>
 

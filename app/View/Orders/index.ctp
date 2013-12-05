@@ -15,7 +15,7 @@
 	 		<div class="col-6">
 	      Orden #<?php echo h($order['Order']['id']); ?>
 	    </div>
-	    <div class="col-3	 text-right light">
+	    <div class="col-3 text-right light">
 	      Fecha de creación
 	    </div>
 	    <div class="col-3 bold">

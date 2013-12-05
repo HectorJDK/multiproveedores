@@ -4,10 +4,13 @@
   <div class="row">
     <h3>Nuevo Tipo de Producto</h3>
     <div class="col-6">
-      <?php echo $this->Form->create('Type');
-        echo $this->Form->input('type_name', array('label' => 'Nombre'));
-        echo $this->Form->hidden('attributes', array("id" => 'attributes')); 
-      ?>
+      <?php echo $this->Form->create('Type'); ?>
+        <a href="#" data-toggle="tooltip" data-placement="left" title="" data-original-title="Nombre de tipo de producto">
+          <?php echo $this->Form->input('type_name', array('label' => 'Nombre')); ?>
+        </a>
+
+        <?php echo $this->Form->hidden('attributes', array("id" => 'attributes')); ?>
+
     </div>
   </div>
 
@@ -20,20 +23,22 @@
           <th>tipo</th>
           <th></th>
         </tr>
-        
+
       </table>
     </div>
     <div class="col-1"></div>
     <div class="col-5">
       <p>Añadir atributo</p>
-      Nombre <input type="text" id="attribute_name" required="required"/>
+      Nombre
+      <a href="#" data-toggle="tooltip" data-placement="left" title="" data-original-title="Nombre de atributo a agregar">
+        <input type="text" id="attribute_name" required="required"/> </a>
       Tipo de Dato
       <?php echo $this->Form->select('Tipo', $data_types, array('id' => 'attribute_type', 'empty' => "Seleccionar")); ?>
 
       <input type="button" value="Añadir atributo" onClick="add_attribute()" class="btn btn-mini btn-warning" />
-    </div>   
+    </div>
   </div>
   <div class="row">
     <?php echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info')); ?>
-  </div>         
+  </div>
 </div>

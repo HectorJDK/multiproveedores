@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EmailConfig><host>ssl://smtp.gmail.com</host><port>465</port><username>multiproveedor.1@gmail.com</username><password>d1osteama</password><transport>Smtp</transport></EmailConfig>
+<EmailConfig><host>ssl://smtp.gmail.com</host><port>465</port><transport>Smtp</transport></EmailConfig>

@@ -1,3 +1,5 @@
+
+<?php echo "<pre>".print_r($quote,TRUE),"</pre>";?>
 <div class="grey-container">
   <h2> Generar Orden de Compra </h2>
   <div class="row">
@@ -10,7 +12,7 @@
         </div>
 
         <div class="col-8">
-          Ana's Repair
+          <?php echo $quote["Supplier"]["corporate_name"];?>
         </div>
       </div>
 
@@ -21,7 +23,7 @@
         </div>
 
         <div class="col-8">
-          1
+          <?php echo $quote["Product"]["manufacturer_id"];?>
         </div>
       </div>
 
@@ -32,7 +34,7 @@
         </div>
 
         <div class="col-8">
-          3
+           <?php echo $quote["Request"]["quantity"];?>
         </div>
       </div>
 
@@ -47,19 +49,12 @@
         <div class="col-1"></div>
         <div class="col-11">
           <table class="table table-condensed table-bordered">
-            <tr>
-              <td>Watts</td>
-              <td>50</td>
-            </tr>
-
-            <tr>
-              <td>Color</td>
-              <td>amarillo azul verd</td>
-            </tr>
-            <tr>
-              <td>Vida</td>
-              <td>5 años</td>
-            </tr>
+            <?php foreach($quote["Product"]["Attribute"] as $attribute){?>
+                <tr>
+                  <td><?php echo $attribute["name"];?></td>
+                  <td><?php echo $attribute["AttributesProduct"]["value"];?></td>
+                </tr>
+            <?php }?>           
           </table>
         </div>
       </div>
@@ -71,7 +66,7 @@
         </div>
 
         <div class="col-8">
-          $5.00
+          $<?php echo $quote["Quote"]["unitary_price"];?>
         </div>
       </div>
 
@@ -82,7 +77,7 @@
         </div>
 
         <div class="col-8 red">
-          $15.00
+          $<?php echo $quote["Quote"]["unitary_price"]*$quote["Request"]["quantity"];?>
         </div>
       </div>
 
@@ -91,13 +86,14 @@
 
     <div class="col-6">
       <?php 
-        echo $this->Form->create('Order', $options_for_form);
+        echo $this->Form->create('Quote', array("action"=>"processQuotes"));        
+        echo $this->Form->input('request_id', array('type' => 'hidden', 'value'=>$quote["Quote"]["id"]));
         echo $this->Form->input('logistics', array('label' => 'Logística de Envio', 'class' => 'input-block', 'rows' => 12));
       ?>
 
       <div class="form-fields">
         <label for="order_email_copy">Con copia:</label>
-        <input id="order_email_copy" type="text" class="input-block" />
+        <input id="order_email_copy" name="order_email_copy" type="text" class="input-block" />
       </div>
 
       <div class="text-right">

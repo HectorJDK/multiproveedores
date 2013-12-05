@@ -8,6 +8,7 @@
         	echo $this->Form->input('id');
 	        echo $this->Form->input('name', array('autocomplete' => 'off'));
 	        echo $this->Form->input('email');
+	        echo $this->Form->input('pass_email', array('type'=>'password', 'label'=>'Password del email','autocomplete' => 'off'));
 	        echo $this->Form->input('username', array('autocomplete' => 'off'));
 	        echo $this->Form->input('password', array('autocomplete' => 'off'));
     	?>

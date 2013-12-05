@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 App::uses('ProductSearch', 'Lib');
 App::uses('SupplierResult', 'Lib');
+App::uses('PastOrder', 'Lib');
 
 /**
  * Suppliers Controller
@@ -24,8 +25,10 @@ class SuppliersController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function index()
+    {
 		$this->Supplier->recursive = 0;
+        $this->Paginator->settings = array('conditions' => array('deleted' => false));
 		$this->set('suppliers', $this->Paginator->paginate());
 	}
 
@@ -119,13 +122,37 @@ class SuppliersController extends AppController {
 			throw new NotFoundException(__('Invalid supplier'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Supplier->delete()) {
+		if ($this->perform_delete($this))
+        {
 			$this->Session->setFlash(__('The supplier has been deleted.'));
-		} else {
+		} else
+        {
 			$this->Session->setFlash(__('The supplier could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
+    private function perform_delete($controller)
+    {
+        $transaction = $controller->Supplier->getDataSource();
+        $transaction->begin();
+
+        $controller->Supplier->saveField('deleted', true);
+
+        //Borrar de products_supplier
+        $this->Supplier->ProductsSupplier->updateAll(
+            array('deleted_supplier' => true),
+            array('supplier_id' => $this->Supplier->id)
+        );
+
+        //Borrar de origins_supplier
+        $this->Supplier->OriginsSupplier->updateAll(
+            array('deleted_supplier' => true),
+            array('supplier_id' => $this->Supplier->id)
+        );
+        $transaction->commit();
+        return true;
+    }
 
 
     public function suppliers_for_category_product_type()
@@ -160,15 +187,78 @@ class SuppliersController extends AppController {
         $this->Supplier->saveField('accepted_quotes', $accepted_quotes);
     }
 
-    public function increment_rejected_quotes($supplier_id)
+    public function increment_rejected_quotes($supplier_id, $reason)
     {
-        $options = array('conditions' => array('id' => $supplier_id));
-        $supplier = $this->Supplier->find('first', $options);
+        //Limitamos la recursividad de la busqueda
+        $this->Supplier->recursive = -1;
+        $supplier = $this->Supplier->findById($supplier_id);
 
-        $rejected_quotes = $supplier['Supplier']['rejected_quotes'] + 1;
-
+        //Eliminamos los datos no deseados para guadar
         $this->Supplier->id = $supplier_id;
-        $this->Supplier->saveField('rejected_quotes', $rejected_quotes);
+        $this->Supplier->set('rejected_quotes', $supplier['Supplier']['rejected_quotes'] + 1);
+
+        //Obtenemos el caso de la perdida de la cotizacion y aumentamos su razon de perdida (otra posible solucion es con counters)
+        switch ($reason) {
+            case 2:
+                $this->Supplier->set('rejected_price', $supplier['Supplier']['rejected_price'] + 1);
+                break;
+
+            case 3:
+                $this->Supplier->set('rejected_existance', $supplier['Supplier']['rejected_existance'] + 1);
+                break;
+
+            case 4:
+                $this->Supplier->set('rejected_response', $supplier['Supplier']['rejected_response'] + 1);
+                break;
+
+            case 5:
+                $this->Supplier->set('rejected_delivery', $supplier['Supplier']['rejected_delivery'] + 1);
+                break;
+        }
+
+        //Actualizamos, de no ser posible aventamos el error
+        if (!$this->Supplier->save())
+        {
+            throw new InternalErrorException("Error al actualizar la DB");
+        }
+    }
+
+    public function record($supplier_id)
+    {
+        $this->Supplier->recursive = -1;
+        $payed_orders = $this->get_accepted_orders_for_supplier($this, $supplier_id);
+        $supplier = $this->Supplier->findById($supplier_id);
+        $supplier = $supplier['Supplier'];
+        $this->set(compact('supplier', 'payed_orders'));
+    }
+
+    public function get_accepted_orders_for_supplier($controller, $supplier_id)
+    {
+        $controller->Paginator->settings = array(
+            'limit' => 20,
+            'recursive' => 1,
+            'contain' => 'Order',
+            'conditions' => array(
+                'supplier_id' => $supplier_id,
+                'status_quote_id' => 1,
+                'Order.payed' => true,
+            )
+        );
+        $query_result = $controller->Paginator->paginate($controller->Supplier->Quote);
+        $result = array();
+        foreach ($query_result as $quote)
+        {
+            array_push($result,
+                new PastOrder(
+                    $quote['Product'],
+                    $quote['Request']['quantity'],
+                    $quote['Quote']['unitary_price'],
+                    $quote['Quote']['modified'],
+                    $quote['Order']['rating']
+                )
+            );
+        }
+        return $result;
     }
 
 }

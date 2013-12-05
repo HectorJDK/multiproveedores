@@ -1,48 +1,106 @@
 <div class="grey-container">
-<h2>Molde para Correo #<?php echo $email['Email']['id'];?></h2>
-
-	<div class="cheat-sheet">
+	<?php 
+		//Correo producto conocido
+		if($email['Email']['id']==1){?>
+		<h2>Correo molde para cotizaciones con producto</h2>
+		
+	<?php } else if($email['Email']['id']==2){
+		//Correo producto desconocido?>
+		<h2>Correo molde para cotizaciones sin producto</h2>
+	<?php } elseif($email['Email']['id']==3){
+		//Correo orden de compra?>
+		<h2>Correo molde para ordenes de compra</h2>
+	<?php }?>
+	
+<div class="cheat-sheet">
 		<h4>Códigos</h4>
-		<p>Utiliza los siguientes código para blah blah</p>
-		<p>Si no se ponen los codigos estos elementos no apareceran en el correo blah blah</p>
+		<p>Utiliza los siguientes códigos entre llaves para reemplazarlos al momento de enviar los correos.</p>
+		<p>Si no se ponen los códigos, estos datos no aparecerán en el correo.</p>
+		<p>Ejemplo:<i>Hola {nombreContacto} necesito...</i></p>
+		<h4>Códigos de proveedor</h4>
 		<div class="row">
 			<div class="col-3 text-right light">
-				Proveedor
+				Organización del Proveedor
 			</div>
 
 			<div class="col-3">
-				{*p*}
+				{organizacionProveedor}
 			</div>
 
 			<div class="col-3 text-right light">
-				Id Producto
+				RFC del proveedor
 			</div>
 
 			<div class="col-3">
-				{*p_id*}
+				{rfc}
 			</div>		
 		</div>
 		<!-- otro renglon -->
 		<div class="row">
 			<div class="col-3 text-right light">
-				Cantidad
+				Nombre del contacto
 			</div>
 
 			<div class="col-3">
-				{*qty*}
+				{nombreContacto}
 			</div>
 
 			<div class="col-3 text-right light">
-				Remitente
+				Email del contacto
 			</div>
 
 			<div class="col-3">
-				{*user_name*}
+				{emailContacto}
 			</div>		
 		</div>
+		<!-- otro renglon -->
+		<div class="row">
+			<div class="col-3 text-right light">
+				Credito
+			</div>
+
+			<div class="col-3">
+				{credito}
+			</div>
+
+			<div class="col-3 text-right light">
+				Teléfono del contacto
+			</div>
+
+			<div class="col-3">
+				{telefonoContacto}
+			</div>		
+		</div>
+		<h4>Códigos de producto</h4>
+		<?php 
+		//Correo producto conocido
+		if($email['Email']['id']==1 || $email['Email']['id']==3){?>
+		<!-- otro renglon -->
+		<div class="row">
+			<div class="col-3 text-right light">
+				Identificador del producto
+			</div>
+
+			<div class="col-3">
+				{identificadorProducto}
+			</div>
+		
+		</div>
+	<?php }
+ 		if($email['Email']['id']==2){?>
+		<div class="row">
+			<div class="col-3 text-right light">
+				Descripción del producto
+			</div>
+
+			<div class="col-3">
+				{descripcionProducto}
+			</div>
+		
+		</div>
+	<?php }?>
 	<!-- otro renglon -->
 	</div>
-
 	<hr />
 
 	<?php 

@@ -37,9 +37,7 @@ public function edit() {
 
 		$xmlArray = array('EmailConfig' => array(
 			'host' => $this->request->data["EmailConfig"]["host"], 
-			'port' => $this->request->data["EmailConfig"]["port"],
-		 	'username' => $this->request->data["EmailConfig"]["username"],
-		 	'password' => $this->request->data["EmailConfig"]["password"],
+			'port' => $this->request->data["EmailConfig"]["port"],		 
 		 	'transport' => $this->request->data["EmailConfig"]["transport"]));
 		$xmlObject = Xml::fromArray($xmlArray, array('format' => 'tags')); // You can use Xml::build() too
 		if ($xmlString = $xmlObject->asXML("../Config/emailConfig.xml")){

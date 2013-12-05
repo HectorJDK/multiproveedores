@@ -3,9 +3,7 @@
 	<?php echo $this->Form->create('EmailConfig', $options_for_form); 
 
 			echo $this->Form->input('host', array('label' => 'Servidor'));
-			echo $this->Form->input('port', array('label' => 'Puerto'));
-			echo $this->Form->input('username', array('label' => 'Username'));
-			echo $this->Form->input('password', array('label' => 'Contraseña'));
+			echo $this->Form->input('port', array('label' => 'Puerto'));			
 			echo $this->Form->input('transport', array('label' => 'Protocolo'));
 		?>
 	<div class="text-right">
