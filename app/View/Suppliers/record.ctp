@@ -1,12 +1,55 @@
 <!-- uses $supplier, $payed_orders -->
-<h2>Historial de <?php echo $supplier['corporate_name']; ?></h2><br/>
-Cotizaciones aceptadas: <?php echo $supplier['accepted_quotes']; ?><br/>
-Cotizaciones rechazadas: <?php echo $supplier['rejected_quotes']; ?><br/>
-Deuda hacia el proveedor: <?php echo $supplier['debt']; ?><br/>
-Total pagado al proveedor: <?php echo $supplier['payed']; ?><br/>
-Rating promedio: <?php for($i = 1; $i <= $supplier['rating']; $i++){
+<h2>Historial de <?php echo $supplier['corporate_name']; ?></h2>
+
+<div class="row striped slim shaded">
+
+    <div class="col-8">
+        <div class="row">
+            <div class="col-3 text-right light">
+                Cotizaciones aceptadas:
+            </div>
+            <div class="col-3">
+                <?php echo $supplier['accepted_quotes']; ?>
+            </div>
+
+            <div class="col-3 text-right light">
+                Total pagado al proveedor:
+            </div>
+            <div class="col-3">
+                <?php echo $supplier['payed']; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 text-right light">
+                Cotizaciones rechazadas:
+            </div>
+            <div class="col-3">
+                <?php echo $supplier['rejected_quotes']; ?>
+            </div>
+
+            <div class="col-3 text-right light">
+                Rating promedio:
+            </div>
+            <div class="col-3">
+                 <?php for($i = 1; $i <= $supplier['rating']; $i++){
                     echo "<i class=\"icon-star\"></i>";
                     }?>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-3 text-right light">
+                Deuda hacia el proveedor:
+            </div>
+            <div class="col-3 red">
+                <?php echo $supplier['debt']; ?>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
 
 <h3>Órdenes pagadas:</h3>
 
