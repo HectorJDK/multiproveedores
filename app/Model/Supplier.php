@@ -1,5 +1,3 @@
-Su
-
 <?php
 App::uses('AppModel', 'Model');
 App::uses('SupplierResult', 'Lib');
