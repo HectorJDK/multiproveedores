@@ -55,13 +55,7 @@
 		</div>
 		<!-- otro renglon -->
 		<div class="row">
-			<div class="col-3 text-right light">
-				Credito
-			</div>
-
-			<div class="col-3">
-				{credito}
-			</div>
+		
 
 			<div class="col-3 text-right light">
 				Teléfono del contacto
@@ -84,7 +78,24 @@
 			<div class="col-3">
 				{identificadorProducto}
 			</div>
-		
+			<div class="col-3 text-right light">
+				Tipo de producto
+			</div>
+
+			<div class="col-3">
+				{tipoProducto}
+			</div>
+		</div>
+		<h4>Códigos de atributos</h4>
+		<div class="row">
+			<div class="col-3 text-right light">
+				Atributos
+			</div>
+
+			<div class="col-3">
+				{atributos}
+			</div>
+			
 		</div>
 	<?php }
  		if($email['Email']['id']==2){?>
@@ -105,7 +116,7 @@
 
 	<?php 
 		echo $this->Form->create('Email', $options_for_form);
-		echo $this->Form->input('with_copy', array('label' => 'Con copia:','class' => 'input-block', 'rows' => 1));
+		echo $this->Form->input('with_copy', array('label' => 'Con copia (separados por comas):','class' => 'input-block', 'rows' => 1));
 		echo $this->Form->input('email_body', array('label' => 'Comentarios', 'class' => 'input-block', 'rows' => 20));
 	?>
 

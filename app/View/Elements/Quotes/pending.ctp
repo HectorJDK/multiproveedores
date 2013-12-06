@@ -140,14 +140,18 @@
 
       <div class="row">
           <div class="col-3 text-right light">
-              Razon de Perdida
+              Cotizaciones Aceptadas
           </div>
           <div class="col-3">
             <?php echo '<span class="red">';
                 echo $quote['Supplier']['accepted_quotes'];
                 echo '</span>';
                 echo " de " ;
-                echo $quote['Supplier']['rejected_quotes'] + $quote['Supplier']['accepted_quotes'];?>
+                echo $quote['Supplier']['rejected_quotes'] + $quote['Supplier']['accepted_quotes'];
+            ?>
+            <a href="#" class="red" data-toggle="tooltip" data-placement="right" title="" data-original-title=<?php echo 'Por'.'&nbsp;'.'precio:'.$quote['Supplier']['rejected_price'].','.'&nbsp;'.'Por'.'&nbsp;'.'Existencia:'.$quote['Supplier']['rejected_existance'].','. '&nbsp;', 'Por'.'&nbsp;'.'Tiempo'.'&nbsp;'.'de'.'&nbsp;'.'Respuesta:'.$quote['Supplier']['rejected_response'],',', '&nbsp;', 'Por'.'&nbsp;'.'Tiempo'.'&nbsp;'.'de'.'&nbsp;'.'Entrega:'.$quote['Supplier']['rejected_delivery'] ;?>>
+              <i class="icon-arrow-down"></i>
+            </a>
           </div>
       </div>
     </div>

@@ -170,14 +170,14 @@ class Supplier extends AppModel {
 			),
 		),
 		'rejected_quotes' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -261,71 +261,86 @@ class Supplier extends AppModel {
 		)
 	);
 
-    public function search_by_product_type($origin, $type)
-    {
-        $preparation = $this->search_by_product_type_preparation($origin, $type);
-        $db = $this->getDataSource();
-        $query_result =  $db->fetchAll($preparation['query'], $preparation['values']);
-        $result = array();
-        foreach ($query_result as $supplier)
-        {
-            /* @var $result SupplierResult */
-            array_push($result, new SupplierResult(
+	public function search_by_product_type($origin, $type)
+	{
+		$preparation = $this->search_by_product_type_preparation($origin, $type);
+		$db = $this->getDataSource();
+		$query_result =  $db->fetchAll($preparation['query'], $preparation['values']);
+		$result = array();
+		foreach ($query_result as $supplier)
+		{
+			/* @var $result SupplierResult */
+			array_push($result, new SupplierResult(
                 $supplier[0]['id'],
                 $supplier[0]['corporate_name'],
+                $supplier[0]['moral_rfc'],
                 $supplier[0]['contact_name'],
                 $supplier[0]['contact_email'],
-                $supplier[0]['credit'],
                 $supplier[0]['contact_telephone'],
+                $supplier[0]['rating'],
+                $supplier[0]['accepted_quotes'],
+                $supplier[0]['rejected_quotes'],
+                $supplier[0]['deleted'],
                 $supplier[0]['payed'],
                 $supplier[0]['debt'],
-                $supplier[0]['rating']
-            ));
-        }
-        return $result;
-    }
+                $supplier[0]['credit'],
+                $supplier[0]['rejected_price'],
+                $supplier[0]['rejected_existance'],
+                $supplier[0]['rejected_response'],
+                $supplier[0]['rejected_delivery']
+			));
+		}
+		return $result;
+	}
 
-    public function search_by_product_type_preparation($origin, $type)
-    {
-        $query = "select s.id as id, s.corporate_name as corporate_name, s.contact_name as contact_name, s.contact_email as contact_email, s.credit as credit, s.contact_telephone as contact_telephone, s.payed as payed, s.debt as debt, s.rating as rating ";
-        $query .= "from suppliers as s ";
-        if($origin != '')
-        {
-            $query .= ", origins_suppliers as os ";
-        }
-        $query .= "where ";
-        $query .= "(";
-            $query .= "exists (select * ";
-            $query .= "From products_suppliers as ps, products as p ";
-            $query .= "Where ";
-            $query .= "ps.supplier_id = s.id AND ";
-            $query .= "ps.product_id = p.id AND ";
-            $query .= "ps.deleted_product = false AND ";  //checar que el producto no esté borrado
-            $query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
-            $query .= "p.type_id = ?";
-            $query .= ") ";
-        $query .= "OR ";
-            $query .= "exists (select * ";
-            $query .= "FROM suppliers_types AS st ";
-            $query .= "WHERE st.type_id = ? AND ";
-            $query .= "st.supplier_id = s.id ";
-            $query .= ") ";
-        $query .= ")";
+	public function search_by_product_type_preparation($origin, $type)
+	{
+		$query = "select s.id as id, s.corporate_name as corporate_name, ";
+		$query .= "s.moral_rfc as moral_rfc, s.contact_name as contact_name, ";
+		$query .= "s.contact_email as contact_email, s.contact_telephone as contact_telephone, ";
+		$query .= "s.rating as rating, s.accepted_quotes as accepted_quotes, ";
+		$query .= "s.rejected_quotes as rejected_quotes, s.deleted as deleted, ";
+		$query .= "s.payed as payed, s.debt as debt, s.credit as credit, ";
+		$query .= "s.rejected_price as rejected_price, s.rejected_existance as rejected_existance, ";
+		$query .= "s.rejected_response as rejected_response, s.rejected_delivery as rejected_delivery ";
+		$query .= "from suppliers as s ";
+		if($origin != '')
+		{
+			$query .= ", origins_suppliers as os ";
+		}
+		$query .= "where ";
+		$query .= "(";
+			$query .= "exists (select * ";
+			$query .= "From products_suppliers as ps, products as p ";
+			$query .= "Where ";
+			$query .= "ps.supplier_id = s.id AND ";
+			$query .= "ps.product_id = p.id AND ";
+			$query .= "ps.deleted_product = false AND ";  //checar que el producto no esté borrado
+			$query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
+			$query .= "p.type_id = ?";
+			$query .= ") ";
+		$query .= "OR ";
+			$query .= "exists (select * ";
+			$query .= "FROM suppliers_types AS st ";
+			$query .= "WHERE st.type_id = ? AND ";
+			$query .= "st.supplier_id = s.id ";
+			$query .= ") ";
+		$query .= ")";
 
-        if($origin != '')
-        {
-            $query .= "AND ";
-            $query .= "os.origin_id = ? AND ";
-            $query .= "os.deleted_origin = false AND ";     //checar que el origen no esté borrado
-            $query .= "os.supplier_id = s.id";
-        }
+		if($origin != '')
+		{
+			$query .= "AND ";
+			$query .= "os.origin_id = ? AND ";
+			$query .= "os.deleted_origin = false AND ";     //checar que el origen no esté borrado
+			$query .= "os.supplier_id = s.id";
+		}
 
-        $values = array();
-        array_push($values, $type, $type);
-        if($origin != '')
-        {
-            array_push($values, $origin);
-        }
-        return array('query' => $query, 'values' => $values);
-    }
+		$values = array();
+		array_push($values, $type, $type);
+		if($origin != '')
+		{
+			array_push($values, $origin);
+		}
+		return array('query' => $query, 'values' => $values);
+	}
 }
