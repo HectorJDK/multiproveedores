@@ -5,6 +5,8 @@
 			echo $this->Form->input('host', array('label' => 'Servidor'));
 			echo $this->Form->input('port', array('label' => 'Puerto'));			
 			echo $this->Form->input('transport', array('label' => 'Protocolo'));
+			echo $this->Form->input('username', array('label' => 'Dirección de correo','autocomplete'=>'off'));
+			echo $this->Form->input('password', array('label' => 'Contraseña'));
 		?>
 	<div class="text-right">
 	  <?php

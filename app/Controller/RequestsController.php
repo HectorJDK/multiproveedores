@@ -394,7 +394,7 @@ class RequestsController extends AppController {
         $userMail=$this->Auth->user();    
         print_r($userMail);
        	$emailsController = new EmailsController();
-        $emailsController->sendEmailForQuote($proveedor,NULL,  $datos[2], $userMail["email"], $userMail["pass_email"]);
+        $emailsController->sendEmailForQuote($proveedor,null,  $datos[2], $userMail["email"]);
         
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];

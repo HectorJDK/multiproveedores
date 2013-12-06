@@ -54,7 +54,7 @@ class OrdersController extends AppController {
 		// $this->set('product', $this->Order->Quote->Product->findById($quote['Quote']['product_id']));
 	}
 
-    public function create_order_for_quote($quote, $supplier, $request, $email, $password)
+    public function create_order_for_quote($quote, $supplier, $request, $email, $logistics, $product, $copy)
     {
         $this->Order->create();
         $order = array('quote_id'=>$quote['id']);
@@ -70,7 +70,7 @@ class OrdersController extends AppController {
 
  		
         $emailsController = new EmailsController();
-        $emailsController->sendEmailForOrder($order, $supplier, $request,null,$email, $password);
+        $emailsController->sendEmailForOrder($order, $supplier, $request,$email, $logistics, $product, $copy);
     }
 
 /**

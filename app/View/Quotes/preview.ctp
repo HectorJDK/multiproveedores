@@ -1,5 +1,4 @@
 
-<?php echo "<pre>".print_r($quote,TRUE),"</pre>";?>
 <div class="grey-container">
   <h2> Generar Orden de Compra </h2>
   <div class="row">

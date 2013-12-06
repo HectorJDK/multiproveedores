@@ -110,6 +110,20 @@
 		
 		</div>
 	<?php }?>
+	<?php 
+ 		if($email['Email']['id']==3){?>
+	<div class="row">
+			<div class="col-3 text-right light">
+				Logística de envío
+			</div>
+
+			<div class="col-3">
+				{logisticaEnvio}
+			</div>
+		
+		</div>
+	<?php }?>
+
 	<!-- otro renglon -->
 	</div>
 	<hr />

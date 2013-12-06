@@ -38,13 +38,15 @@ public function edit() {
 		$xmlArray = array('EmailConfig' => array(
 			'host' => $this->request->data["EmailConfig"]["host"], 
 			'port' => $this->request->data["EmailConfig"]["port"],		 
-		 	'transport' => $this->request->data["EmailConfig"]["transport"]));
+		 	'transport' => $this->request->data["EmailConfig"]["transport"],
+		    'username' => $this->request->data["EmailConfig"]["username"], 
+			'password' => $this->request->data["EmailConfig"]["password"]));
 		$xmlObject = Xml::fromArray($xmlArray, array('format' => 'tags')); // You can use Xml::build() too
 		if ($xmlString = $xmlObject->asXML("../Config/emailConfig.xml")){
-			$this->Session->setFlash(__('The email configuration has been saved.'));
+			$this->Session->setFlash(__('La configuración del correo se ha actualizado'));
 			return $this->redirect(array('action' => 'index'));
 		} else {
-			$this->Session->setFlash(__('The email condiguration could not be saved. Please, try again.'));
+			$this->Session->setFlash(__('La configuración del correo no se pudo actualizar.'));
 		}
 	} else {
 		$xml = Xml::build('../Config/emailConfig.xml');

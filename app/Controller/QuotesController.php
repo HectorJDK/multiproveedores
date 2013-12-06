@@ -149,8 +149,10 @@ public function index($request_id = null)
                 );
                 $this->Quote->Behaviors->unload('Containable');
                 $this->Session->write('data', $data);
+                $this->Session->write('product',  $accepted_quote["Product"]);
                 $this->set('quote', $accepted_quote);
             }
+           
             else
             {
                 throw new InternalErrorException();
@@ -174,7 +176,8 @@ public function index($request_id = null)
         if(is_null($request_id) and is_null($quotes))
         {
             $data = $this->Session->read('data');
-            $quotes = $data['quotes'];
+            $product = $this->Session->read('product');
+            $quotes = $data['quotes'];           
             $request_id = $data['request_id'];
             $this->Session->delete('quotes');
         }
@@ -212,24 +215,24 @@ public function index($request_id = null)
 			{
 				$this->Quote->Request->id = $request_id;
 				$this->Quote->Request->saveField('deleted', '1');
-				$this->accept($accepted_quote);
+				$this->accept($accepted_quote, $product, $this->request->data['Quote']['logistics'],$this->request->data['order_email_copy']);
 			}
 			$transaction->commit();
 		}
 		return $this->redirect(array('controller'=>'requests', 'action' => 'myRequests'));
 	}
 
-	private function accept($quote_query)
+	private function accept($quote_query, $product, $logistics, $copy)
 	{
 		//incrementar accepted_quotes
 		$sc = new SuppliersController();
 		$sc->increment_accepted_quotes($quote_query['Supplier']['id']);
-
+		
 		//crear orden
 		//Obtener mail de usuario logueado
         $userMail=$this->Auth->user();
 		$orderController = new OrdersController();
-		$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request'],$userMail["email"], $userMail["pass_email"]);
+		$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request'],$userMail["email"], $logistics, $product, $copy);
 
 		//actualizal precio
 		$product_supplier_controller = new ProductsSuppliersController();

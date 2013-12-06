@@ -6,7 +6,6 @@
         <?php
         echo $this->Form->input('name');
         echo $this->Form->input('email');
-        echo $this->Form->input('pass_email', array('type'=>'password', 'label'=>'Password del email'));
         echo $this->Form->input('username');
         echo $this->Form->input('password');
     ?>

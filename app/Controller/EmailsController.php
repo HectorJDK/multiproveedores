@@ -115,17 +115,14 @@ class EmailsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function sendEmailForQuote($proveedor, $producto=null, $datosProducto = null, $email, $pass_email) { 	
+	public function sendEmailForQuote($proveedor, $producto=null, $datosProducto = null, $email) { 	
 
 
  		//Envio de correo 	    
 	    $configEmail = new EmailConfig();
 		//Cargar configuracion de mail		
 		$datosConfig = array();
-		$datosConfig=$configEmail->cargarConfiguracion();
-
-		$datosConfig['username']=$email;
-		$datosConfig['password']=$pass_email;
+		$datosConfig=$configEmail->cargarConfiguracion();	
 
 	    $Email = new CakeEmail($datosConfig);
 	    
@@ -165,58 +162,69 @@ class EmailsController extends AppController {
         $mensaje = str_replace($claves, $valores, $mensaje);
         
         //Enviar el correo
-        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
-    		->to($proveedor["contact_email"])
-    		->addCc(explode(",",$correo['Email']['with_copy']))
-   			->subject('Solicitud de cotización')
-    		->send($mensaje);
+        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'));
+		$Email->to($proveedor["contact_email"]);
+		$Email->replyTo($email)	;
+		$Email->addCc(str_replace(' ', '', $correo['Email']['with_copy']));
+		$Email->subject('Solicitud de cotización');
+		$Email->send($mensaje);
     }
 
-    public function sendEmailForOrder($order, $supplier, $request, $product=null,$email, $pass_email)
+    public function sendEmailForOrder($order, $supplier, $request, $email, $logistics, $product, $copy )
     {
 
         //Envio de correo
         $configEmail = new EmailConfig();
         //Cargar configuracion de mail		
-		$datosConfig=$configEmail->cargarConfiguracion();
-		$datosConfig['username']=$email;
-		$datosConfig['password']=$pass_email;
+		$datosConfig=$configEmail->cargarConfiguracion();		
 	    $Email = new CakeEmail($datosConfig);
 
         //Reemplazar correo molde con los datos y enviar
         $correoMolde = new Email(); 
-        $message = $correoMolde->find('first', array('conditions'=>array('Email.id'=>'3')));
-        $message = $message['Email']['email_body'];
+        $correo = $correoMolde->find('first', array('conditions'=>array('Email.id'=>'3')));
+        $message = $correo['Email']['email_body'];
 
-        //Reemplazar valores en correo molde
-        if($product != null)
-        {
-            //Claves del correo molde
-            $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}",
-                "{telefonoContacto}","{datosProducto}");
-            //Valores a reemplaazar de proveedor y tipo
-            $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
-                $supplier["contact_email"],  $supplier["contact_telephone"], $product["manufacturer_id"]
-            );
-        } else {
-            //Claves del correo molde
-            $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}",
-                "{telefonoContacto}","{descripcion}");
-            //Valores a reemplaazar de proveedor y producto
-            $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
-                $supplier["contact_email"], $supplier["contact_telephone"],
-               "pendiente"
-            );
-        }
+        $attributes = $this->formatAttributes($product);
+        
+        //Claves del correo molde
+        $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}",
+            "{telefonoContacto}","{logisticaEnvio}", "{atributos}");
+        //Valores a reemplaazar de proveedor y producto
+        $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
+            $supplier["contact_email"], $supplier["contact_telephone"],$logistics, $attributes
+        );
+        //Inicializacion
+        $cc = "";
         //Mensaje modificado
         $message = str_replace($keys, $values, $message);
 
         //Enviar el correo
-        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'))
-            ->to($supplier["contact_email"])
-            ->subject('Orden de compra')
-            ->send($message);
+        $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'));
+        $Email->to($supplier["contact_email"]);
+        $Email->replyTo($email);
+        if(!empty($correo['Email']['with_copy']))	
+        {
+        	$cc .= str_replace(' ', '', $correo['Email']['with_copy']);
+    	}
+    	elseif(!empty($copy))
+    	{
+    		$cc .= str_replace(' ', '', $copy);
+    	} 
+
+    	if (!empty($cc)) 
+    	{
+    		$Email->addCc($cc);
+    	}
+
+        $Email->subject('Orden de compra');
+        $Email->send($message);
     }
 
-
+    public function formatAttributes($product){
+    	$attributes = "";
+    	foreach($product['Attribute'] as $attribute){
+    		$attributes.=$attribute['name']."-".$attribute['AttributesProduct']['value']."\r\n";
+    	}
+    	return $attributes;
+    }
 }

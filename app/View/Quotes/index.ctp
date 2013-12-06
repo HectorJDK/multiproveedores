@@ -9,7 +9,7 @@
 </div>
 
 <?php foreach ($requests as $request):?>
-<?php echo '<pre>',print_r($request, true),'</pre>'?>
+
 <form id="<?php echo $request['Request']['id'] ?>" method="post" action="http://localhost:8080/multiproveedores/quotes/preview">
     <input type="hidden" name="data[request_id]" value="<?php echo $request['Request']['id'] ?>"/>
 	<div class="row slim">
