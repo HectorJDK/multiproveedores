@@ -446,3 +446,15 @@ ul.dropdown-menu.actions {
 .catalog .form-fields {
   margin-right: 20px;
 }
+
+.grey-container form label{
+  font-weight: normal;
+}
+
+.grey-container form a{
+  color: #333;
+}
+
+.grey-container form a.btn{
+  color: white;
+}

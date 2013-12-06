@@ -8,9 +8,10 @@ function fp_inputFor(prefix, attribute)
 
 	input = $('<input>').attr({
 				id: prefix + attribute_id, 
+				type: 'text',
 				name: name,
 				attribute_id: attribute_id,
-				class: 'input'
+				class: 'input-medium attr-input'
 			});
 
 	if(	data_type_id == 1 || 	//Entero
@@ -30,7 +31,7 @@ function fp_inputFor(prefix, attribute)
 //returns an array describing the inputs' values
 function fp_construct_array_for_attribute_values(form_id)
 {
-	attributes = $('#'+ form_id +' .input');
+	attributes = $('#'+ form_id +' .attr-input');
 
 	attributes_array = new Array();
 	for(i = 0; i < attributes.length; i++)
@@ -54,12 +55,17 @@ function fp_change_attributes_form(form_id, prefix, attributes)
 	
 	//remove previous inputs
 	$('#' + form_id + ' .legend').remove();
-	$('#' + form_id + ' .input').remove();
+	$('#' + form_id + ' .attr-input').remove();
 	
 	attributes.forEach(function(attribute)
 	{
-		$('<legend>').attr('class', 'legend').html(attribute.Attributes.name).appendTo(attributesForm);
-		fp_inputFor(prefix, attribute).appendTo(attributesForm);
+
+		form_fields = $('<div class=\'form-fields\'>');
+
+		$('<legend>').attr('class', 'legend').html(attribute.Attributes.name).appendTo(form_fields);
+		fp_inputFor(prefix, attribute).appendTo(form_fields);
+
+		form_fields.appendTo(attributesForm);
 	});
 }
 

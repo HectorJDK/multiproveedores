@@ -100,5 +100,3 @@
     <?php echo $this->Form->postLink('Borrar', array('action' => 'delete', $supplier['Supplier']['id']), null, __('¿Estás seguro de querer borrar a %s?', $supplier['Supplier']['corporate_name'])); ?>
   </div>
 </div>
-
-<?php echo $this->element('suppliers_actions', array(compact('supplier'))); ?>
