@@ -14,149 +14,149 @@ App::uses('SupplierProductResult', 'Lib');
  */
 class Product extends AppModel {
 
-    /**
-     * Display field
-     *
-     * @var string
-     */
-    public $displayField = 'manufacturer_id';
+	/**
+	 * Display field
+	 *
+	 * @var string
+	 */
+	public $displayField = 'manufacturer_id';
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public $validate = array(
-        'id' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'origin_id' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'type_id' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'manufacturer_id' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                //'message' => 'Your custom message here',
-                //'allowEmpty' => false,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-    );
-
-    //The Associations below have been created with all possible keys, those that are not needed can be removed
-    /**
-     * belongsTo associations
-     *
-     * @var array
-     */
-    public $belongsTo = array(
-        'Type' => array(
-            'className' => 'Type',
-            'foreignKey' => 'type_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        )
-    );
-
-    /**
-     * hasMany associations
-     *
-     * @var array
-     */
-    public $hasMany = array(
-        'Quote' => array(
-            'className' => 'Quote',
-            'foreignKey' => 'product_id',
-            'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
+	public $validate = array(
+		'id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-        'AsOriginal' => array(
-            'className' => 'EquivalencyRelation',
-            'foreignKey' => 'original_id',
-            'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => '',
-            'table' => 'products',
-        ),
-        'AsEquivalent' => array(
-            'className' => 'EquivalencyRelation',
-            'foreignKey' => 'equivalent_id',
-            'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
-        ),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'origin_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'type_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'manufacturer_id' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+	);
 
-    );
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+	public $belongsTo = array(
+		'Type' => array(
+			'className' => 'Type',
+			'foreignKey' => 'type_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
+
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+		'Quote' => array(
+			'className' => 'Quote',
+			'foreignKey' => 'product_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		'AsOriginal' => array(
+			'className' => 'EquivalencyRelation',
+			'foreignKey' => 'original_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => '',
+			'table' => 'products',
+		),
+		'AsEquivalent' => array(
+			'className' => 'EquivalencyRelation',
+			'foreignKey' => 'equivalent_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+
+	);
 
 	/**
 	* hasAndBelongsToMany associations
@@ -270,13 +270,22 @@ class Product extends AppModel {
 			$supplierResult = new SupplierResult(
 				$value[0]['supplier_id'],
 				$value[0]['corporate_name'],
+				$value[0]['moral_rfc'],
 				$value[0]['contact_name'],
 				$value[0]['contact_email'],
-				$value[0]['credit'],
 				$value[0]['contact_telephone'],
-                $value[0]['payed'],
-                $value[0]['debt'],
-                $value[0]['rating']);
+				$value[0]['rating'],
+				$value[0]['accepted_quotes'],
+				$value[0]['rejected_quotes'],
+				$value[0]['deleted'],
+				$value[0]['payed'],
+				$value[0]['debt'],
+				$value[0]['credit'],
+				$value[0]['rejected_price'],
+				$value[0]['rejected_existance'],
+				$value[0]['rejected_response'],
+				$value[0]['rejected_delivery']
+			);
 			$product_id = $value[0]['product_id'];
 			while($products_results[$pr_id]->id != $product_id)
 			{
@@ -315,8 +324,8 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, name, data_type_id, value ";
 		$query .= "from products as p, attributes as a, attributes_products as ap, products_suppliers as ps ";
 		$query .= "WHERE ps.deleted_supplier = 'false' AND "; //checar que el supplier no esté borrado
-        $query .= "p.deleted = false AND ";      //Checar que el producto no esté borrado
-        $query .= "p.id in ";
+		$query .= "p.deleted = false AND ";      //Checar que el producto no esté borrado
+		$query .= "p.id in ";
 		$query .= "(select suppliers_filter.p_id ";
 			$query .= "from ";
 			$query .= "(select attributes_filter.p_id as p_id, ps.supplier_id as s_id ";
@@ -328,24 +337,24 @@ class Product extends AppModel {
 						$query .= "from attributes ";
 						$query .= $this->ids_place_holders_possibly_empty('where attributes.id', count($not_empty_attributes));
 						$query .= ") as a ";
-        $query .= "inner join ";
-        $query .= "attributes_products as ap ";
-        $query .= "on a.id = ap.attribute_id ";
-        $query .= $this->list_of_values_place_holders($not_empty_attributes) . " ";
-        $query .= "group by p_id ";
-        $query .= "Having Count(ap.product_id) >= " . count($not_empty_attributes);
-        $query .= ") as attributes_filter, ";
-        $query .= "products_suppliers as ps ";
-        $query .= "where attributes_filter.p_id = ps.product_id ";
-        $query .= ") as suppliers_filter, ";
-        $query .= "origins_suppliers as cs ";
-        $query .= "where ";
-        $query .= "cs.supplier_id = suppliers_filter.s_id AND ";
-        $query .= "cs.origin_id = ? AND ";
-        $query .= "cs.deleted_origin = false ";  //Checar que el origen no esté borrado
-        $query .= ") ";
-        $query .= "AND p.generic = false ";
-        $query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
+		$query .= "inner join ";
+		$query .= "attributes_products as ap ";
+		$query .= "on a.id = ap.attribute_id ";
+		$query .= $this->list_of_values_place_holders($not_empty_attributes) . " ";
+		$query .= "group by p_id ";
+		$query .= "Having Count(ap.product_id) >= " . count($not_empty_attributes);
+		$query .= ") as attributes_filter, ";
+		$query .= "products_suppliers as ps ";
+		$query .= "where attributes_filter.p_id = ps.product_id ";
+		$query .= ") as suppliers_filter, ";
+		$query .= "origins_suppliers as cs ";
+		$query .= "where ";
+		$query .= "cs.supplier_id = suppliers_filter.s_id AND ";
+		$query .= "cs.origin_id = ? AND ";
+		$query .= "cs.deleted_origin = false ";  //Checar que el origen no esté borrado
+		$query .= ") ";
+		$query .= "AND p.generic = false ";
+		$query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
 		$query .= "AND p.id = ps.product_id "; //at least one supplier
 		$query .= "ORDER BY p.id, attribute_id";
 
@@ -358,8 +367,8 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, name, data_type_id, value ";
 		$query .= "from products as p, attributes as a, attributes_products as ap, products_suppliers as ps ";
 		$query .= "WHERE ";
-        $query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
-        $query .= "p.id in ";
+		$query .= "ps.deleted_supplier = false AND "; //checar que el supplier no esté borrado
+		$query .= "p.id in ";
 		$query .= "(select attributes_filter.p_id as p_id ";
 			$query .= "from (";
 				$query .= "select ap.product_id as p_id ";
@@ -369,17 +378,17 @@ class Product extends AppModel {
 					$query .= "from attributes ";
 					$query .= $this->ids_place_holders_possibly_empty('where attributes.id', count($not_empty_attributes));
 					$query .= ") as a ";
-        $query .= "inner join ";
-        $query .= "attributes_products as ap ";
-        $query .= "on a.id = ap.attribute_id ";
-        $query .= $this->list_of_values_place_holders($not_empty_attributes) . " ";
-        $query .= "group by p_id ";
-        $query .= "Having Count(ap.product_id) >= ". count($not_empty_attributes);
-        $query .= ") as attributes_filter ";
-        $query .= ") ";
-        $query .= "AND p.deleted = false ";         //checar que el producto no esté borrado
-        $query .= "AND p.generic = false ";
-        $query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
+		$query .= "inner join ";
+		$query .= "attributes_products as ap ";
+		$query .= "on a.id = ap.attribute_id ";
+		$query .= $this->list_of_values_place_holders($not_empty_attributes) . " ";
+		$query .= "group by p_id ";
+		$query .= "Having Count(ap.product_id) >= ". count($not_empty_attributes);
+		$query .= ") as attributes_filter ";
+		$query .= ") ";
+		$query .= "AND p.deleted = false ";         //checar que el producto no esté borrado
+		$query .= "AND p.generic = false ";
+		$query .= "AND p.type_id = ? AND ap.product_id = p.id AND ap.attribute_id = a.id ";
 		$query .= "AND p.id = ps.product_id "; //at least one supplier
 		$query .= "ORDER BY p.id, attribute_id";
 
@@ -396,14 +405,14 @@ class Product extends AppModel {
 			$query .= "from products ";
 			$query .= $this->ids_place_holders('where products.id', count($ids));
 			$query .= ") as p ";
-        $query .= "inner join ";
-        $query .= "attributes_products ";
-        $query .= "on attributes_products.product_id = p.id, ";
-        $query .= "attributes ";
-        $query .= "where ";
-        $query .= "attributes.id = attributes_products.attribute_id ";
-        $query .= "p.deleted = false ";
-        $query .= "order by p.id, attribute_id";
+		$query .= "inner join ";
+		$query .= "attributes_products ";
+		$query .= "on attributes_products.product_id = p.id, ";
+		$query .= "attributes ";
+		$query .= "where ";
+		$query .= "attributes.id = attributes_products.attribute_id ";
+		$query .= "p.deleted = false ";
+		$query .= "order by p.id, attribute_id";
 
 	return array('query' => $query, 'values' => $ids);
 	}
@@ -416,23 +425,23 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
 		$query .= "( ";
-        $query .= "select equivalent_id as e_id, deleted_equivalent ";
-        $query .= "from equivalency_relations as er ";
-        $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
-        $query .= "AND er.deleted_equivalent = false ";
-        $query .= ")as equivalencies ";
-        $query .= "inner join ";
-        $query .= "attributes_products ";
-        $query .= "on attributes_products.product_id = equivalencies.e_id, ";
-        $query .= "attributes, ";
-        $query .= "products as p ";
-        $query .= "where ";
-        $query .= "p.generic = false AND ";
-        $query .= "equivalencies.deleted_equivalent = false AND ";
-        $query .= "attributes.id = attributes_products.attribute_id AND ";
-        $query .= "p.id = equivalencies.e_id ";
-        $query .= $this->exclude($excluding);
-        $query .= "order by product_id, attribute_id ";
+		$query .= "select equivalent_id as e_id, deleted_equivalent ";
+		$query .= "from equivalency_relations as er ";
+		$query .= $this->ids_place_holders('where er.original_id', count($products_ids));
+		$query .= "AND er.deleted_equivalent = false ";
+		$query .= ")as equivalencies ";
+		$query .= "inner join ";
+		$query .= "attributes_products ";
+		$query .= "on attributes_products.product_id = equivalencies.e_id, ";
+		$query .= "attributes, ";
+		$query .= "products as p ";
+		$query .= "where ";
+		$query .= "p.generic = false AND ";
+		$query .= "equivalencies.deleted_equivalent = false AND ";
+		$query .= "attributes.id = attributes_products.attribute_id AND ";
+		$query .= "p.id = equivalencies.e_id ";
+		$query .= $this->exclude($excluding);
+		$query .= "order by product_id, attribute_id ";
 
 	return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
 	}
@@ -445,20 +454,20 @@ class Product extends AppModel {
 			$query .= "select equivalent_id as e_id, deleted_equivalent  ";
 			$query .= "from equivalency_relations as er ";
 			$query .= $this->ids_place_holders('where er.original_id', count($products_ids));
-            $query .= "AND er.deleted_equivalent = false ";
+			$query .= "AND er.deleted_equivalent = false ";
 			$query .= ")as equivalencies ";
-        $query .= "inner join ";
-        $query .= "attributes_products ";
-        $query .= "on attributes_products.product_id = equivalencies.e_id, ";
-        $query .= "attributes, ";
-        $query .= "products as p ";
-        $query .= "where ";
-        $query .= "p.generic = true AND ";
-        $query .= "equivalencies.deleted_equivalent = false AND ";
-        $query .= "attributes.id = attributes_products.attribute_id AND ";
-        $query .= "p.id = equivalencies.e_id ";
-        $query .= $this->exclude($excluding);
-        $query .= "order by product_id, attribute_id ";
+		$query .= "inner join ";
+		$query .= "attributes_products ";
+		$query .= "on attributes_products.product_id = equivalencies.e_id, ";
+		$query .= "attributes, ";
+		$query .= "products as p ";
+		$query .= "where ";
+		$query .= "p.generic = true AND ";
+		$query .= "equivalencies.deleted_equivalent = false AND ";
+		$query .= "attributes.id = attributes_products.attribute_id AND ";
+		$query .= "p.id = equivalencies.e_id ";
+		$query .= $this->exclude($excluding);
+		$query .= "order by product_id, attribute_id ";
 
 	return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
 	}
@@ -468,24 +477,24 @@ class Product extends AppModel {
 		$query = "select p.id, p.manufacturer_id, data_type_id, name, value ";
 		$query .= "from ";
 		$query .= "( ";
-        $query .= "select equivalent_id as e_id, deleted_equivalent  ";
-        $query .= "from equivalency_relations as er ";
-        $query .= $this->ids_place_holders('where er.original_id', count($products_ids));
-        $query .= "AND er.deleted_equivalent = false ";
-        $query .= ")as equivalencies ";
-        $query .= "inner join ";
-        $query .= "attributes_products ";
-        $query .= "on attributes_products.product_id = equivalencies.e_id, ";
-        $query .= "attributes, ";
-        $query .= "products as p ";
-        $query .= "where ";
-        $query .= "equivalencies.deleted_equivalent = false AND ";
-        $query .= "attributes.id = attributes_products.attribute_id AND ";
-        $query .= "p.id = equivalencies.e_id ";
-        $query .= $this->exclude($excluding);
-        $query .= "order by product_id, attribute_id ";
+		$query .= "select equivalent_id as e_id, deleted_equivalent  ";
+		$query .= "from equivalency_relations as er ";
+		$query .= $this->ids_place_holders('where er.original_id', count($products_ids));
+		$query .= "AND er.deleted_equivalent = false ";
+		$query .= ")as equivalencies ";
+		$query .= "inner join ";
+		$query .= "attributes_products ";
+		$query .= "on attributes_products.product_id = equivalencies.e_id, ";
+		$query .= "attributes, ";
+		$query .= "products as p ";
+		$query .= "where ";
+		$query .= "equivalencies.deleted_equivalent = false AND ";
+		$query .= "attributes.id = attributes_products.attribute_id AND ";
+		$query .= "p.id = equivalencies.e_id ";
+		$query .= $this->exclude($excluding);
+		$query .= "order by product_id, attribute_id ";
 
-	    return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
+		return array('query' => $query, 'values' => array_merge($products_ids, $excluding));
 	}
 
 	//   ::::::::: END OF Busqueda de productos seleccionados
@@ -493,12 +502,21 @@ class Product extends AppModel {
 	//providers that provide the given products
 	public function search_suppliers_that_supply_preparation($products_ids)
 	{
-		$query = "select ps.product_id, ps.price as price, ps.supplier_id, s.corporate_name, s.contact_name, s.contact_email, s.credit, s.contact_telephone, s.payed as payed, s.debt as debt, s.rating as rating ";
+		$query = "select ps.product_id, ps.price as price, ps.supplier_id, ";
+		$query .= "s.moral_rfc as moral_rfc, s.contact_name as contact_name, ";
+		$query .= "s.contact_email as contact_email, s.contact_telephone as contact_telephone, ";
+		$query .= "s.rating as rating, s.accepted_quotes as accepted_quotes, ";
+		$query .= "s.rejected_quotes as rejected_quotes, s.deleted as deleted, ";
+		$query .= "s.payed as payed, s.debt as debt, s.credit as credit, ";
+		$query .= "s.rejected_price as rejected_price, s.rejected_existance as rejected_existance, ";
+		$query .= "s.rejected_response as rejected_response, s.rejected_delivery as rejected_delivery, ";
+		$query .= "s.corporate_name as corporate_name, s.contact_name, s.contact_email, s.credit, ";
+		$query .= "s.contact_telephone, s.payed as payed, s.debt as debt, s.rating as rating ";
 		$query .= "from ";
 		$query .= "products_suppliers as ps, suppliers as s ";
 		$query .= "WHERE ";
 		$query .= "ps.supplier_id = s.id AND ";
-        $query .= "ps.deleted_supplier = false ";
+		$query .= "ps.deleted_supplier = false ";
 		$query .= $this->ids_place_holders('AND ps.product_id', count($products_ids));
 		$query .= "order by ps.product_id, supplier_id";
 
