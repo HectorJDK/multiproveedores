@@ -1,4 +1,5 @@
 <?php echo $this->element('suppliers_actions'); ?>
+
 <div class="grey-container">
 	<h2>Nuevo Proveedor</h2>
 	<?php echo $this->Form->create('Supplier', $options_for_form); ?>
@@ -26,5 +27,3 @@
   	echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));?>
   </div>
 </div>
-
-<?php echo $this->element('suppliers_actions'); ?>

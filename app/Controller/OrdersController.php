@@ -22,7 +22,13 @@ class OrdersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Order->recursive = 2;		
+		$this->Order->recursive = 2;
+
+		$this->Paginator->settings = array(
+				'limit' => 5,
+				'recursive'=>2
+		);
+
 		$orders = $this->Paginator->paginate(array('Order.deleted' => 0));
 		$this->set('orders', $orders);
 	}
