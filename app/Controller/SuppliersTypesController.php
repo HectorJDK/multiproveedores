@@ -13,7 +13,7 @@ class SuppliersTypesController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'RequestHandler');
 
 /**
  * index method
@@ -106,4 +106,51 @@ class SuppliersTypesController extends AppController {
 			$this->Session->setFlash(__('The suppliers type could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+    public function suppliersTypes($id)
+    {
+        $this->SuppliersType->Supplier->id = $id;
+        if (!$this->SuppliersType->Supplier->exists())
+        {
+            throw new NotFoundException('No se encontró el proveedor.');
+        }
+        $this->SuppliersType->Supplier->recursive = -1;
+        $supplier = $this->SuppliersType->Supplier->find('first', array('conditions' => array('id' => $id)));
+        $this->SuppliersType->Behaviors->load('Containable');
+
+        $this->Paginator->settings = array(
+            'conditions' => array('supplier_id' => $id),
+            'contain' => array('Type')
+
+        );
+        $types = $this->Paginator->paginate();
+        $this->SuppliersType->Behaviors->unload('Containable');
+        $this->set(compact('types', 'supplier'));
+    }
+
+    public function ensure_that_supplier_supplies_type()
+    {
+        $this->autoRender = false;
+
+        $supplier_id = $this->request->data['supplier_id'];
+        $type_name = $this->request->data['type_name'];
+        $type = $this->SuppliersType->Type->find('first', array('conditions' => array('type_name' => $type_name)));
+
+        $relation = $this->SuppliersType->find('first', array('conditions' => array('supplier_id' => $supplier_id, 'type_id' => $type['Type']['id'])));
+        if(count($relation) == 0)
+        {
+            $relation = array('supplier_id' => $supplier_id, 'type_id' => $type['Type']['id']);
+            $this->SuppliersType->save($relation);
+        }
+    }
+
+    public function remove_type_from_supplier()
+    {
+        $this->autoRender = false;
+        $supplier_id = $this->request->data['supplier_id'];
+        $type_id = $this->request->data['type_id'];
+        $this->SuppliersType->deleteAll(array('supplier_id' => $supplier_id, 'type_id' => $type_id));
+    }
+
+}
