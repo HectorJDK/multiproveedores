@@ -405,7 +405,14 @@ class RequestsController extends AppController {
         }
         catch(Exception $e)
         {
-            throw new InternalErrorException();
+            if($this->request->is('ajax'))
+            {
+                return new CakeResponse(array('body'=> json_encode("Error en la configuracion de correo"),'status'=>500));
+            }
+            else
+            {
+                throw new InternalErrorException("Error al crear el correo");
+            }
         }
 
         //Crear una cotizacion nueva

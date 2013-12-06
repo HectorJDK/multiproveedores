@@ -12,9 +12,10 @@ function enviar_cotizacion(request_id, supplier_id)
         {            
             alert('Se creó la cotización con éxito.');
         },
-        error : function(a,b,data)
-        {                  
-            alert("Error al crear la cotización.\n");
+        error: function (xhr, ajaxOptions, thrownError)
+        {
+            var message = JSON.parse(xhr.responseText);
+            alert(message);
         }
     });
      $('#modal-'+supplier_id).modal('hide'); 
