@@ -3,6 +3,7 @@
 <h2>Resultados de Búsqueda por Tipo</h2>
 
 <?php foreach ($results as $result): ?>
+
 <div class="row striped slim">
 	<div class="col-8">
 		<div class="row">
@@ -52,7 +53,7 @@
 				Razon de Perdida:
 			</div>
 			<div class="col-3">
-
+				<span class="red"> <?php echo $result->accepted_quotes; ?></span> de <?php $total_quotes = $result->accepted_quotes + $result->rejected_quotes; echo $total_quotes;?>
 			</div>
 
 			<div class="col-3 light text-right">Adeudos</div>
