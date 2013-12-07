@@ -1,5 +1,8 @@
 <h2>Historial de ordenes</h2>
 
+<div class = "filters">
+
+</div>
 <div class="filters">
 	<span>Ordenar por:</span>
 	<ul class="pagination pagination-inverse">
@@ -7,7 +10,7 @@
 	</ul>
 </div>
 
-<?php foreach ($orders as $order): ?>
+<?php foreach ($orders as $key => $order): ?>
 	<?php print_r($order);?>
 <div class="row striped slim">
 	<!-- INFO -->
@@ -81,14 +84,21 @@
 	    	Tipo de Producto
 	    </div>
 	    <div class="col-3">
-	    	<?php echo h($order['Quote']['Request']['quantity']);?>
+	    	<?php echo h($tipos[$key]['type_name']);?>
 	    </div>
 	  </div>
+	 </div>
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
-		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Borrar Orden de Compra</button>
+		<?php if(h($order['Order']['payed']) == 1)
+		{
+			echo '<div class="green">PAGADA</div>';
+		}
+		else if(h($order['Order']['cancelled']) == 1)
+			{
+				echo '<div class="red">CANCELADA</div>';
+			}?>
 	</div>
-	</form>
 </div>
 
 <?php endforeach; ?>
