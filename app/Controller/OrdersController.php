@@ -268,6 +268,37 @@ class OrdersController extends AppController {
 		}
 		
 	}
+
+	/**
+ * cancel method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function cancel($order_id, $from) {
+		if ($this->request->is(array('post', 'put'))) {
+			//Obtenemos el id de la orden			
+			$id = $order_id;//$this->request->data["order_id"];	
+			if (!$this->Order->exists($id)) {
+				throw new NotFoundException(__('Invalid request'));
+			}
+			
+			 //Limitar la busqueda
+	        $this->Order->recursive = -1;
+			$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));		
+
+			//Actualizamos el estado de la orden
+			$data['Order']['cancelled']=1;
+			//Actualizamos	
+			if ($this->Order->save($data['Order'])) {
+				$this->Session->setFlash(__('La orden ha sido cancelada y archivada en el historial.'));
+				return $this->redirect(array('action' => $from));
+			} else {
+				$this->Session->setFlash(__('La orden no pudo ser cancelada.'));
+			}
+		} 
+	}
 }
 
 
