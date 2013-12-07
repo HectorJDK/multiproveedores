@@ -8,6 +8,7 @@
 </div>
 
 <?php foreach ($orders as $order): ?>
+	<?php print_r($order); ?>
 <div class="row striped slim">
 
 	<!-- INFO -->
