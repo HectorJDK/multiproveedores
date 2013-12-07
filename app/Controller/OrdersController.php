@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('EmailsController', 'Controller');
+App::uses('SuppliersController', 'Controller');
 /**
  * Orders Controller
  *
@@ -148,12 +149,11 @@ class OrdersController extends AppController {
         $this->Order->recursive = 0;
 		$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));
 
-		//Actualizar el rating del proveedor 
-		print_r($data);
-
-
-
-
+		//Actualizar el rating del proveedor 		
+		$supplier = new SuppliersController();
+		if($supplier->update_rating($data['Quote']['supplier_id'],$this->request->data["rating_".$id])){
+			$this->Session->setFlash(__('No se pudo actualizar el rating del proveedor'));
+		}
 
 		//Asignamos el rating que le dio el usuario
 		$data['Order']['rating']=$this->request->data["rating_".$id];
@@ -164,13 +164,13 @@ class OrdersController extends AppController {
 		//Actualizamos	
 		if ($this->Order->save($data['Order'])) {
 			$this->Session->setFlash(__('La orden se ha transferido a cuentas por pagar.'));
-			//return $this->redirect(array('action' => 'index'));
+			return $this->redirect(array('action' => 'index'));
 		} else {
 			$this->Session->setFlash(__('La orden no pudo ser procesada.'));
 		}
 	}
 
-		/**
+/**
  * orderToClose method
  *
  * @throws NotFoundException
@@ -188,13 +188,9 @@ class OrdersController extends AppController {
 			
 			 //Limitar la busqueda
 	        $this->Order->recursive = -1;
-			$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));
+			$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));		
 
-			//Asignamos el rating que le dio el usuario
-			$data['Order']['rating']=$this->request->data["rating_".$id];
-			//Asignamos la fecha de pago
-			$data['Order']['due_date'] = $this->request->data["pay_date_".$id];	
-
+			//Actualizamos el estado de la orden
 			$data['Order']['payed']=1;
 			//Actualizamos	
 			if ($this->Order->save($data['Order'])) {
@@ -224,14 +220,15 @@ class OrdersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function ordersHistory() {
+	public function ordersHistory($filter=null) {
 		$this->Order->recursive = 2;
 
 		$this->Paginator->settings = array(
 				'limit' => 5,
 				'recursive'=>2
 		);
-		//Mostrar las ordenes pagadas o canceladas
+		//Mostrar las ordenes pagadas y canceladas
+		if($filter==null){
 		$findParams = array( 
          	'and' => array( 
              	'Order.deleted' => 0,
@@ -241,6 +238,14 @@ class OrdersController extends AppController {
            			)	                         	
                 )
             ); 
+		} else {
+			$findParams = array( 
+         	'and' => array( 
+             	'Order.deleted' => 0,
+                'Order.'.$filter => 1	               			
+           		)	                         	                
+            ); 
+		}
 		$orders = $this->Paginator->paginate($findParams);
 		$this->set('orders', $orders);
 		
@@ -256,7 +261,7 @@ class OrdersController extends AppController {
 						'contain'=>array('Type')
 					)
 				);
-				$tipos[$key]=array($data[$key]['Type']);
+				$tipos[$key]=$data[$key]['Type'];
 			}
 			$this->Order->Behaviors->unload('Containable');
 			$this->set('tipos',$tipos);
