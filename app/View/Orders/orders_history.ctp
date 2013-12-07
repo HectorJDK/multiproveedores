@@ -1,7 +1,8 @@
 <h2>Historial de ordenes</h2>
 
 <div class = "filters">
-
+	<?php $this->link ('Pagadas', array('controller'=>'orders', 'action'=>'ordersHistory/payed'), array('class'=>'btn btn-success')) ; ?>
+	<?php $this->link ('Canceladas', array('controller'=>'orders', 'action'=>'ordersHistory/cancelled'), array('class'=>'btn btn-success')) ; ?>
 </div>
 <div class="filters">
 	<span>Ordenar por:</span>
@@ -11,7 +12,6 @@
 </div>
 
 <?php foreach ($orders as $key => $order): ?>
-	<?php print_r($order);?>
 <div class="row striped slim">
 	<!-- INFO -->
 	<div class="col-8">
@@ -78,7 +78,6 @@
 	  	<div class="col-3">
 	  		<?php echo $order['Order']['due_date']?>
 	  	</div>
-	  	<!-- <div class="col-1"></div> -->
 
 	  	<div class="col-3 text-right light">
 	    	Tipo de Producto
