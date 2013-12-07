@@ -143,7 +143,7 @@
               Cotizaciones Aceptadas
           </div>
           <div class="col-3">
-            <?php echo '<span class="red">';
+            <?php echo '<span class="green">';
                 echo $quote['Supplier']['accepted_quotes'];
                 echo '</span>';
                 echo " de " ;
