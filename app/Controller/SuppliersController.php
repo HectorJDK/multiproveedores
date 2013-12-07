@@ -279,4 +279,35 @@ class SuppliersController extends AppController {
         return $result;
     }
 
+
+    /*
+    *Actualizar el rating del proveedor en base al numero de ordenes  y el nuevo rating 
+    */
+    public function update_rating($supplier_id, $rating){
+        if (!$this->Supplier->exists($supplier_id)) {
+            throw new NotFoundException(__('El proveedor no existe'));
+        }
+        $this->Supplier->recursive = 2;
+        $supplier = $this->Supplier->findById($supplier_id);
+        //Contar el numero de ordenes del proveedor
+        $contOrdenes = 0;
+        foreach ($supplier['Quote'] as $quote){
+            if(!empty($quote['Order'])){
+                $contOrdenes++;
+            }
+        }     
+        //Actualizar el nuevo rating
+        //Nuevo rating = ((cantidad de ordenes * rating actual) + nuevo Rating)/ cantidad de ordenes incrementada
+        $supplier['Supplier']['rating'] = (($contOrdenes * $supplier['Supplier']['rating']) + $rating)/($contOrdenes+1);
+        
+        if ($this->Supplier->save($supplier))
+        {
+            return 1;
+        } 
+        else
+        {
+            return 0;
+        }            
+    }
+
 }
