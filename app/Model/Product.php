@@ -693,5 +693,42 @@ class Product extends AppModel {
 		return $values;
 	}
 
+    public function update_product($product)
+    {
+        $db = $this->getDataSource();
+
+        //update product
+        $this->update_only_product($db, $product);
+
+        //update each of its attributes
+        foreach ($product['Product']['Attribute'] as $id => $value)
+        {
+            $this->update_attribute($db, $id, $value);
+        }
+
+        return true;
+    }
+
+    public function update_only_product($db, $product)
+    {
+        $sql = "UPDATE products ";
+        $sql .= "SET manufacturer_id = ?, generic = ? ";
+        $sql .= "WHERE id = ?; ";
+
+        $values = array($product['Product']['manufacturer_id'], $product['Product']['generic'], $product['Product']['id']);
+
+
+        $db->query($sql, $values);
+    }
+
+    public function update_attribute($db, $id, $value)
+    {
+        $sql = "UPDATE attributes_products ";
+        $sql .= "SET value = ? ";
+        $sql .= "WHERE id = ?; ";
+
+        $values = array($value, $id);
+
+        $db->query($sql, $values);
+    }
 }
-?>

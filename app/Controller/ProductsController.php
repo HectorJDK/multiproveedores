@@ -149,21 +149,17 @@ class ProductsController extends AppController {
             throw new NotFoundException(__('Invalid product'));
         }
         if ($this->request->is(array('post', 'put'))) {
-            if ($this->Product->save($this->request->data)) {
-                $this->Session->setFlash(__('The product has been saved.'));
+            if ($this->Product->update_product($this->request->data)) {
+                $this->Session->setFlash('Se actualizó el producto.');
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The product could not be saved. Please, try again.'));
+                $this->Session->setFlash('Error al actualizar producto.');
             }
         } else {
             $options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
-            $this->request->data = $this->Product->find('first', $options);
+            $product = $this->Product->find('first', $options);
         }
-        $categories = $this->Product->Category->find('list');
-        $types = $this->Product->Type->find('list');
-        $attributes = $this->Product->Attribute->find('list');
-        $suppliers = $this->Product->Supplier->find('list');
-        $this->set(compact('categories', 'types', 'attributes', 'suppliers'));
+        $this->set(compact('product'));
     }
 
     /**

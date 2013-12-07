@@ -1,31 +1,39 @@
 // PRODUCT - FORM
 //returns input for a given attribute
+
+function fp_inputWithIdNameAndValueForAttribute(id, name, value, attribute)
+{
+    data_type_id 	= attribute.Attributes.data_type_id;
+    attribute_id 	= attribute.Attributes.id;
+
+    input = $('<input>').attr({
+        id: id,
+        type: 'text',
+        name: name,
+        attribute_id: attribute_id,
+        value: value,
+        class: 'input-medium attr-input'
+    });
+
+    if(	data_type_id == 1 || 	//Entero
+        data_type_id == 2 || 	//Decimal
+        data_type_id == 3)		//Texto
+    {
+        //nada por ahora
+    }
+    if(	data_type_id == 4)	//Fecha
+    {
+        input.datepicker();
+    }
+
+    return input;
+}
+
 function fp_inputFor(prefix, attribute)
 {
-	data_type_id 	= attribute.Attributes.data_type_id;
-	name			= attribute.Attributes.name;
-	attribute_id 	= attribute.Attributes.id;
-
-	input = $('<input>').attr({
-				id: prefix + attribute_id, 
-				type: 'text',
-				name: name,
-				attribute_id: attribute_id,
-				class: 'input-medium attr-input'
-			});
-
-	if(	data_type_id == 1 || 	//Entero
-		data_type_id == 2 || 	//Decimal
-		data_type_id == 3)		//Texto
-	{
-		//nada por ahora
-	}
-	if(	data_type_id == 4)	//Fecha
-	{
-		input.datepicker();
-	}
-
-	return input;
+    var attribute_id = attribute.Attributes.id;
+    var name = attribute.Attributes.name;
+    return fp_inputWithIdNameAndValueForAttribute(prefix + attribute_id, name, "", attribute);
 }
 
 //returns an array describing the inputs' values
