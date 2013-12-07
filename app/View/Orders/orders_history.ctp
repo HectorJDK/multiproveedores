@@ -8,6 +8,7 @@
 </div>
 
 <?php foreach ($orders as $order): ?>
+	<?php print_r($order);?>
 <div class="row striped slim">
 	<!-- INFO -->
 	<div class="col-8">
@@ -39,7 +40,7 @@
 	      Producto
 	    </div>
 	    <div class="col-3">
-	      <?php echo $this->Html->link($order['Quote']['product_id'], array('controller' => 'products', 'action' => 'view', $order['Quote']['product_id'])); ?>
+	      <?php echo $this->Html->link($order['Quote']['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $order['Quote']['product_id'])); ?>
 	    </div>
 
 	    <div class="col-3 text-right light">
@@ -64,35 +65,24 @@
 	    <div class="col-3">
 	      <?php echo "$".h($order['Quote']['unitary_price'] * $order['Quote']['Request']['quantity']); ?>
 	    </div>
-	  </div>
-	  <hr />
 
-	 <form id='<?php echo $order['Order']['id']?>' action ="#" method="POST" >
-	  <input type="hidden" name="order_id" value="<?php echo $order['Order']['id']?>"/>
+	  </div>
+
 	  <div class="row">
-	  	<div class="col-2 text-right light">
-	  		<label for="rating">Rating</label>
-	  	</div>
-	  	<div class="col-1">
-	  		 <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Calidad del servicio en general del 1 al 5 (5 siendo la mejor calidad)">
-	  			<input type="text" name="rating_<?php echo $order['Order']['id']?>" class="input-large"
-	  			value="<?php echo $order['Order']['rating']?>"/>
-			</a>
-	  	</div>
-	  	<div class="col-2 text-right light">
-	  		<label for="delivery_date">Fecha de Entrega</label>
-	  	</div>
-	  	<div class="col-2">
-	  		<input type="text" name="delivery_date_<?php echo $order['Order']['id']?>" class="input-block" data-datepicker/>
-	  	</div>
-	  	<div class="col-2 text-right light">
+	  	<div class="col-3 text-right light">
 	  		<label for="pay_date">Fecha de Pago</label>
 	  	</div>
-	  	<div class="col-2">
-	  		<input type="text" name="pay_date_<?php echo $order['Order']['id']?>" class="input-block" 
-	  		value="<?php echo $order['Order']['due_date']?>" data-datepicker/>
+	  	<div class="col-3">
+	  		<?php echo $order['Order']['due_date']?>
 	  	</div>
-	  	<div class="col-1"></div>
+	  	<!-- <div class="col-1"></div> -->
+
+	  	<div class="col-3 text-right light">
+	    	Tipo de Producto
+	    </div>
+	    <div class="col-3">
+	    	<?php echo h($order['Quote']['Request']['quantity']);?>
+	    </div>
 	  </div>
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
