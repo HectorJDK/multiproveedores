@@ -9,6 +9,7 @@
 
 <?php foreach ($orders as $order): ?>
 <div class="row striped slim">
+
 	<!-- INFO -->
 	<div class="col-8">
 	 	<div class="row">
@@ -74,23 +75,22 @@
 	  		<label for="rating">Rating</label>
 	  	</div>
 	  	<div class="col-1">
-	  		 <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Calidad del servicio en general del 1 al 5 (5 siendo la mejor calidad)">
-	  			<input type="text" name="rating_<?php echo $order['Order']['id']?>" class="input-large"
-	  			value="<?php echo $order['Order']['rating']?>"/>
-			</a>
+	  		<?php for($i = 1; $i <= $order['Quote']['Supplier']['rating']; $i++){
+            echo "<i class=\"icon-star\"></i>";
+          }
+          ?>
 	  	</div>
-	  	<div class="col-2 text-right light">
+	  	<!-- <div class="col-2 text-right light">
 	  		<label for="delivery_date">Fecha de Entrega</label>
 	  	</div>
 	  	<div class="col-2">
-	  		<input type="text" name="delivery_date_<?php echo $order['Order']['id']?>" class="input-block" data-datepicker/>
-	  	</div>
+	  		<?php echo $order['Order']['id']?>
+	  	</div> -->
 	  	<div class="col-2 text-right light">
 	  		<label for="pay_date">Fecha de Pago</label>
 	  	</div>
 	  	<div class="col-2">
-	  		<input type="text" name="pay_date_<?php echo $order['Order']['id']?>" class="input-block" 
-	  		value="<?php echo $order['Order']['due_date']?>" data-datepicker/>
+	  		<?php echo $order['Order']['due_date']?>
 	  	</div>
 	  	<div class="col-1"></div>
 	  </div>
