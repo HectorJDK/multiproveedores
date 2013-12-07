@@ -29,8 +29,8 @@ class OrdersController extends AppController {
 				'recursive'=>2
 		);
 		//Mostrar las ordenes por cerrar (que no estan pagadas, ni canceladas, ni con fecha de pago)
-		$orders = $this->Paginator->paginate(array('Order.deleted' => 0, 'Order.cancelled'=>0, 
-			'Order.payed'=>0,'Order.due_date'=>''));
+		$orders = $this->Paginator->paginate(array('Order.deleted' => 0, 'Order.closed'=>0, 
+			'Order.cancelled'=>0,'Order.payed'=>0));
 		$this->set('orders', $orders);
 	}
 
@@ -145,18 +145,26 @@ class OrdersController extends AppController {
 		}
 		
 		 //Limitar la busqueda
-        $this->Order->recursive = -1;
+        $this->Order->recursive = 0;
 		$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));
+
+		//Actualizar el rating del proveedor 
+		print_r($data);
+
+
+
+
 
 		//Asignamos el rating que le dio el usuario
 		$data['Order']['rating']=$this->request->data["rating_".$id];
 		//Asignamos la fecha de pago
 		$data['Order']['due_date'] = $this->request->data["pay_date_".$id];	
-		print_r($data);
+		//Cerramos la orden
+		$data['Order']['closed'] = 1;
 		//Actualizamos	
 		if ($this->Order->save($data['Order'])) {
 			$this->Session->setFlash(__('La orden se ha transferido a cuentas por pagar.'));
-			return $this->redirect(array('action' => 'index'));
+			//return $this->redirect(array('action' => 'index'));
 		} else {
 			$this->Session->setFlash(__('La orden no pudo ser procesada.'));
 		}
@@ -186,6 +194,7 @@ class OrdersController extends AppController {
 			$data['Order']['rating']=$this->request->data["rating_".$id];
 			//Asignamos la fecha de pago
 			$data['Order']['due_date'] = $this->request->data["pay_date_".$id];	
+
 			$data['Order']['payed']=1;
 			//Actualizamos	
 			if ($this->Order->save($data['Order'])) {
@@ -203,12 +212,12 @@ class OrdersController extends AppController {
 			);
 			//Mostrar las ordenes por pagar (fecha de pago definida)
 			$orders = $this->Paginator->paginate(array('Order.deleted' => 0, 'Order.cancelled'=>0, 
-				'Order.payed'=>0,'Order.due_date !='=>''));
+				'Order.payed'=>0,'Order.closed '=>1));
 			$this->set('orders', $orders);
 		}
 	}
 
-		/**
+/**
  * ordersHistory method
  *
  * @throws NotFoundException
@@ -218,24 +227,41 @@ class OrdersController extends AppController {
 	public function ordersHistory() {
 		$this->Order->recursive = 2;
 
-			$this->Paginator->settings = array(
-					'limit' => 5,
-					'recursive'=>2
-			);
-			//Mostrar las ordenes pagadas o canceladas
-			   $findParams = array( 
-                     	'and' => array( 
-	                     	'Order.deleted' => 0,
-	                        'or' => array(
-	                        	'Order.cancelled '=> 1, 
-	                         	'and'=> array('Order.payed ' => 1,
-		               				'Order.due_date !=' => ''
-		               				)
-	                         	)
-	                        )
-                        ); 
-			$orders = $this->Paginator->paginate($findParams);
-			$this->set('orders', $orders);
+		$this->Paginator->settings = array(
+				'limit' => 5,
+				'recursive'=>2
+		);
+		//Mostrar las ordenes pagadas o canceladas
+		$findParams = array( 
+         	'and' => array( 
+             	'Order.deleted' => 0,
+                'or' => array(
+                	'Order.cancelled '=> 1, 
+                 	'Order.payed ' => 1		               			
+           			)	                         	
+                )
+            ); 
+		$orders = $this->Paginator->paginate($findParams);
+		$this->set('orders', $orders);
+		
+		
+		//Obtener informacion de tipos
+		if(isset($orders[0]) and !is_null($orders[0])){
+			$this->Order->Behaviors->load('Containable');
+			foreach($orders as $key => $value){
+				$data[$key]=$this->Order->Quote->Product->find('first',
+					array(
+						'conditions'=>array('Product.id'=>$value['Quote']['Product']['id'])
+					,
+						'contain'=>array('Type')
+					)
+				);
+				$tipos[$key]=array($data[$key]['Type']);
+			}
+			$this->Order->Behaviors->unload('Containable');
+			$this->set('tipos',$tipos);
+		}
+		
 	}
 }
 
