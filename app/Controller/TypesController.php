@@ -51,15 +51,31 @@ class TypesController extends AppController {
 	public function add() {
 		if ($this->request->is('post'))
 		{
+            //Obtenemos la informacion del nuevo tipo para agregar
+            $type = $this->request->data['Type'];
+            $type['type_name'] = ucfirst(strtolower(trim($type['type_name'])));
+
+            //Obtenemos la informacion de los atributos nuevos para agregar
+            $attributes = json_decode($this->request->data['Type']['attributes']);
+
+            //Limpiamos informacion inecesaria
+            unset($type['attributes']);
+
+            //Buscamos si existe anteriormente
+            $conditions = array('Type.deleted' => 0, 'Type.type_name' => $type['type_name']);
+            if($this->Type->hasAny($conditions))
+            {
+                $this->Session->setFlash(__('El Tipo de Producto ha sido agregado anteriormente'));
+                return $this->redirect(array('action' => 'add'));
+            }
+
+            //Si es el unico empieza la transaccion
 			$transaction = $this->Type->getDataSource();
 			$transaction->begin();
+            $this->Type->create();
 			$failure = false;
 
-			$attributes = json_decode($this->request->data['Type']['attributes']);
-			$this->Type->create();
-
-			$type = $this->request->data['Type'];
-			if($this->Type->saveAll($type))
+			if($this->Type->save($type))
 			{
 				if(is_null($attributes) || count($attributes) == 0){
 					$this->Session->setFlash(__('No puedes crear tipos sin atributos.'));
@@ -69,7 +85,8 @@ class TypesController extends AppController {
 				{
 					foreach ($attributes as $attribute) {
 						$this->Type->Attribute->create();
-						$attribute->type_id = $this->Type->id;
+                        $attribute->type_id = $this->Type->id;
+                        $attribute->name =  ucfirst(strtolower(trim($attribute->name)));
 						if(!$this->Type->Attribute->save($attribute))
 						{
 							$transaction->rollback();

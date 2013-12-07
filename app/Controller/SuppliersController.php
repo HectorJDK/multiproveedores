@@ -56,17 +56,35 @@ class SuppliersController extends AppController {
     {
 		if ($this->request->is('post'))
         {
-			$this->Supplier->create();
+            $data = $this->request->data['Supplier'];
+            $data['moral_rfc'] = strtoupper($data['moral_rfc']);
+
+            //Limitamos la busqueda a solo los datos que nos interesan
+            $this->Supplier->recursive = -1;
+            $conditions = array('Supplier.deleted' => 0, 'Supplier.moral_rfc' => $data['moral_rfc']);
+
+            if(!$this->Supplier->hasAny($conditions))
             {
-				if ($this->Supplier->save($this->request->data))
+                $this->Supplier->create();
+
+                if ($this->Supplier->save($data))
                 {
-					$this->Session->setFlash(__('The supplier has been saved.'));
-					return $this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
-				}
-			}
-		}		
+                    $this->Session->setFlash(__('Proveedor guardado'));
+                    return $this->redirect(array('action' => 'index'));
+                }
+                else
+                {
+                    $this->Session->setFlash(__('El proveedor no ha podido guardarse. Intente Nuevamente'));
+                }
+
+            }
+            else
+            {
+                $this->Session->setFlash(__('El proveedor ya ha sido agregado'));
+            }
+
+	    }
+
 		$origins = $this->Supplier->Origin->find('list');
 		$types = $this->Supplier->Type->find('list');
 		$this->set(compact('origins',  'types'));
