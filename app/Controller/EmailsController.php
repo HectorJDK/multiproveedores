@@ -164,7 +164,7 @@ class EmailsController extends AppController {
         $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'));
 		$Email->to($proveedor["contact_email"]);
 		$Email->replyTo($email);
-        if(!is_null($correo['Email']['with_copy']))
+        if(!empty($correo['Email']['with_copy']))
             $Email->addCc(str_replace(' ', '', $correo['Email']['with_copy']));
 		$Email->subject('Solicitud de cotización');
 		$Email->send($mensaje);
