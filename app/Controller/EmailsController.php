@@ -133,7 +133,7 @@ class EmailsController extends AppController {
         if($producto != null)
         {
         	//Obtener molde con producto
-        	$mensaje = $correoMolde->find('first', array('conditions'=>array('Email.id'=>1))); 	    
+        	$correo = $correoMolde->find('first', array('conditions'=>array('Email.id'=>1))); 	    
 	        //Claves del correo molde
 	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}",
 	        	"{telefonoContacto}","{identificadorProducto}","{tipoProducto}", "{atributos}");

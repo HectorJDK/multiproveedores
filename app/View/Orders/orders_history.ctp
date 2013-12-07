@@ -1,4 +1,4 @@
-<h2>Ordenes por Cerrar</h2>
+<h2>Historial de ordenes</h2>
 
 <div class="filters">
 	<span>Ordenar por:</span>
@@ -67,8 +67,7 @@
 	  </div>
 	  <hr />
 
-	  <!-- Rating -->
-	  <form id='<?php echo $order['Order']['id']?>' action ="/multiproveedores/orders/orderToClose/" method="POST" >
+	 <form id='<?php echo $order['Order']['id']?>' action ="#" method="POST" >
 	  <input type="hidden" name="order_id" value="<?php echo $order['Order']['id']?>"/>
 	  <div class="row">
 	  	<div class="col-2 text-right light">
@@ -76,7 +75,8 @@
 	  	</div>
 	  	<div class="col-1">
 	  		 <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Calidad del servicio en general del 1 al 5 (5 siendo la mejor calidad)">
-	  			<input type="text" name="rating_<?php echo $order['Order']['id']?>" class="input-large"/>
+	  			<input type="text" name="rating_<?php echo $order['Order']['id']?>" class="input-large"
+	  			value="<?php echo $order['Order']['rating']?>"/>
 			</a>
 	  	</div>
 	  	<div class="col-2 text-right light">
@@ -89,19 +89,16 @@
 	  		<label for="pay_date">Fecha de Pago</label>
 	  	</div>
 	  	<div class="col-2">
-	  		<input type="text" name="pay_date_<?php echo $order['Order']['id']?>" class="input-block" data-datepicker/>
+	  		<input type="text" name="pay_date_<?php echo $order['Order']['id']?>" class="input-block" 
+	  		value="<?php echo $order['Order']['due_date']?>" data-datepicker/>
 	  	</div>
 	  	<div class="col-1"></div>
 	  </div>
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
-		<button type="submit" class="btn btn-info btn-block"><i class="icon-ok"></i>Generar Cuenta por Pagar</button>
-		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
+		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Borrar Orden de Compra</button>
 	</div>
 	</form>
-	</div>
-
-	
 </div>
 
 <?php endforeach; ?>
