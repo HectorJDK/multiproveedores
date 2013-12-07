@@ -53,7 +53,7 @@ class RequestsController extends AppController {
 	 *
 	 */
 	public function myRequests()
-	{		
+	{
 		$userId = $this->Auth->user('id');
 		$this->Request->recursive = 0;
 		$requests = $this->Paginator->paginate(array('Request.user_id' => $userId, 'Request.deleted' => 0));
@@ -95,7 +95,7 @@ class RequestsController extends AppController {
 
 		//Datos que se regresaran a la vista
 		$request['Content']['xml'] = json_decode(json_encode((array) simplexml_load_string($request['Content']['xml'])),1);
-		
+
 		//Types
 		$types = new TypesController();
 		$this->set('types', $types->types_for_selector());
@@ -129,7 +129,7 @@ class RequestsController extends AppController {
 			$content['xml'] = $this->Request->Content->new_xml($dataXML);
 
 			if ($this->Request->Content->save($content)) {
-				
+
 				//Obteniendo los datos para crear la solicitud
 				$request = $this->request->data['Request'];
 				$request['deleted'] = 0;
@@ -138,19 +138,19 @@ class RequestsController extends AppController {
 
 				$this->Request->create();
 				if ($this->Request->save($request)) {
-					//Se ha guardado exitosamente el registro por lo tanto hacemos 
+					//Se ha guardado exitosamente el registro por lo tanto hacemos
 					$transaction->commit();
 					$this->Session->setFlash(__('The request has been saved.'));
 					return $this->redirect(array('action' => 'myRequests'));
 
 				} else{
 					$transaction->rollback();
-					$this->Session->setFlash(__('The request could not be saved. Please, try again.'));	
+					$this->Session->setFlash(__('The request could not be saved. Please, try again.'));
 				}
 
 			} else {
 				$transaction->rollback();
-				$this->Session->setFlash(__('The request could not be saved. Please, try again.'));	
+				$this->Session->setFlash(__('The request could not be saved. Please, try again.'));
 			}
 		}
 
@@ -184,7 +184,7 @@ class RequestsController extends AppController {
 			//Datos que se regresaran a la vista
 			$request['Content']['xml'] = json_decode(json_encode((array) simplexml_load_string($request['Content']['xml'])),1);
 			$this->set('request', $request);
-			
+
 			$this->Request->find('first', $options);
 		}
 		$categories = $this->Request->Origin->find('list');
@@ -328,23 +328,23 @@ class RequestsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function updateQuantity() {		
+	public function updateQuantity() {
 
 		$this->autoRender = false;
 
 		$datos=array();
-		$datos= $this->request->data;		
+		$datos= $this->request->data;
 		//Asignar el id de la solicitud a actualizar
 		$this->Request->id = $datos[0];;
 		if (!$this->Request->exists()) {
 			echo json_encode(0);
-		}			
-		//Actualizar la cantidad		
+		}
+		//Actualizar la cantidad
 		if ($this->Request->saveField('quantity', $datos[1])) {
 			echo json_encode(1);
 		} else {
 			echo json_encode(0);
-		}		
+		}
 	}
 
 	/**
@@ -354,23 +354,23 @@ class RequestsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function updateNotes() {		
+	public function updateNotes() {
 
 		$this->autoRender = false;
 
 		$datos=array();
-		$datos= $this->request->data;		
+		$datos= $this->request->data;
 		//Asignar el id de la solicitud a actualizar
 		$this->Request->id = $datos[0];;
 		if (!$this->Request->exists()) {
 			echo json_encode(0);
-		}			
-		//Actualizar la nota		
+		}
+		//Actualizar la nota
 		if ($this->Request->saveField('note', $datos[1])) {
 			echo json_encode(1);
 		} else {
 			echo json_encode(0);
-		}		
+		}
 	}
    /**
      * quoteForType method
@@ -389,12 +389,12 @@ class RequestsController extends AppController {
         }
 
         $datos= $this->request->data;
-         
-        //Obtener info de provedor  
+
+        //Obtener info de provedor
        	$supplier = new Supplier();
        	$proveedor = $supplier->find('first', array(
         'conditions' => array('Supplier.id' =>  $datos[1])))['Supplier'];
-        
+
         //Enviar email
         //Obtener mail de usuario logueado
         try
@@ -418,11 +418,11 @@ class RequestsController extends AppController {
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];
         $quote['supplier_id']= $datos[1];
-		
+
         $this->Request->id = $quote['request_id'];
         if (!$this->Request->exists()) {
             throw new NotFoundException();
-        }    
+        }
 
         if (!$this->Request->Quote->save($quote))
         {
@@ -444,20 +444,20 @@ class RequestsController extends AppController {
         $this->autoLayout = false;
         $this->autoRender = false;
  		$datos= $this->request->data;
- 			    	 
-       	//Obtener info de provedor  
+
+       	//Obtener info de provedor
        	$supplier = new Supplier();
        	$proveedor = $supplier->find('first', array(
-        'conditions' => array('Supplier.id' =>  $datos[1])))['Supplier'];	       
-        
+        'conditions' => array('Supplier.id' =>  $datos[1])))['Supplier'];
+
         //Obtener info de producto
        	$product = new Product();
        	$producto = $product->find('first', array(
-        'conditions' => array('Product.id' => $datos[2])))['Product'];	     
-       
+        'conditions' => array('Product.id' => $datos[2])))['Product'];
+
         //Envio de correo
- 		$emailsController = new EmailsController(); 	    
-	    $emailsController->sendEmailForQuote($proveedor, $producto,null);                   
+ 		$emailsController = new EmailsController();
+	    $emailsController->sendEmailForQuote($proveedor, $producto,null);
 
         $this->Request->id = $datos[0];
         if (!$this->Request->exists()) {

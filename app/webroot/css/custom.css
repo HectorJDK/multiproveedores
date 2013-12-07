@@ -461,3 +461,10 @@ ul.dropdown-menu.actions {
 .grey-container form a.btn{
   color: white;
 }
+
+.add .form-fields {
+  display: inline;
+}
+.add .form-fields .inline {
+  display: inline;
+}

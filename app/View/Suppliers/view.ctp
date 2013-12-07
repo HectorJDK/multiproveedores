@@ -1,9 +1,10 @@
-<?php 
-  echo $this->element('suppliers_actions');
-  echo $this->Html->script('suppliers-view'); 
+<?php
+  echo $this->element('suppliers_actions_view');
+  echo $this->Html->script('suppliers-view');
 ?>
 
 <div class="grey-container" >
+  <?php print_r($supplier)?>
   <h2><?php echo $supplier['Supplier']['corporate_name']; ?></h2>
   <div class="row">
     <div class="col-6">
@@ -23,12 +24,12 @@
           Crédito
         </div>
         <div class="col-7 bold">
-          <?php 
+          <?php
             if($supplier['Supplier']['credit']){
               echo "Si";
             }else{
               echo "No";
-            } 
+            }
           ?>
         </div>
       </div>
@@ -36,10 +37,10 @@
       <!-- Cotizaciones aceptadas -->
       <div class="row">
         <div class="col-5 text-right light">
-          Cotizaciones
+          Razon de perdida
         </div>
         <div class="col-7 bold">
-          <?php echo $supplier['Supplier']['accepted_quotes']."/".($supplier['Supplier']['accepted_quotes'] + $supplier['Supplier']['rejected_quotes']); ?>
+          <?php echo'<span class="red">'.$supplier['Supplier']['accepted_quotes'].'</span>'." de ".($supplier['Supplier']['accepted_quotes'] + $supplier['Supplier']['rejected_quotes']); ?>
         </div>
       </div>
 
@@ -51,10 +52,29 @@
         <div class="col-7">
           <?php for($i = 1; $i <= $supplier['Supplier']['rating']; $i++){
             echo "<i class=\"icon-star\"></i>";
-          } 
+          }
           ?>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-5 text-right light">
+          Pagado
+        </div>
+        <div class="col-7 green">
+          <?php echo $supplier['Supplier']['payed']?>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5 text-right light">
+          Deuda
+        </div>
+        <div class="col-7 red">
+          <?php echo $supplier['Supplier']['debt']?>
+        </div>
+      </div>
+
     </div>
     <!-- Datos de Contacto -->
     <div class="col-6">
