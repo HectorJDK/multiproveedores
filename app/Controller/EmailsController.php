@@ -120,9 +120,8 @@ class EmailsController extends AppController {
 
  		//Envio de correo 	    
 	    $configEmail = new EmailConfig();
-		//Cargar configuracion de mail		
-		$datosConfig = array();
-		$datosConfig=$configEmail->cargarConfiguracion();	
+		//Cargar configuracion de mail
+		$datosConfig = $configEmail->cargarConfiguracion();
 
 	    $Email = new CakeEmail($datosConfig);
 	    
@@ -164,8 +163,9 @@ class EmailsController extends AppController {
         //Enviar el correo
         $Email->from(array('no-reply@multiproveedores.com' => 'Sistema Multiproveedores'));
 		$Email->to($proveedor["contact_email"]);
-		$Email->replyTo($email)	;
-		$Email->addCc(str_replace(' ', '', $correo['Email']['with_copy']));
+		$Email->replyTo($email);
+        if(!empty($correo['Email']['with_copy']))
+            $Email->addCc(str_replace(' ', '', $correo['Email']['with_copy']));
 		$Email->subject('Solicitud de cotización');
 		$Email->send($mensaje);
     }
