@@ -82,7 +82,7 @@ function add_attribute()
 
 function crear_button_row(attribute_name)
 {
-	remove_button = $('<a style="color:#e74c3c;"><i class=\"icon-remove\">borrar</i></a>');
+	var remove_button = $('<a style="color:#e74c3c;"><i class=\"icon-remove\">borrar</i></a>');
 	remove_button.click(function(){
 		handle_delete(attribute_name);
 	});

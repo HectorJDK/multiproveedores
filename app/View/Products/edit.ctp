@@ -1,33 +1,27 @@
+<?php echo $this->AssetCompress->script('products-edit'); ?>
 <div class="products form">
-<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Actions'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
 
-			<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Product.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Product.id'))); ?></li>
-			<li><?php echo $this->Html->link(__('List Products'), array('action' => 'index')); ?></li>
-			<li><?php echo $this->Html->link(__('List Categories'), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-			<li><?php echo $this->Html->link(__('New Category'), array('controller' => 'categories', 'action' => 'add')); ?> </li>
-			<li><?php echo $this->Html->link(__('List Types'), array('controller' => 'types', 'action' => 'index')); ?> </li>
-			<li><?php echo $this->Html->link(__('New Type'), array('controller' => 'types', 'action' => 'add')); ?> </li>
-			<li><?php echo $this->Html->link(__('List Quotes'), array('controller' => 'quotes', 'action' => 'index')); ?> </li>
-			<li><?php echo $this->Html->link(__('New Quote'), array('controller' => 'quotes', 'action' => 'add')); ?> </li>
-			<li><?php echo $this->Html->link(__('List Attributes'), array('controller' => 'attributes', 'action' => 'index')); ?> </li>
-			<li><?php echo $this->Html->link(__('New Attribute'), array('controller' => 'attributes', 'action' => 'add')); ?> </li>
-			<li><?php echo $this->Html->link(__('List Suppliers'), array('controller' => 'suppliers', 'action' => 'index')); ?> </li>
-			<li><?php echo $this->Html->link(__('New Supplier'), array('controller' => 'suppliers', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
-<?php echo $this->Form->create('Product'); ?>
+<?php
+    echo $this->Form->hidden('product', array('id'=>'product', 'value' => json_encode($product)));
+    echo $this->Form->create('Product');
+    echo $this->Form->hidden('id', array('id'=>'id', 'value' => $product['Product']['id']));
+?>
+
 	<fieldset>
 		<legend><?php echo __('Edit Product'); ?></legend>
 	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('category_id');
-		echo $this->Form->input('type_id');
-		echo $this->Form->input('manufacturer_id');
-		echo $this->Form->input('Attribute');
-		echo $this->Form->input('Supplier');
-	?>
+		echo $this->Form->input('Numero de pieza', array(
+		    'name' => 'data[Product][manufacturer_id]',
+		    'value' => $product['Product']['manufacturer_id']));
+
+		echo $this->Form->input('Genérico', array(
+            'name' => 'data[Product][generic]',
+            'type' => 'checkbox',
+            'checked' => $product['Product']['generic']? '1' : '0'));
+
+    ?>
+            <div id="attributes"></div>
+
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->end('Actualizar'); ?>
 </div>

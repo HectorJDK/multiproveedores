@@ -382,6 +382,12 @@ class RequestsController extends AppController {
         $this->autoLayout = false;
         $this->autoRender = false;
 
+        //Desactivamos el debug para acciones de ajax
+        if($this->request->is('ajax'))
+        {
+            Configure::write('debug', 0);
+        }
+
         $datos= $this->request->data;
          
         //Obtener info de provedor  
@@ -391,24 +397,41 @@ class RequestsController extends AppController {
         
         //Enviar email
         //Obtener mail de usuario logueado
-        $userMail=$this->Auth->user();    
-        print_r($userMail);
-       	$emailsController = new EmailsController();
-        $emailsController->sendEmailForQuote($proveedor,null,  $datos[2], $userMail["email"]);
-        
+        try
+        {
+            $userMail=$this->Auth->user();
+            $emailsController = new EmailsController();
+            $emailsController->sendEmailForQuote($proveedor,null,  $datos[2], $userMail["email"]);
+        }
+        catch(Exception $e)
+        {
+            if($this->request->is('ajax'))
+            {
+                return new CakeResponse(array('body'=> json_encode("Error en la configuracion de correo"),'status'=>500));
+            }
+            else
+            {
+                throw new InternalErrorException("Error al crear el correo");
+            }
+        }
+
         //Crear una cotizacion nueva
         $quote['request_id'] = $datos[0];
         $quote['supplier_id']= $datos[1];
 		
         $this->Request->id = $quote['request_id'];
         if (!$this->Request->exists()) {
-            throw new NotFoundException(__('Invalid request'));
+            throw new NotFoundException();
         }    
 
         if (!$this->Request->Quote->save($quote))
         {
-            throw new InternalErrorException('No se pudo crear la cotización.');
-            $this->response->statusCode(501);
+            throw new InternalErrorException();
+        }
+
+        if($this->request->is('ajax'))
+        {
+            Configure::write('debug', 2);
         }
     }
     /**
