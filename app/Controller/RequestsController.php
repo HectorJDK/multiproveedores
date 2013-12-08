@@ -452,9 +452,9 @@ class RequestsController extends AppController {
 
         //Obtener info de producto
        	$product = new Product();
-       	$producto = $product->find('first', array(
-        'conditions' => array('Product.id' => $datos[2])))['Product'];
-
+        $producto = $product->find('first', array(
+        'conditions' => array('Product.id' => $datos[2])));
+	     
         //Envio de correo
  		$emailsController = new EmailsController();
 	    $emailsController->sendEmailForQuote($proveedor, $producto,null);
