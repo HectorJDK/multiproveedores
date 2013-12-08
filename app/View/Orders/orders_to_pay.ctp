@@ -1,18 +1,33 @@
 <h2>Ordenes por Pagar</h2>
-
-<div class="filters">
+<div class="orders">
+	<div class="filters">
 	<span>Ordenar por:</span>
 	<ul class="pagination pagination-inverse">
 		<li><?php echo $this->Paginator->sort('created', 'Fecha'); ?></li>
 	</ul>
-</div>
+	</div>
 
 <?php foreach ($orders as $order): ?>
 	<?php print_r($order); ?>
 <div class="row striped slim">
-
+	<?php
+		$status;
+		if($order['Order']['due_date'] < date("d-m-y")){
+		$status = "green";
+		}
+		elseif ($order['Order']['due_date'] == date("d-m-y")) {
+			$status = "yellow";
+		}
+		else {
+			$status = "red";
+		}
+	?>
+	<!-- Status Bar -->
+	<?php echo '<div class="col-1 status ', $status, '>';
+		  echo '</div>';
+	?>
 	<!-- INFO -->
-	<div class="col-8">
+	<div class="col-7">
 	 	<div class="row">
 	 		<div class="col-6">
 	      Orden #<?php echo h($order['Order']['id']); ?>
@@ -23,7 +38,7 @@
 	    <div class="col-3 bold">
 	      <?php echo $this->Time->format($order['Order']['created'], '%d/%m/%y', 'invalid'); ?>
 	    </div>
-	  </div>
+	  	</div>
 
 	  <!-- Proveedor -->
 	  <div class="row">
@@ -68,8 +83,6 @@
 	    </div>
 	  </div>
 	  <hr />
-
-	 <form id='<?php echo $order['Order']['id']?>' action ="/multiproveedores/orders/ordersToPay/" method="POST" >
 	  <input type="hidden" name="order_id" value="<?php echo $order['Order']['id']?>"/>
 	  <div class="row">
 	  	<div class="col-2 text-right light">
@@ -81,12 +94,7 @@
           }
           ?>
 	  	</div>
-	  	<!-- <div class="col-2 text-right light">
-	  		<label for="delivery_date">Fecha de Entrega</label>
-	  	</div>
-	  	<div class="col-2">
-	  		<?php echo $order['Order']['id']?>
-	  	</div> -->
+
 	  	<div class="col-2 text-right light">
 	  		<label for="pay_date">Fecha de Pago</label>
 	  	</div>
@@ -97,11 +105,12 @@
 	  </div>
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
-		<button type="submit" class="btn btn-info btn-block"><i class="icon-ok"></i>Pagar</button>
+		<button type="submit" class="btn btn-success btn-block"><i class="icon-ok"></i>Pagar</button>
 		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
 	</div>
-	</form>
+	</div>
 </div>
 
 <?php endforeach; ?>
 <?php echo $this->element('paginator'); ?>
+</div>
