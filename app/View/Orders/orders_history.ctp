@@ -1,8 +1,10 @@
 <h2>Historial de ordenes</h2>
 
 <div class = "filters">
-	<?php $this->link ('Pagadas', array('controller'=>'orders', 'action'=>'ordersHistory/payed'), array('class'=>'btn btn-success')) ; ?>
-	<?php $this->link ('Canceladas', array('controller'=>'orders', 'action'=>'ordersHistory/cancelled'), array('class'=>'btn btn-success')) ; ?>
+	<?php echo $this->Html->link(__('Pagadas'), array('action' => 'ordersHistory/payed'), array('class'=>'btn btn-success')); ?>
+	<?php echo $this->Html->link(__('Canceladas'), array('action' => 'ordersHistory/cancelled'), array('class'=>'btn btn-danger')); ?>
+	<?php echo $this->Html->link(__('Todas'), array('action' => 'ordersHistory'), array('class'=>'btn btn-info')); ?>
+
 </div>
 <div class="filters">
 	<span>Ordenar por:</span>
