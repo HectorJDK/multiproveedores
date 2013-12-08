@@ -12,7 +12,7 @@
         <i class="icon-question"></i>
       </a>
       <br/>
-      <?php echo $this->Form->input('generic', array('label' => array('class'=>'inline', 'text'=>'Generico'), 'class' => 'checkbox')); ?>
+      <?php echo $this->Form->input('generic', array('label' => array('class'=>'inline', 'text'=>'Genérico'), 'class' => 'checkbox')); ?>
       <a href="#" data-toggle="tooltip" data-placement="left" title="" data-original-title="Seleccionar si es de tipo generico">
         <i class="icon-question"></i>
       </a>

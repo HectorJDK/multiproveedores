@@ -252,7 +252,7 @@ class ProductsController extends AppController {
 
     public function has_as_equivalents($id)
     {
-        $this->Product->recursive = -1;
+        $this->Product->recursive = 1;
         if (!$this->Product->exists($id)) {
             throw new NotFoundException('Producto invalido');
         }

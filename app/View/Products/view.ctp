@@ -5,17 +5,31 @@
 
       <div class="row">
         <div class="col-3 text-right light">
+          No. de Pieza
+        </div>
+        <div class="col-3">
+          <?php echo $product['Product']['manufacturer_id']; ?>
+        </div>
+        
+        <div class="col-3 text-right light">
           Tipo
         </div>
         <div class="col-3">
           <?php echo $this->Html->link($product['Type']['type_name'], array('controller' => 'types', 'action' => 'view', $product['Type']['id'])); ?>
         </div>
+      </div>
 
+      <div class="row">
         <div class="col-3 text-right light">
-          No. de Pieza
+          Genérico
         </div>
         <div class="col-3">
-          <?php echo $product['Product']['manufacturer_id']; ?>
+          <?php 
+            if ($product['Product']['generic'])
+              echo 'Si';
+            else
+              echo 'No';
+          ?>
         </div>
       </div>
 

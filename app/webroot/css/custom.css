@@ -10,8 +10,17 @@
   border-radius:4px;
   margin-bottom: 20px;
   position: relative;
-  float: left;
 }
+
+.mini{
+  width: 550px;
+  padding: 10px 30px;
+}
+
+.mini table{
+  margin: 0px;
+}
+
 .request-view .grey-container {
   float: none;
 }
@@ -451,11 +460,7 @@ ul.dropdown-menu.actions {
 }
 
 .grey-container form label{
-  font-weight: normal;
-}
-
-.grey-container form a{
-  color: #333;
+  font-weight: 300;
 }
 
 .grey-container form a.btn{
