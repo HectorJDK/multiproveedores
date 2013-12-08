@@ -22,9 +22,8 @@
 		}
 	?>
 	<!-- Status Bar -->
-	<?php echo '<div class="col-1 status ', $status, '>';
-		  echo '</div>';
-	?>
+	<div class="col-1 status <?php echo $status;?>"></div>
+
 	<!-- INFO -->
 	<div class="col-7">
 	 	<div class="row">
@@ -104,7 +103,7 @@
 	  </div>
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
-		
+
 			<?php
 		echo $this->Form->postLink(__('<i class="icon-ok"></i>Pagar'), array('controller' => 'orders', 'action' => 'ordersToPay', $order['Order']['id']), array('class' => "btn btn-success btn-block", 'escape'=>false));
 		?>
