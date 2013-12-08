@@ -10,7 +10,7 @@
       <div class="form-fields">
         <input type="text" name="busqueda" placeholder="Búsqueda rápida" <?php echo isset($busqueda) ? "value='".$busqueda."'" : ""?> />
       </div>
-    
+
       <button type="submit" class="btn btn-warning"><i class="icon-search"></i></button>
       <?php if(isset($busqueda)){?>
         <a href="/multiproveedores/requests/" class="btn"><i class="icon-refresh"></i></a>
@@ -36,14 +36,14 @@
       <div class="col-3 text-right light">
         Comentarios:
       </div>
-      <div class="col-9">
+      <div class="col-9 blue">
         <?php echo $request['Content']['comment']; ?>
       </div>
     </div>
 
     <div class="row">
       <div class="col-3 text-right light">
-        Fecha Creación: 
+        Fecha Creación:
       </div>
       <div class="col-9">
         <?php echo date('j M Y', strtotime(h($request['Request']['created']))); ?>&nbsp;
@@ -52,7 +52,7 @@
   </div>
 
   <div class="col-4">
-    <div class="inner-actions">     
+    <div class="inner-actions">
       <?php echo $this->Html->link(__('Ver Solicitud'), array('action' => 'view', $request['Request']['id']), array('class'=>'btn btn-info view')); ?>
       <?php echo $this->Form->postLink(__('Borrar Solicitud'), array('action' => 'virtualDelete', $request['Request']['id']), array('class' => "btn btn-danger btn-highlight")); ?>
     </div>
