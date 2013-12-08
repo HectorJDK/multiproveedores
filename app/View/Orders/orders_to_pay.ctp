@@ -8,7 +8,6 @@
 	</div>
 
 <?php foreach ($orders as $order): ?>
-	<?php print_r($order); ?>
 <div class="row striped slim">
 	<?php
 		$status;
@@ -105,17 +104,16 @@
 	  </div>
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
-		<button type="submit" class="btn btn-success btn-block"><i class="icon-ok"></i>Pagar</button>
-		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
-	</div>
-	</div>
-
-		<?php
+		
+			<?php
+		echo $this->Form->postLink(__('<i class="icon-ok"></i>Pagar'), array('controller' => 'orders', 'action' => 'ordersToPay', $order['Order']['id']), array('class' => "btn btn-success btn-block", 'escape'=>false));
+		?>
+			<?php
 		echo $this->Form->postLink(__('<i class="icon-remove"></i>Cancelar Orden de Compra'), array('controller' => 'orders', 'action' => 'cancel', $order['Order']['id'], 'ordersToPay'), array('class' => "btn btn-danger btn-block", 'escape'=>false));
 		?>
 	</div>
-</div>
-
+	</div>
+	</div>
 <?php endforeach; ?>
 <?php echo $this->element('paginator'); ?>
 </div>

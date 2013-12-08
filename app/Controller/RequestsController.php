@@ -140,17 +140,17 @@ class RequestsController extends AppController {
 				if ($this->Request->save($request)) {
 					//Se ha guardado exitosamente el registro por lo tanto hacemos
 					$transaction->commit();
-					$this->Session->setFlash(__('The request has been saved.'));
+					$this->Session->setFlash(__('La solicitud ha sido registrada.'));
 					return $this->redirect(array('action' => 'myRequests'));
 
 				} else{
 					$transaction->rollback();
-					$this->Session->setFlash(__('The request could not be saved. Please, try again.'));
+					$this->Session->setFlash(__('La solicitud no se pudo registrar.'));
 				}
 
 			} else {
 				$transaction->rollback();
-				$this->Session->setFlash(__('The request could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('La solicitud no se pudo registrar.'));
 			}
 		}
 
@@ -265,11 +265,11 @@ class RequestsController extends AppController {
          {
              if ($this->Request->saveField('user_id', null))
              {
-                 $this->Session->setFlash(__('The request has been released.'));
+                 $this->Session->setFlash(__('La solicitud se ha liberado.'));
              }
              else
              {
-                 $this->Session->setFlash(__('The request could not be released. Please, try again.'));
+                 $this->Session->setFlash(__('La solicitud no se pudo liberar.'));
              }
          }
          else
@@ -314,10 +314,10 @@ class RequestsController extends AppController {
 
         $this->Request->create();
 		if ($this->Request->save($data['Request'])) {
-			$this->Session->setFlash(__('The request has been duplicated.'));
+			$this->Session->setFlash(__('La solicitud ha sido duplicada.'));
             $this->redirect(array('action' => 'view/'.$id));
 		} else {
-			$this->Session->setFlash(__('The request could not be duplicated. Please, try again.'));
+			$this->Session->setFlash(__('La solicitud no se pudo duplicar.'));
 		}
 	}
 

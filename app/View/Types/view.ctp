@@ -1,4 +1,4 @@
-<?php echo $this->element('sql_dump');?>
+
 <div class="grey-container" >
   <h2>Tipo de Producto #<?php echo $type['Type']['id']  ; ?></h2>
 

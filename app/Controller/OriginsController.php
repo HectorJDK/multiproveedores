@@ -90,11 +90,12 @@ public function edit($id = null) {
 		throw new NotFoundException(__('Invalid category'));
 	}
 	if ($this->request->is(array('post', 'put'))) {
+		$this->Origin->id=$id;
 		if ($this->Origin->save($this->request->data)) {
-			$this->Session->setFlash(__('The category has been saved.'));
+			$this->Session->setFlash(__('El origen se ha actualizado.'));
 			return $this->redirect(array('action' => 'index'));
 		} else {
-			$this->Session->setFlash(__('The category could not be saved. Please, try again.'));
+			$this->Session->setFlash(__('El origen no se pudo actualizar.'));
 		}
 	} else {
 		$options = array('conditions' => array('Origin.' . $this->Origin->primaryKey => $id));
@@ -118,9 +119,9 @@ public function delete($id = null) {
 	}
 	$this->request->onlyAllow('post', 'delete');
 	if ($this->Origin->delete()) {
-		$this->Session->setFlash(__('The category has been deleted.'));
+		$this->Session->setFlash(__('El origen ha sido eliminado'));
 	} else {
-		$this->Session->setFlash(__('The category could not be deleted. Please, try again.'));
+		$this->Session->setFlash(__('El origen no se pudo eliminar.'));
 	}
 	return $this->redirect(array('action' => 'index'));
 }

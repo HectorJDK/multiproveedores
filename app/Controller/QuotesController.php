@@ -219,6 +219,7 @@ public function index($request_id = null)
 			}
 			$transaction->commit();
 		}
+		$this->Session->setFlash(__('Se registró la orden y se envió por correo al proveedor.'));
 		return $this->redirect(array('controller'=>'requests', 'action' => 'myRequests'));
 	}
 
