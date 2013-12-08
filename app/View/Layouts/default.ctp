@@ -49,7 +49,7 @@
 	?>
 </head>
 <body>
-	<?php if ($this->Session->read('Auth.User')){ 
+	<?php if ($this->Session->read('Auth.User')){
 
     // NAVIGATION BAR ----------------------------------------
 		$this->BootstrapNavbar->create (array('fixed'=>'top', 'responsive'=>'false')) ;
@@ -67,7 +67,8 @@
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Ordenes') ;
             $this->BootstrapNavbar->link ('Ordenes por Cerrar', array('controller'=>'orders', 'action'=>'index')) ;
-            $this->BootstrapNavbar->link ('Ordenes por Pagar', array('controller'=>'orders', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Ordenes por Pagar', array('controller'=>'orders', 'action'=>'ordersToPay')) ;
+            $this->BootstrapNavbar->link ('Historial de Ordenes', array('controller'=>'orders', 'action'=>'ordersHistory')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Proveedores') ;
             $this->BootstrapNavbar->link ('Proveedores', array('controller'=>'suppliers', 'action'=>'index')) ;

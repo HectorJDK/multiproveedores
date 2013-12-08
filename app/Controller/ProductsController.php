@@ -92,7 +92,7 @@ class ProductsController extends AppController {
                         if(!$AttributesProduct->save($formatSave['AttributesProduct']))
                         {
                             $transaction->rollback();
-                            $this->Session->setFlash(__('The type could not be saved. Please, try again.'));
+                            $this->Session->setFlash(__('El tipo de producto no se pudo registrar.'));
                             $failure = true;
                             break;
                         }
@@ -110,7 +110,7 @@ class ProductsController extends AppController {
                         if (!$Equivalency->save($equivalencies))
                         {
                             $transaction->rollback();
-                            $this->Session->setFlash(__('The type could not be saved. Please, try again. Equivalencias'));
+                            $this->Session->setFlash(__('El tipo no se pudo asignar. Verifica las equivalencias.'));
                             $failure = true;
                         }
                     }
@@ -120,13 +120,13 @@ class ProductsController extends AppController {
             {
                 $transaction->rollback();
                 $failure = true;
-                $this->Session->setFlash(__('The product could not be saved. Please, try again. 2'));
+                $this->Session->setFlash(__('El producto no se pudo registrar.'));
             }
 
             if(!$failure)
             {
                 $transaction->commit();
-                $this->Session->setFlash(__('The product has been saved.'));
+                $this->Session->setFlash(__('El producto ha sido registrado.'));
                 return $this->redirect(array('action' => 'index'));
             }
         }
@@ -177,9 +177,9 @@ class ProductsController extends AppController {
         $this->request->onlyAllow('post', 'delete');
         if ($this->perform_delete($this))
         {
-            $this->Session->setFlash(__('The product has been deleted.'));
+            $this->Session->setFlash(__('El producto ha sido eliminado.'));
         } else {
-            $this->Session->setFlash(__('The product could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('El producto no se pudo eliminar.'));
         }
         return $this->redirect(array('action' => 'index'));
     }

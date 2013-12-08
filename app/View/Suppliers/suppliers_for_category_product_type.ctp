@@ -50,7 +50,7 @@
 		<div class="row">
 			<!-- Aqui se deben de mostrar las cotizaciones perdidas -->
 			<div class="col-3 light">
-				Razon de Perdida:
+				Razon de Cotizaciones:
 			</div>
 			<div class="col-3">
 				<span class="red"> <?php echo $result->accepted_quotes; ?></span> de <?php $total_quotes = $result->accepted_quotes + $result->rejected_quotes; echo $total_quotes;?>

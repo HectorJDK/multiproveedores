@@ -108,11 +108,11 @@ class SuppliersController extends AppController {
         {
 			if ($this->Supplier->save($this->request->data))
             {
-				$this->Session->setFlash(__('The supplier has been saved.'));
+				$this->Session->setFlash(__('El proveedor ha sido actualizado.'));
 				return $this->redirect(array('action' => 'index'));
 			} else
             {
-				$this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('El proveedor no se pudo actualizar.'));
 			}
 		} else
         {
@@ -142,10 +142,10 @@ class SuppliersController extends AppController {
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->perform_delete($this))
         {
-			$this->Session->setFlash(__('The supplier has been deleted.'));
+			$this->Session->setFlash(__('El proveedor se ha eliminado'));
 		} else
         {
-			$this->Session->setFlash(__('The supplier could not be deleted. Please, try again.'));
+			$this->Session->setFlash(__('El proveedor no se pudo eliminar.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}

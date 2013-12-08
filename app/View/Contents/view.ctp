@@ -1,17 +1,17 @@
-<div class="contents view">
-<h2><?php echo __('Content'); ?></h2>
+<div class="contents view grey-container">
+<h2><?php echo __('Comentario'); ?></h2>
 	<dl>
-		<dt><?php echo __('Id'); ?></dt>
+		<dt class="light"><?php echo __('Id'); ?></dt>
 		<dd>
 			<?php echo h($content['Content']['id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Xml'); ?></dt>
+		<dt class="light"><?php echo __('Xml'); ?></dt>
 		<dd>
 			<?php echo h($content['Content']['xml']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Comment'); ?></dt>
+		<dt class="light"><?php echo __('Comment'); ?></dt>
 		<dd>
 			<?php echo h($content['Content']['comment']); ?>
 			&nbsp;

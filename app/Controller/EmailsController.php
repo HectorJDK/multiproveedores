@@ -136,10 +136,11 @@ class EmailsController extends AppController {
 	        //Claves del correo molde
 	        $claves = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}",
 	        	"{telefonoContacto}","{identificadorProducto}","{tipoProducto}", "{atributos}");
-	        //Valores a reemplaazar de proveedor y tipo
+	        //Valores a reemplaazar de proveedor, tipo y atributos
+	        $attributes = $this->formatAttributes($producto);
 	        $valores = array($proveedor["corporate_name"],$proveedor["moral_rfc"],$proveedor["contact_name"],
 	        	$proveedor["contact_email"], $proveedor["contact_telephone"],
-	        	$producto["manufacturer_id"], $producto["type_id"]       	
+	        	$producto['Product']["manufacturer_id"], $producto['Type']["type_name"], $attributes       	
 	        	);
     	} else  if($datosProducto != null){  
     		//Obtener molde sin producto
@@ -185,13 +186,14 @@ class EmailsController extends AppController {
         $message = $correo['Email']['email_body'];
 
         $attributes = $this->formatAttributes($product);
-        
+       
         //Claves del correo molde
         $keys = array("{organizacionProveedor}","{rfc}","{nombreContacto}","{emailContacto}",
-            "{telefonoContacto}","{logisticaEnvio}", "{atributos}");
+            "{telefonoContacto}","{logisticaEnvio}","{identificadorProducto}","{tipoProducto}", "{atributos}");
         //Valores a reemplaazar de proveedor y producto
         $values = array($supplier["corporate_name"], $supplier["moral_rfc"], $supplier["contact_name"],
-            $supplier["contact_email"], $supplier["contact_telephone"],$logistics, $attributes
+            $supplier["contact_email"], $supplier["contact_telephone"],$logistics,$product["manufacturer_id"],
+            $product['Type']["type_name"], $attributes
         );
         //Inicializacion
         $cc = "";

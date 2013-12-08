@@ -15,7 +15,7 @@
                 <div class="col-3 light text-right">
                     Pagado
                 </div>
-                <div class="col-3">
+                <div class="col-3 green">
                     <?php echo $sp->supplier_result->payed; ?>
                 </div>
 			</div>
@@ -32,7 +32,7 @@
                     Por pagar
 
                 </div>
-                <div class="col-3">
+                <div class="col-3 red">
                     <?php echo $sp->supplier_result->debt; ?>
                 </div>
     		</div>

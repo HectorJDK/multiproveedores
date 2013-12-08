@@ -4,7 +4,6 @@
 ?>
 
 <div class="grey-container" >
-  
   <h2><?php echo $supplier['Supplier']['corporate_name']; ?></h2>
   <div class="row">
     <div class="col-6">

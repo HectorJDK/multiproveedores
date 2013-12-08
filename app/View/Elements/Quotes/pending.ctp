@@ -1,3 +1,6 @@
+<?php
+  echo $this->AssetCompress->script('quotes-update');
+?>
 <div class="row striped" id = "<?php echo 'q-' . $quote['id']; ?>">
     <div class="col-8">
         <div class="row">
@@ -77,7 +80,7 @@
 
           <?php } else { ?>
                     <div class="col-3">
-                        <?php echo $this->Html->link($quote['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
+                        <?php echo "this".$this->Html->link($quote['Product']['manufacturer_id'], array('controller' => 'products', 'action' => 'view', $quote['product_id'])); ?>
                     </div>
           <?php } ?>
         <?php }?>
@@ -105,7 +108,11 @@
 
                       </div>
                     <div class="col-3 text-right light">
-                    <input value="Agregar producto" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .','.$keyQ.')'; ?>"/>
+                    </div>
+                    <div class="col-3">
+                    </div>
+                    <div class="col-3">
+                    <input value="Agregar producto" class="btn btn-small btn-sucess" type="button" onclick="<?php echo 'setProductToQuote(' . $quote['id'] .','.$keyQ.')'; ?>"/>
                   </div>
                     <?php } else {?>
 
@@ -119,24 +126,35 @@
           <div class="col-3 red">
               <?php echo $quote['Supplier']['debt']?>
           </div>
-          <div class="col-2">&nbsp;</div>
-          <div class="col-3">
-         <table class="col-3">
-          <?php if (!is_null($quote['product_id'])){
-                  foreach($data[$keyQ]['Attribute'] as $atributo){
+          <!-- <div class="col-2"></div>
+          <div class="col-3 light text-right"> -->
+          <?php if (!is_null($quote['product_id'])){ ?>
+          <div class="col-3 light text-right">
+          Atributos
+          </div>
+          <table class="col-3 table table-condensed">
+                <?php  foreach($data[$keyQ]['Attribute'] as $atributo){
             ?>
-            <tr><td>
-                        <?php echo $atributo['name'];?>
-                     </td>
-                     <td>
-                        <?php echo $atributo['AttributesProduct']['value'];?>
-                      </td>
-                  </tr>
+            <tr>
+              <td>
+                <small>
+                  <?php echo $atributo['name'];?>
+                </small>
+              </td>
+
+              <td>
+                <small>
+                  <?php echo $atributo['AttributesProduct']['value'];?>
+                </small>
+              </td>
+            </tr>
           <?php }
-        }?>
+        } else {?>
+        <div class="col-2"></div>
+          <div class="col-3"></div>
+        <?php };?>
       </table>
     </div>
-      </div>
 
       <div class="row">
           <div class="col-3 text-right light">
@@ -153,6 +171,15 @@
               <i class="icon-arrow-down"></i>
             </a>
           </div>
+          <?php if(isset($quote['Supplier']['id']) && isset($quote['Product']['id'])){?>
+          <div class="col-3 text-right light">
+            Precio  
+          </div>
+          <div class="col-3">
+              <?php echo $this->Form->input('Quote.unitary_price', array('id' => 'unitary_price_'.$quote['id'], 'label' => '',
+               'onchange' => 'updatePrice(this,'.$quote['id'].', '.$quote['Supplier']['id'].','.$quote['Product']['id'].')','default'=>h($quote['unitary_price'])));?>    
+          </div>
+          <?php }?>
       </div>
     </div>
     <div class="col-4">

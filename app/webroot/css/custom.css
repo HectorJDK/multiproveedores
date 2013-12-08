@@ -470,17 +470,17 @@ ul.dropdown-menu.actions {
   display: inline;
 }
 /** Status Bar Styles **/
-.status .green{
+.status.green{
   height: 230px;
   width: 15px;
   background-color:#7ECB6A;
 }
-.status .red {
+.status.red {
   height: 230px;
   width: 15px;
   background-color:#7ECB6A;
 }
-.status .yellow {
+.status.yellow {
   height: 230px;
   width: 15px;
   background-color:#7ECB6A;

@@ -177,11 +177,10 @@ class OrdersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function ordersToPay() {
-		if ($this->request->is(array('post', 'put'))) {
+	public function ordersToPay($id = null) {
+		if ($id!=null) {
 			//Obtenemos el id de la orden
-			
-			$id = $this->request->data["order_id"];
+						
 			if (!$this->Order->exists($id)) {
 				throw new NotFoundException(__('Invalid request'));
 			}
