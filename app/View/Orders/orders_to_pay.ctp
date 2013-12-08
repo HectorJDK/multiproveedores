@@ -109,6 +109,11 @@
 		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
 	</div>
 	</div>
+
+		<?php
+		echo $this->Form->postLink(__('<i class="icon-remove"></i>Cancelar Orden de Compra'), array('controller' => 'orders', 'action' => 'cancel', $order['Order']['id'], 'ordersToPay'), array('class' => "btn btn-danger btn-block", 'escape'=>false));
+		?>
+	</div>
 </div>
 
 <?php endforeach; ?>

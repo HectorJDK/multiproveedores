@@ -96,9 +96,12 @@
 	  <!-- Actions -->
 	<div class="col-4 text-center inner-actions">
 		<button type="submit" class="btn btn-info btn-block"><i class="icon-ok"></i>Generar Cuenta por Pagar</button>
-		<button class="btn btn-danger btn-block"><i class="icon-remove"></i>Cancelar Orden de Compra</button>
+		</form>
+		<?php 
+		echo $this->Form->postLink(__('<i class="icon-remove"></i>Cancelar Orden de Compra'), array('controller' => 'orders', 'action' => 'cancel', $order['Order']['id'], 'index'), array('class' => "btn btn-danger btn-block", 'escape'=>false));
+		?>		
 	</div>
-	</form>
+	
 	</div>
 
 	
