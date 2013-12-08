@@ -24,14 +24,14 @@
 			<div class="col-3 text-right light">
 				Comentarios:
 			</div>
-			<div class="col-9">
-				<?php echo $this->Html->link($request['Content']['comment'], array('controller' => 'contents', 'action' => 'view', $request['Content']['id'])); ?>
+			<div class="col-9 blue">
+				<?php echo $request['Content']['comment']; ?>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-3 text-right light">
-				Fecha Creación: 
+				Fecha Creación:
 			</div>
 			<div class="col-9">
 				<?php echo date('j M Y', strtotime(h($request['Request']['created']))); ?>&nbsp;
