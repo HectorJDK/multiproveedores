@@ -1,3 +1,4 @@
+<?php echo $this->element('sql_dump');?>
 <div class="grey-container" >
   <h2>Tipo de Producto #<?php echo $type['Type']['id']  ; ?></h2>
 
@@ -52,12 +53,12 @@
             </td>
           </tr>
         <?php endforeach; ?>
-        
+
       </table>
     </div>
   </div>
 
   <div class="text-right">
-    <?php echo $this->Html->link("Editar", array('action' => 'edit', $type['Type']['id']), array('class' => 'btn btn-success')); ?>    
+    <?php echo $this->Html->link("Editar", array('action' => 'edit', $type['Type']['id']), array('class' => 'btn btn-success')); ?>
   </div>
 </div>
