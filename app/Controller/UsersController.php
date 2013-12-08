@@ -37,12 +37,12 @@ public function login() {
 		}
 		// print_r($this->Auth->_authenticateObjects['0']->helpers);
 		print_r($this->Auth->user());
-		$this->Session->setFlash(__('Invalid username or password, try again '));
+		$this->Session->setFlash(__('El nombre de usuario o la contraseña son invalidos.'));
 	}
 }
 
 public function logout() {
-	$this->Session->setFlash(__('Logged out'));
+	$this->Session->setFlash(__('Se ha cerrado la sesión'));
 	return $this->redirect($this->Auth->logout());
 }
 
@@ -66,7 +66,7 @@ public function logout() {
  */
 	public function view($id = null) {
 		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
+			throw new NotFoundException(__('Usuario inválido.'));
 		}
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
@@ -81,10 +81,10 @@ public function logout() {
 		if ($this->request->is('post')) {
 			$this->User->create();			
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+				$this->Session->setFlash(__('El usuario ha sido registrado.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('El usuario no se pudo registrar.'));
 			}
 		}
 	}
@@ -99,14 +99,14 @@ public function logout() {
 	public function edit($id = null)
 	{
 		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
+			throw new NotFoundException(__('Usuario inválido'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+				$this->Session->setFlash(__('El usuario ha sido actualizado.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('El usuario no se pudo actualizar.'));
 			}
 		} else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
@@ -124,12 +124,12 @@ public function logout() {
 	public function delete($id = null) {
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
+			throw new NotFoundException(__('Usuario inválido'));
 		}
 		if ($this->User->delete()) {
-			$this->Session->setFlash(__('The user has been deleted.'));
+			$this->Session->setFlash(__('El usuario ha sido eliminado.'));
 		} else {
-			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
+			$this->Session->setFlash(__('El usuario no se pudo eliminar.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
@@ -144,13 +144,13 @@ public function logout() {
 	public function virtualDelete($id = null) {
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid request'));
+			throw new NotFoundException(__('El usuario no existe'));
 		}
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->User->saveField('deleted', '1')) {
-			$this->Session->setFlash(__('The request has been deleted.'));
+			$this->Session->setFlash(__('El usuario ha sido dado de baja.'));
 		} else {
-			$this->Session->setFlash(__('The request could not be deleted. Please, try again.'));
+			$this->Session->setFlash(__('El usuario no se pudo dar de baja.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}

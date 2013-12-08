@@ -1,3 +1,6 @@
+<?php
+  echo $this->AssetCompress->script('quotes-update');
+?>
 <div class="row striped" id = "<?php echo 'q-' . $quote['id']; ?>">
     <div class="col-8">
         <div class="row">
@@ -153,6 +156,15 @@
               <i class="icon-arrow-down"></i>
             </a>
           </div>
+          <?php if(isset($quote['Supplier']['id']) && isset($quote['Product']['id'])){?>
+          <div class="col-3 text-right light">
+            Precio  
+          </div>
+          <div class="col-3">
+              <?php echo $this->Form->input('Quote.unitary_price', array('id' => 'unitary_price_'.$quote['id'], 'label' => '',
+               'onchange' => 'updatePrice(this,'.$quote['id'].', '.$quote['Supplier']['id'].','.$quote['Product']['id'].')','default'=>h($quote['unitary_price'])));?>    
+          </div>
+          <?php }?>
       </div>
     </div>
     <div class="col-4">

@@ -90,7 +90,7 @@ class TypesController extends AppController {
 						if(!$this->Type->Attribute->save($attribute))
 						{
 							$transaction->rollback();
-							$this->Session->setFlash(__('The type could not be saved. Please, try again.'));
+							$this->Session->setFlash(__('El tipo de producto no se pudo agregar.'));
 							$failure = true;
 							break;
 						}
@@ -101,7 +101,7 @@ class TypesController extends AppController {
 			{
 				$transaction->rollback();
 				$failure = true;
-				$this->Session->setFlash(__('The type could not be saved. Please, try again.'));		
+				$this->Session->setFlash(__('El tipo de producto no se pudo agregar.'));		
 			}
 
 			if($failure)
@@ -111,7 +111,7 @@ class TypesController extends AppController {
 			else
 			{
 				$transaction->commit();
-				$this->Session->setFlash(__('The type has been saved.'));
+				$this->Session->setFlash(__('El tipo de producto ha sido agregado.'));
 				return $this->redirect(array('action' => 'index'));
 			}
 		}
