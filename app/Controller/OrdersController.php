@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('EmailsController', 'Controller');
+App::uses('SuppliersController', 'Controller');
 /**
  * Orders Controller
  *
@@ -29,8 +30,8 @@ class OrdersController extends AppController {
 				'recursive'=>2
 		);
 		//Mostrar las ordenes por cerrar (que no estan pagadas, ni canceladas, ni con fecha de pago)
-		$orders = $this->Paginator->paginate(array('Order.deleted' => 0, 'Order.cancelled'=>0, 
-			'Order.payed'=>0,'Order.due_date'=>''));
+		$orders = $this->Paginator->paginate(array('Order.deleted' => 0, 'Order.closed'=>0, 
+			'Order.cancelled'=>0,'Order.payed'=>0));
 		$this->set('orders', $orders);
 	}
 
@@ -145,14 +146,21 @@ class OrdersController extends AppController {
 		}
 		
 		 //Limitar la busqueda
-        $this->Order->recursive = -1;
+        $this->Order->recursive = 0;
 		$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));
+
+		//Actualizar el rating del proveedor 		
+		$supplier = new SuppliersController();
+		if($supplier->update_rating($data['Quote']['supplier_id'],$this->request->data["rating_".$id])){
+			$this->Session->setFlash(__('No se pudo actualizar el rating del proveedor'));
+		}
 
 		//Asignamos el rating que le dio el usuario
 		$data['Order']['rating']=$this->request->data["rating_".$id];
 		//Asignamos la fecha de pago
 		$data['Order']['due_date'] = $this->request->data["pay_date_".$id];	
-		print_r($data);
+		//Cerramos la orden
+		$data['Order']['closed'] = 1;
 		//Actualizamos	
 		if ($this->Order->save($data['Order'])) {
 			$this->Session->setFlash(__('La orden se ha transferido a cuentas por pagar.'));
@@ -162,7 +170,7 @@ class OrdersController extends AppController {
 		}
 	}
 
-		/**
+/**
  * orderToClose method
  *
  * @throws NotFoundException
@@ -180,12 +188,9 @@ class OrdersController extends AppController {
 			
 			 //Limitar la busqueda
 	        $this->Order->recursive = -1;
-			$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));
+			$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));		
 
-			//Asignamos el rating que le dio el usuario
-			$data['Order']['rating']=$this->request->data["rating_".$id];
-			//Asignamos la fecha de pago
-			$data['Order']['due_date'] = $this->request->data["pay_date_".$id];	
+			//Actualizamos el estado de la orden
 			$data['Order']['payed']=1;
 			//Actualizamos	
 			if ($this->Order->save($data['Order'])) {
@@ -203,39 +208,96 @@ class OrdersController extends AppController {
 			);
 			//Mostrar las ordenes por pagar (fecha de pago definida)
 			$orders = $this->Paginator->paginate(array('Order.deleted' => 0, 'Order.cancelled'=>0, 
-				'Order.payed'=>0,'Order.due_date !='=>''));
+				'Order.payed'=>0,'Order.closed '=>1));
 			$this->set('orders', $orders);
 		}
 	}
 
-		/**
+/**
  * ordersHistory method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function ordersHistory() {
+	public function ordersHistory($filter=null) {
 		$this->Order->recursive = 2;
 
-			$this->Paginator->settings = array(
-					'limit' => 5,
-					'recursive'=>2
-			);
-			//Mostrar las ordenes pagadas o canceladas
-			   $findParams = array( 
-                     	'and' => array( 
-	                     	'Order.deleted' => 0,
-	                        'or' => array(
-	                        	'Order.cancelled '=> 1, 
-	                         	'and'=> array('Order.payed ' => 1,
-		               				'Order.due_date !=' => ''
-		               				)
-	                         	)
-	                        )
-                        ); 
-			$orders = $this->Paginator->paginate($findParams);
-			$this->set('orders', $orders);
+		$this->Paginator->settings = array(
+				'limit' => 5,
+				'recursive'=>2
+		);
+		//Mostrar las ordenes pagadas y canceladas
+		if($filter==null){
+		$findParams = array( 
+         	'and' => array( 
+             	'Order.deleted' => 0,
+                'or' => array(
+                	'Order.cancelled '=> 1, 
+                 	'Order.payed ' => 1		               			
+           			)	                         	
+                )
+            ); 
+		} else {
+			$findParams = array( 
+         	'and' => array( 
+             	'Order.deleted' => 0,
+                'Order.'.$filter => 1	               			
+           		)	                         	                
+            ); 
+		}
+		$orders = $this->Paginator->paginate($findParams);
+		$this->set('orders', $orders);
+		
+		
+		//Obtener informacion de tipos
+		if(isset($orders[0]) and !is_null($orders[0])){
+			$this->Order->Behaviors->load('Containable');
+			foreach($orders as $key => $value){
+				$data[$key]=$this->Order->Quote->Product->find('first',
+					array(
+						'conditions'=>array('Product.id'=>$value['Quote']['Product']['id'])
+					,
+						'contain'=>array('Type')
+					)
+				);
+				$tipos[$key]=$data[$key]['Type'];
+			}
+			$this->Order->Behaviors->unload('Containable');
+			$this->set('tipos',$tipos);
+		}
+		
+	}
+
+	/**
+ * cancel method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function cancel($order_id, $from) {
+		if ($this->request->is(array('post', 'put'))) {
+			//Obtenemos el id de la orden			
+			$id = $order_id;//$this->request->data["order_id"];	
+			if (!$this->Order->exists($id)) {
+				throw new NotFoundException(__('Invalid request'));
+			}
+			
+			 //Limitar la busqueda
+	        $this->Order->recursive = -1;
+			$data = $this->Order->find('first', array('conditions' => array('Order.id' => $id)));		
+
+			//Actualizamos el estado de la orden
+			$data['Order']['cancelled']=1;
+			//Actualizamos	
+			if ($this->Order->save($data['Order'])) {
+				$this->Session->setFlash(__('La orden ha sido cancelada y archivada en el historial.'));
+				return $this->redirect(array('action' => $from));
+			} else {
+				$this->Session->setFlash(__('La orden no pudo ser cancelada.'));
+			}
+		} 
 	}
 }
 
