@@ -35,8 +35,19 @@
                 <div class="col-3 light">
                     Atributos
                 </div>
-                <table class="col-3 table condensed">
-                    <?php ; ?>
+                <table class="col-3 table condensed striped">
+                    <?php foreach ($sp->product_result->attributes as $attribute) { ?>
+                    <tr>
+                        <td>
+                            <?php echo $attribute[1]; ?>
+                        </td>
+
+                        <td>
+                            <?php echo $attribute[2]; ?>
+                        </td>
+                    </tr>
+
+                    <?php }; ?>
                 </table>
             </div>
 			<div class="row">
