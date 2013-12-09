@@ -317,4 +317,38 @@ public function index($request_id = null)
 			throw new ForbiddenException("No le pertenece el request.");
 		}
 	}
+
+	/**
+	 * updatePrice method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function updatePrice() {
+
+		$this->autoRender = false;
+
+		$datos=array();
+		$datos= $this->request->data;
+		//Asignar el id de la cotizacion a actualizar
+		$this->Quote->id = 79;//$datos[0];
+		if (!$this->Quote->exists()) {
+			echo json_encode(0);
+		}
+		//Guardar el precio en productsSupplier
+		$productsSupplier = $this->Quote->Product->ProductsSupplier->find('first', array('conditions'=>array(
+			'product_id'=>$datos[3], 'supplier_id'=>$datos[2])));				
+		$this->Quote->Product->ProductsSupplier->id = $productsSupplier['ProductsSupplier']['id'];		
+		//Actualizar el precio en las dos tablas
+		if ($this->Quote->saveField('unitary_price', $datos[1])) {
+			if ($this->Quote->Product->ProductsSupplier->saveField('price', $datos[1])) {
+				echo json_encode(1);
+			} else {
+				echo json_encode(0);
+			}			
+		} else {
+			echo json_encode(0);
+		}
+	}
 }

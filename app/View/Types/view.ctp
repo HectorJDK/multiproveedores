@@ -1,6 +1,5 @@
-
 <div class="grey-container" >
-  <h2>Tipo de Producto #<?php echo $type['Type']['id']  ; ?></h2>
+  <h3>Tipo de Producto #<?php echo $type['Type']['id']  ; ?></h3>
 
   <div class="row">
     <div class="col-3 text-right light">
@@ -60,5 +59,6 @@
 
   <div class="text-right">
     <?php echo $this->Html->link("Editar", array('action' => 'edit', $type['Type']['id']), array('class' => 'btn btn-success')); ?>
+    <?php echo $this->Form->postLink("Eliminar", array('action' => 'delete', $type['Type']['id']), array('class' => 'btn btn-danger'), __('¿Estás seguro de querer borrar el tipo de producto  %s?', $type['Type']['type_name'])); ?>
   </div>
 </div>

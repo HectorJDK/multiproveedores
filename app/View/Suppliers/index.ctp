@@ -12,19 +12,22 @@
 
 <?php foreach ($suppliers as $supplier): ?>
 <div class="row striped slim">
-	<div class="col-8">
+	<div class="col-7">
 		<div class="row">
 			<h4><?php echo $supplier['Supplier']['corporate_name']; ?></h4>
 		</div>
 	</div>
-	<!-- <div class="col-2 text-center">
+	<div class="col-2">
 		<?php echo $this->Html->link("Ver Catálogo", array('controller' => 'productsSuppliers', 'action' => 'catalog', $supplier['Supplier']['id']), array('class' => 'btn btn-warning btn-block btn-small')); ?>
-	</div> -->
-	<div class="col-2 text-center">
+	</div>
+	<div class="col-1">
 		<?php echo $this->Html->link("Ver", array('action' => 'view', $supplier['Supplier']['id']), array('class' => 'btn btn-info btn-block btn-small')); ?>
 	</div>
-	<div class="col-2 text-center">
+	<div class="col-1">
 		<?php echo $this->Html->link("Editar", array('action' => 'edit', $supplier['Supplier']['id']), array('class' => 'btn btn-success btn-block btn-small')); ?>
+	</div>
+	<div class="col-1">
+		<?php echo $this->Form->postLink("Eliminar", array('action' => 'delete', $supplier['Supplier']['id']), array('class' => 'btn btn-danger btn-block btn-small'), __('¿Estás seguro de querer borrar %s?', $supplier['Supplier']['corporate_name'])); ?>
 	</div>
 </div>
 <?php endforeach; ?>

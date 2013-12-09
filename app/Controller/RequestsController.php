@@ -335,7 +335,7 @@ class RequestsController extends AppController {
 		$datos=array();
 		$datos= $this->request->data;
 		//Asignar el id de la solicitud a actualizar
-		$this->Request->id = $datos[0];;
+		$this->Request->id = $datos[0];
 		if (!$this->Request->exists()) {
 			echo json_encode(0);
 		}
