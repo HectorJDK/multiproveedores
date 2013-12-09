@@ -1,7 +1,7 @@
 <?php echo $this->Html->script('suppliers-suppliers_for_products'); ?>
 <h2>Resultados de Búsqueda por Producto</h2>
 <?php foreach($suppliers_products as $sp): ?>
-<?php print_r($sp);?>
+
 	<div class="row striped slim">
 		<div class="col-8">
             <div class="row">
