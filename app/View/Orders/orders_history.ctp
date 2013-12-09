@@ -1,4 +1,4 @@
-<h2>Historial de ordenes</h2>
+<h2>Historial de Órdenes</h2>
 
 <div class = "filters">
 	<?php echo $this->Html->link(__('Pagadas'), array('action' => 'ordersHistory/payed'), array('class'=>'btn btn-success')); ?>

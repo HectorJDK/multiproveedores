@@ -9,5 +9,3 @@
     echo $this->Form->end(array('label' => 'Guardar', 'div' => false, 'class' => 'btn btn-info'));?>
   </div>  
 </div>
-
-<?php echo $this->element('requests_actions'); ?>

@@ -1,35 +1,49 @@
 <!-- uses $supplier, $origins, $all_origins -->
 <?php echo $this->Html->script('originsSuppliers-originsForSupplier'); ?>
-<h2>Orígenes para <?php echo $supplier['corporate_name'] ?></h2>
+<h3>Orígenes para <?php echo $this->Html->link($supplier['corporate_name'], array('controller' => 'suppliers', 'action' => 'view', $supplier['id'])); ?>
+</h3>
 <?php echo $this->Form->hidden('supplier_id', array('id' => 'supplier_id', 'value' => $supplier['id'])); ?>
-<table class="table table-striped">
-    <?php
-        echo $this->Html->tableHeaders(array('URL', ''));
-        foreach ($origins as $origin) :
-            echo $this->Html->tableCells(
-                array(
-                        $origin['url'],
-                        $this->Form->button('Eliminar relación', array('onclick' => 'removeOriginFromSupplier(' . $origin['id'] . ')', 'class'=>'btn btn-danger btn-small pull-right'))
-                ),
-                array('id' => 'o-' . $origin['id']),
-                array('id' => 'o-' . $origin['id']) //sí, se necesita poner 2 veces. Uno para odd rows, otro para evens.
-            );
-        endforeach;
-    ?>
-</table>
-<div class="grey-container">
-    <h3> Relacionar con otro origen </h3>
-    <form class="inline-form">
-    URL :
-    <div class="form-fields">
-        <select id="new_url">
-        <?php
+
+<div class="row">
+  <div class="col-8">
+    <table class="table table-striped">
+      <thead>
+          <th>URL</th>
+          <th></th>
+      </thead>
+
+      <tbody>
+        <?php foreach ($origins as $origin) :
+          echo $this->Html->tableCells(
+            array(
+              $origin['url'],
+              $this->Form->button('Eliminar', array('onclick' => 'removeOriginFromSupplier(' . $origin['id'] . ')', 'class'=>'btn btn-danger btn-small pull-right'))
+              ),
+            array('id' => 'o-' . $origin['id']),
+                      array('id' => 'o-' . $origin['id']) //sí, se necesita poner 2 veces. Uno para odd rows, otro para evens.
+                      );
+        endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-4">
+    <div class="grey-container mini">
+      <h4 class="light text-center"> Relacionar con otro Origen </h4>
+      <form class="text-right" >
+        <div class="form-fields">
+          <label for="new_url">URL:</label>
+          <select class="input-block" id="new_url">
+            <?php
             foreach ($all_origins as $origin) :
-                echo '<option value = "' . $origin['Origin']['id'] . '">' . $origin['Origin']['url'] . '</option>';
+              echo '<option value = "' . $origin['Origin']['id'] . '">' . $origin['Origin']['url'] . '</option>';
             endforeach;
-        ?>
-        </select>
+            ?>
+          </select>
+        </div>
+        <a onclick="addOriginToSupplier()" class="btn btn-success">Añadir</a>
+        
+      </form>
     </div>
-    <button onclick="addOriginToSupplier()" class="btn btn-info">Añadir</button>
+  </div>
 </div>
-<?php echo $this->element('paginator'); ?>

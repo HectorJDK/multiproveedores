@@ -58,9 +58,6 @@
             $this->BootstrapNavbar->link ('Mis Solicitudes', array('controller'=>'requests', 'action'=>'myRequests')) ;
             $this->BootstrapNavbar->link ('Pendientes', array('controller' => 'requests', 'action'=>'index')) ;
             $this->BootstrapNavbar->link ('Crear Solicitud', array('controller' => 'requests', 'action'=>'add')) ;
-            $this->BootstrapNavbar->divider() ;
-            $this->BootstrapNavbar->link ('Origenes', array('controller' => 'origins', 'action'=>'index')) ;
-            $this->BootstrapNavbar->link ('Agregar Origen', array('controller' => 'origins', 'action'=>'add')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Cotizaciones') ;
             $this->BootstrapNavbar->link ('Cotizaciones Pendientes', array('controller'=>'quotes', 'action'=>'index')) ;
@@ -87,6 +84,10 @@
             $this->BootstrapNavbar->link ('Correo 1', array('controller' => 'emails', 'action'=>'edit',1)) ;
             $this->BootstrapNavbar->link ('Correo 2', array('controller' => 'emails', 'action'=>'edit',2)) ;
             $this->BootstrapNavbar->link ('Correo 3', array('controller' => 'emails', 'action'=>'edit',3)) ;
+        $this->BootstrapNavbar->endMenu () ;
+        $this->BootstrapNavbar->beginMenu('Origenes') ;
+            $this->BootstrapNavbar->link ('Origenes', array('controller' => 'origins', 'action'=>'index')) ;
+            $this->BootstrapNavbar->link ('Agregar Origen', array('controller' => 'origins', 'action'=>'add')) ;
         $this->BootstrapNavbar->endMenu () ;
         $this->BootstrapNavbar->beginMenu ('Usuario') ;
             $this->BootstrapNavbar->link ('Cambiar Contraseña', array('controller'=>'users', 'action'=>'index')) ;

@@ -12,6 +12,3 @@
   </div>
 </div>
 
-
-<?php echo $this->element('requests_actions'); ?>
-
