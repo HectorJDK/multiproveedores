@@ -72,7 +72,7 @@
             {
                 ?>
                     <div class="col-3">
-                        <input name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
+                        <input type="text" name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
                     </div>
 
           <?php } else { ?>
@@ -99,7 +99,7 @@
                         Precio
                       </div>
                         <div class="col-3">
-                        <input name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
+                        <input type="text" name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
                       </div>
                       <div class="col-3 text-right light">
 

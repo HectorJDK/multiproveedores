@@ -3,7 +3,6 @@
 <h2>Resultados de Búsqueda por Tipo</h2>
 
 <?php foreach ($results as $result): ?>
-
 <div class="row striped slim">
 	<div class="col-8">
 		<div class="row">
@@ -53,7 +52,10 @@
 				Razon de Cotizaciones:
 			</div>
 			<div class="col-3">
-				<span class="red"> <?php echo $result->accepted_quotes; ?></span> de <?php $total_quotes = $result->accepted_quotes + $result->rejected_quotes; echo $total_quotes;?>
+				<span class="green"> <?php echo $result->accepted_quotes; ?></span> de <?php $total_quotes = $result->accepted_quotes + $result->rejected_quotes; echo $total_quotes;?>
+				 <a href="#" class="red" data-toggle="tooltip" data-placement="right" title="" data-original-title=<?php echo 'Por'.'&nbsp;'.'precio:'.$result->rejected_price.','.'&nbsp;'.'Por'.'&nbsp;'.'Existencia:'.$result->rejected_existance.','. '&nbsp;', 'Por'.'&nbsp;'.'Tiempo'.'&nbsp;'.'de'.'&nbsp;'.'Respuesta:'.$result->rejected_response,',', '&nbsp;', 'Por'.'&nbsp;'.'Tiempo'.'&nbsp;'.'de'.'&nbsp;'.'Entrega:'.$result->rejected_deliver ;?>>
+              <i class="icon-arrow-down"></i>
+            </a>
 			</div>
 
 			<div class="col-3 light text-right">Adeudos</div>
