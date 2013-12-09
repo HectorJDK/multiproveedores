@@ -109,22 +109,22 @@ public function index($request_id = null)
 			$request_id = $this->request->data['request_id'];
 			$quotes = $this->request->data['quotes'];
 
-            //Wrap de la informacion para su procesamiento
-            $data['request_id'] = $request_id;
-            $data['quotes'] = $quotes;
+			//Wrap de la informacion para su procesamiento
+			$data['request_id'] = $request_id;
+			$data['quotes'] = $quotes;
 
 			//Inicializacion
 			$accepted_quotes = 0;
-            $accepted_quote_id = null;
+			$accepted_quote_id = null;
 
 			//Contamos que o todos los quotes sean rechazados o haya maximo uno aceptado
 			foreach ($quotes as $id => $value)
 			{
 				if($value == 1)
-                {
-                    $accepted_quotes ++;
-                    $accepted_quote_id = $id;
-                }
+				{
+					$accepted_quotes ++;
+					$accepted_quote_id = $id;
+				}
 
 			}
 
@@ -133,30 +133,30 @@ public function index($request_id = null)
 				$this->Session->setFlash(__('Se debe de aceptar máximo 1 cotización.'));
 				return $this->redirect(array('controller'=>'quotes', 'action' => 'index'));
 			}
-            elseif(is_null($accepted_quote_id))
-            {
-                $this->processQuotes($request_id, $quotes);
-            }
-            elseif($accepted_quotes == 1)
-            {
-                $this->Quote->Behaviors->load('Containable');
-                $accepted_quote = $this->Quote->find('first',
-                    array
-                    (
-                        'conditions'=>array('Quote.id'=>$accepted_quote_id),
-                        'contain'=>array('Request', 'Supplier', 'Product' => array('Type', 'Attribute'))
-                    )
-                );
-                $this->Quote->Behaviors->unload('Containable');
-                $this->Session->write('data', $data);
-                $this->Session->write('product',  $accepted_quote["Product"]);
-                $this->set('quote', $accepted_quote);
-            }
-           
-            else
-            {
-                throw new InternalErrorException();
-            }
+			elseif(is_null($accepted_quote_id))
+			{
+				$this->processQuotes($request_id, $quotes);
+			}
+			elseif($accepted_quotes == 1)
+			{
+				$this->Quote->Behaviors->load('Containable');
+				$accepted_quote = $this->Quote->find('first',
+					array
+					(
+						'conditions'=>array('Quote.id'=>$accepted_quote_id),
+						'contain'=>array('Request', 'Supplier', 'Product' => array('Type', 'Attribute'))
+					)
+				);
+				$this->Quote->Behaviors->unload('Containable');
+				$this->Session->write('data', $data);
+				$this->Session->write('product',  $accepted_quote["Product"]);
+				$this->set('quote', $accepted_quote);
+			}
+		   
+			else
+			{
+				throw new InternalErrorException();
+			}
 		}
 		else
 		{
@@ -173,14 +173,14 @@ public function index($request_id = null)
 		 $this->Quote->recursive = 0;
 
 		//Marcar el request como deleted
-        if(is_null($request_id) and is_null($quotes))
-        {
-            $data = $this->Session->read('data');
-            $product = $this->Session->read('product');
-            $quotes = $data['quotes'];           
-            $request_id = $data['request_id'];
-            $this->Session->delete('quotes');
-        }
+		if(is_null($request_id) and is_null($quotes))
+		{
+			$data = $this->Session->read('data');
+			$product = $this->Session->read('product');
+			$quotes = $data['quotes'];           
+			$request_id = $data['request_id'];
+			$this->Session->delete('quotes');
+		}
 
 		//Asignar status y procesar quotes
 		$accepted_quotes = 0;
@@ -229,11 +229,21 @@ public function index($request_id = null)
 		$sc = new SuppliersController();
 		$sc->increment_accepted_quotes($quote_query['Supplier']['id']);
 		
-		//crear orden
-		//Obtener mail de usuario logueado
-        $userMail=$this->Auth->user();
-		$orderController = new OrdersController();
-		$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request'],$userMail["email"], $logistics, $product, $copy);
+		
+		 try
+		{
+			//crear orden
+			//Obtener mail de usuario logueado
+			$userMail=$this->Auth->user();
+			$orderController = new OrdersController();
+			$orderController->create_order_for_quote($quote_query['Quote'], $quote_query['Supplier'], $quote_query['Request'],$userMail["email"], $logistics, $product, $copy);
+		}
+		catch(Exception $e)
+		{
+			$this->Session->setFlash(__('Correo con formato invalido'));
+			return $this->redirect(array('action' => 'index'));
+		}
+		
 
 		//actualizal precio
 		$product_supplier_controller = new ProductsSuppliersController();

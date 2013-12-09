@@ -75,7 +75,7 @@
             {
                 ?>
                     <div class="col-3">
-                        <input name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
+                        <input class="input-block" type="text" name="Identificador" id="<?php echo 'm-'. $quote['id']; ?>"/>
                     </div>
 
           <?php } else { ?>
@@ -102,7 +102,7 @@
                         Precio
                       </div>
                         <div class="col-3">
-                        <input name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
+                        <input class="input-block" type="text" name="Precio" id="<?php echo 'p-' . $quote['id']; ?>"/>
                       </div>
                       <div class="col-3 text-right light">
 
@@ -173,11 +173,11 @@
           </div>
           <?php if(isset($quote['Supplier']['id']) && isset($quote['Product']['id'])){?>
           <div class="col-3 text-right light">
-            Precio  
+            Precio
           </div>
           <div class="col-3">
               <?php echo $this->Form->input('Quote.unitary_price', array('id' => 'unitary_price_'.$quote['id'], 'label' => '',
-               'onchange' => 'updatePrice(this,'.$quote['id'].', '.$quote['Supplier']['id'].','.$quote['Product']['id'].')','default'=>h($quote['unitary_price'])));?>    
+               'onchange' => 'updatePrice(this,'.$quote['id'].', '.$quote['Supplier']['id'].','.$quote['Product']['id'].')','default'=>h($quote['unitary_price']), 'class'=>'input-block'));?>
           </div>
           <?php }?>
       </div>

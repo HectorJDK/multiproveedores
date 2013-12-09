@@ -310,7 +310,10 @@ form{
 .tab-content {
   overflow: auto;
 }
-
+.tab-content #attributes {
+  border-bottom: 1px solid #DDDDDD;
+  overflow: hidden;
+}
 .tabs-below > #search-tabs.nav-tabs,
 .tabs-right > #search-tabs.nav-tabs,
 .tabs-left > #search-tabs.nav-tabs {
