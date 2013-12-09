@@ -101,7 +101,6 @@
 	} ?>
 
 		<div id="content" class="inner-960">
-
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>

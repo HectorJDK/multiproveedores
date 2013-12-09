@@ -38,6 +38,8 @@ class OriginsSuppliersController extends AppController {
 		}
 		$options = array('conditions' => array('OriginsSupplier.' . $this->OriginsSupplier->primaryKey => $id));
 		$this->set('categoriesSupplier', $this->OriginsSupplier->find('first', $options));
+
+
 	}
 
 /**

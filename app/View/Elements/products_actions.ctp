@@ -1,13 +1,8 @@
-<div class="actions dropdown">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo __('Acciones'); ?><b class="caret bottom-up"></b></a>
-		<ul class="dropdown-menu bottom-up pull-right">
-		  <li><?php echo $this->Html->link(__('New Type'), array('action' => 'add')); ?></li>
-    <li><?php echo $this->Html->link(__('List Attributes'), array('controller' => 'attributes', 'action' => 'index')); ?> </li>
-    <li><?php echo $this->Html->link(__('New Attribute'), array('controller' => 'attributes', 'action' => 'add')); ?> </li>
-    <li><?php echo $this->Html->link(__('List Products'), array('controller' => 'products', 'action' => 'index')); ?> </li>
-    <li><?php echo $this->Html->link(__('New Product'), array('controller' => 'products', 'action' => 'add')); ?> </li>
-    <li><?php echo $this->Html->link(__('List Suppliers'), array('controller' => 'suppliers', 'action' => 'index')); ?> </li>
-    <li><?php echo $this->Html->link(__('New Supplier'), array('controller' => 'suppliers', 'action' => 'add')); ?> </li>
-    </ul>
-	</ul>
-</div>
+<ul class="dropdown-menu actions">
+  <h4 class="text-center light">Acciones</h4>
+  <li><?php echo $this->Html->link ('Productos', array('controller'=>'products', 'action'=>'index')) ; ?></li>
+  <li><?php echo $this->Html->link ('Agregar Producto', array('controller'=>'products', 'action'=>'add')) ; ?></li>
+  <li class="divider"></li>
+  <li><?php echo $this->Html->link ('Tipos de Producto', array('controller'=>'types', 'action'=>'index')) ; ?></li>
+  <li><?php echo $this->Html->link ('Agregar Tipo', array('controller'=>'types', 'action'=>'add')) ; ?></li>
+</ul>
