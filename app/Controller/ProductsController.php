@@ -294,7 +294,7 @@ class ProductsController extends AppController {
                 $this->Session->setFlash(__('Hubo un problema al guardar las equivalencias'));
             }
         } else {
-            //Generar lista de productos
+            //Generar lista de productos.
             //Producto original
             $options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
             $this->request->data = $this->Product->find('first', $options);
