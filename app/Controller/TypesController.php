@@ -21,8 +21,10 @@ class TypesController extends AppController {
 	 *
 	 * @return void
 	 */
-	public function index() {
+	public function index()
+    {
 		$this->Type->recursive = 0;
+        $this->Paginator->settings = array('conditions' => array('deleted' => false));
 		$this->set('types', $this->Paginator->paginate());
 	}
 
@@ -33,7 +35,8 @@ class TypesController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function view($id = null) {
+	public function view($id = null)
+    {
 
 		if (!$this->Type->exists($id)) {
 			throw new NotFoundException(__('Invalid type'));
@@ -48,7 +51,8 @@ class TypesController extends AppController {
 	 *
 	 * @return void
 	 */
-	public function add() {
+	public function add()
+    {
 		if ($this->request->is('post'))
 		{
             //Obtenemos la informacion del nuevo tipo para agregar
@@ -140,7 +144,8 @@ class TypesController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function edit($id = null) {
+	public function edit($id = null)
+    {
 		if (!$this->Type->exists($id)) {
 			throw new NotFoundException(__('Invalid type'));
 		}
@@ -168,13 +173,14 @@ class TypesController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function delete($id = null) {
+	public function delete($id = null)
+    {
 		$this->Type->id = $id;
 		if (!$this->Type->exists()) {
 			throw new NotFoundException(__('Invalid type'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Type->delete()) {
+		if ($this->perform_delete()) {
 			$this->Session->setFlash(__('The type has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The type could not be deleted. Please, try again.'));
@@ -182,9 +188,20 @@ class TypesController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
+    private function perform_delete()
+    {
+        $transaction = $this->Type->getDataSource();
+        $transaction->begin();
+
+        $this->Type->saveField('deleted', true);
+
+        $transaction->commit();
+        return true;
+    }
+
 	public function types_for_selector()
 	{
-		$types = $this->Type->find('all');
+		$types = $this->Type->find('all', array('conditions' => array('deleted' => false)));
 		$typesForSelector = array();
 		foreach ($types as $type)
 		{
@@ -192,5 +209,4 @@ class TypesController extends AppController {
 		}
 		return $typesForSelector;
 	}
-
 }

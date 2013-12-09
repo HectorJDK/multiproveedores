@@ -132,7 +132,7 @@ class ProductsController extends AppController {
         }
 
         //Datos que se pasan a la vista
-        $types = $this->Product->Type->find('list');
+        $types = $this->Product->Type->find('list', array('conditions' => array('deleted' => false)));
         $attributes = $this->Product->Attribute->find('list');
         $this->set(compact('types', 'attributes'));
     }
